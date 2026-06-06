@@ -1,15 +1,8 @@
 {
-  "name": "Ask·Q — Turyap Queen",
-  "short_name": "AskQ",
-  "start_url": "./index.html",
+  "name": "Ask Q",
+  "short_name": "Ask Q",
+  "start_url": "/",
   "display": "standalone",
-  "background_color": "#eef2f7",
-  "theme_color": "#0d2247",
-  "icons": [
-    {
-      "src": "./icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml"
-    }
-  ]
+  "background_color": "#fff",
+  "theme_color": "#0d2247"
 }
