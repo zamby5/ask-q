@@ -36,6 +36,7 @@ self.addEventListener('activate', (e) => {
 self.addEventListener('fetch', (e) => {
   const url = new URL(e.request.url);
 
+  // API çağrılarını bypass et — response verme
   if (
     e.request.method !== 'GET' ||
     url.hostname.includes('groq') ||
@@ -43,9 +44,12 @@ self.addEventListener('fetch', (e) => {
     url.hostname.includes('api.groq.com') ||
     url.protocol === 'chrome-extension:'
   ) {
+    // bypass — response verme, fetch et
+    e.respondWith(fetch(e.request));
     return;
   }
 
+  // Cache strategy
   e.respondWith(
     caches.match(e.request).then((cached) => {
       if (cached) return cached;
@@ -64,4 +68,4 @@ self.addEventListener('fetch', (e) => {
         .catch(() => caches.match('./index.html'));
     })
   );
-});
+});});
