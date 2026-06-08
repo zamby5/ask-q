@@ -758,20 +758,35 @@ function showPsyQuestion(){
   });
 }
 
-function finishPsyTest(){
+ function finishPsyTest(){
   const result=PROFILER.calc(psyAnswers);psyActive=false;
   const type=(currentTopic==='satis'||currentTopic==='degerleme')?'Seller':'Buyer';
   const colorMap={K:'Kirmizi',S:'Sari',Y:'Yesil',M:'Mavi'};
   const answers=psyAnswers.map(a=>colorMap[a]||a);
+  
   if(psyLeadData){
     const ld=Object.assign({},psyLeadData,{
       type:type,
       answers:answers,
       note:result.expert_note||''
     });
-    fetch(LEAD_WORKER_URL+'/lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(ld)}).catch(()=>{});
+    
+    // FIX: Error catch et
+    fetch(LEAD_WORKER_URL+'/lead',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(ld)
+    })
+    .then(r => {
+      console.log('Lead response:', r.status);
+      return r.json();
+    })
+    .then(d => console.log('Lead saved:', d))
+    .catch(e => console.error('Lead error:', e.message));
+    
     showLeadToast();
   }
+  
   setTimeout(()=>{
     const name=psyLeadData&&psyLeadData.name?psyLeadData.name:'';
     addMsg('Vakit ayırdığınız için teşekkürler'+(name?' Sayın '+name:'')+'. Gayrimenkul Uzmanı Murat İyicioğlu en kısa sürede sizinle iletişime geçecektir. 🙏','bot');
