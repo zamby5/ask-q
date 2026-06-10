@@ -1,14 +1,15 @@
 // Ask·Q — Servis İşçisi (PWA) v4
-const CACHE_ADI = 'askq-v4';
+const CACHE_ADI = 'askq-v5';
 const ONBELLEK_DOSYALARI = [
   './',
   './index.html',
   './manifest.json',
   './icon.svg',
   'https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,400&family=Nunito:wght@300;400;500;600;700&display=swap',
-  'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js'
+  
 ];
 
+// Kurulum
 self.addEventListener('install', (e) => {
   e.waitUntil(
     caches.open(CACHE_ADI).then((cache) =>
@@ -20,23 +21,24 @@ self.addEventListener('install', (e) => {
   self.skipWaiting();
 });
 
+// Etkinleştirme — eski önbellekleri temizle
 self.addEventListener('activate', (e) => {
   e.waitUntil(
     caches.keys().then((anahtarlar) =>
       Promise.all(
         anahtarlar
-          .filter((k) => k !== CACHE_ADI)
+          .filter((k) => k !== CACHE_ADI && !k.startsWith('askq-'))
           .map((k) => caches.delete(k))
       )
-    )
+    ).then(() => self.clients.claim())
   );
-  self.clients.claim();
 });
 
+// İstek yönetimi
 self.addEventListener('fetch', (e) => {
   const url = new URL(e.request.url);
 
-  // API çağrılarını bypass et — response verme
+  // API çağrılarını, POST'ları ve chrome-extension'ı önbelleğe ALMA
   if (
     e.request.method !== 'GET' ||
     url.hostname.includes('groq') ||
@@ -44,12 +46,9 @@ self.addEventListener('fetch', (e) => {
     url.hostname.includes('api.groq.com') ||
     url.protocol === 'chrome-extension:'
   ) {
-    // bypass — response verme, fetch et
-    e.respondWith(fetch(e.request));
     return;
   }
 
-  // Cache strategy
   e.respondWith(
     caches.match(e.request).then((cached) => {
       if (cached) return cached;
@@ -65,7 +64,12 @@ self.addEventListener('fetch', (e) => {
           }
           return response;
         })
-        .catch(() => caches.match('./index.html'));
+        .catch(() => {
+          if(e.request.mode === 'navigate'){
+            return caches.match('./index.html');
+          }
+          return new Response('Offline', {status: 503, statusText: 'Service Unavailable'});
+        });
     })
   );
-});});
+});
