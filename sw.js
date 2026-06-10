@@ -1,5 +1,5 @@
 // Ask·Q — Servis İşçisi (PWA) v4
-const CACHE_ADI = 'askq-v5';
+const CACHE_ADI = 'askq-v4';
 const ONBELLEK_DOSYALARI = [
   './',
   './index.html',
