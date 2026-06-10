@@ -6,7 +6,7 @@ const ONBELLEK_DOSYALARI = [
   './manifest.json',
   './icon.svg',
   'https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,400&family=Nunito:wght@300;400;500;600;700&display=swap',
-  
+  'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js'
 ];
 
 // Kurulum
@@ -27,11 +27,12 @@ self.addEventListener('activate', (e) => {
     caches.keys().then((anahtarlar) =>
       Promise.all(
         anahtarlar
-          .filter((k) => k !== CACHE_ADI && !k.startsWith('askq-'))
+          .filter((k) => k !== CACHE_ADI)
           .map((k) => caches.delete(k))
       )
-    ).then(() => self.clients.claim())
+    )
   );
+  self.clients.claim();
 });
 
 // İstek yönetimi
@@ -64,12 +65,7 @@ self.addEventListener('fetch', (e) => {
           }
           return response;
         })
-        .catch(() => {
-          if(e.request.mode === 'navigate'){
-            return caches.match('./index.html');
-          }
-          return new Response('Offline', {status: 503, statusText: 'Service Unavailable'});
-        });
+        .catch(() => caches.match('./index.html'));
     })
   );
 });
