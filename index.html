@@ -678,18 +678,34 @@ function saveLead(partial=false){
   const type=(currentTopic==='satis'||currentTopic==='degerleme')?'Seller':'Buyer';
   const colorMap={K:'Kirmizi',S:'Sari',Y:'Yesil',M:'Mavi'};
   const answers=psyAnswers.map(a=>colorMap[a]||a);
+
+  // Dominant ve secondary rengi bul
+  const counts={Kirmizi:0,Sari:0,Yesil:0,Mavi:0};
+  answers.forEach(a=>{if(counts[a]!==undefined)counts[a]++;});
+  const sorted=Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+  const dominant=sorted[0][0];
+  const secondary=sorted[1][0];
+
   const ld=Object.assign({},psyLeadData,{
     type,
     answers,
     partial,
     answered:psyAnswers.length,
-    note:    result.expert_note||'',
-    profile: result.profile    ||'',
-    scores:  result.scores     ||{},
-    dominant:result.dominant   ||'',
-    summary: result.summary    ||''
+    analysis_result:{
+      dominant_color: dominant,
+      secondary_color: secondary,
+      score_ratio: `${sorted[0][1]}/${sorted[1][1]}`,
+      profile_tag: result.profile||'',
+      expert_note: result.expert_note||'',
+      score_breakdown: Object.fromEntries(sorted),
+    }
   });
-  fetch(WORKER_URL+'/lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(ld)}).catch(()=>{});
+
+  fetch(WORKER_URL+'/lead',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(ld)
+  }).catch(()=>{});
 }
 
 function showPsyOffer(leadData){
