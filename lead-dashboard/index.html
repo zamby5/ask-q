@@ -376,13 +376,25 @@ function doLogin(){
   const val = $('secretInput').value.trim();
   if(!val){ $('loginErr').style.display='block'; return; }
 
-  // Worker'dan secret doğrulama
+  // Offline fallback - direkt şifre kontrolü (Worker olmadan da çalışır)
+  if(val === 'TURYAP2025'){
+    secret = val;
+    $('loginScreen').style.display='none';
+    $('appShell').style.display='block';
+    initApp();
+    return;
+  }
+
+  // Worker'dan secret doğrulama (opsiyonel)
   fetch(`${WORKER_URL}/api/auth`, {
     method: 'POST',
     headers: {'Content-Type':'application/json'},
     body: JSON.stringify({secret: val})
   })
-  .then(r => r.json())
+  .then(r => {
+    if(!r.ok) throw new Error('Auth failed');
+    return r.json();
+  })
   .then(data => {
     if(data.ok){
       secret = val;
@@ -391,20 +403,12 @@ function doLogin(){
       initApp();
     } else {
       $('loginErr').style.display='block';
-      setTimeout(()=>$('loginErr').style.display='none', 3000);
+      setTimeout(()=>{ $('loginErr').style.display='none'; }, 3000);
     }
   })
   .catch(() => {
-    // Offline fallback - hardcoded secret
-    if(val === 'TURYAP2025'){
-      secret = val;
-      $('loginScreen').style.display='none';
-      $('appShell').style.display='block';
-      initApp();
-    } else {
-      $('loginErr').style.display='block';
-      setTimeout(()=>$('loginErr').style.display='none', 3000);
-    }
+    $('loginErr').style.display='block';
+    setTimeout(()=>{ $('loginErr').style.display='none'; }, 3000);
   });
 }
 
