@@ -581,7 +581,7 @@ function buildCard(lead){
     <div class="card-actions">
       <div class="action-btns">
         ${phone?`<a href="tel:${encodeURIComponent(phone)}" class="act-btn call">📞 Ara</a><a href="https://wa.me/${phone.replace(/[^0-9]/g,'')}" target="_blank" class="act-btn wa">💬 WA</a>`:''}
-        ${ctxHtml?`<button class="act-btn expand" onclick="toggleCtx('${safeId}')">💬</button>`:''}
+        ${ctxHtml?`<button class="act-btn expand" onclick="toggleCtx('${safeId}')">💬</button>
       </div>
       <select class="status-select" onchange="updateStatus('${lead.id}',this.value,'${safeId}')">${statusOptions}</select>
     </div>
@@ -589,15 +589,29 @@ function buildCard(lead){
 }
 
 function buildContext(lead){
-  if(!lead.context||!lead.context.length)return'';
-  const msgs=lead.context.slice(0,6);
-  const rows=msgs.map(m=>`<div class="context-msg"><span class="ctx-role ${m.role==='user'?'user':'bot'}">${m.role==='user'?'Müşteri':'Ask·Q'}</span><span class="ctx-text">${escHtml((m.text||'').substring(0,180))}${(m.text||'').length>180?'…':''}</span></div>`).join('');
-  return`<div class="context-title">Konuşma Özeti</div>${rows}`;
-}
+  let html = '';
 
+  // Psikolojik analiz bilgileri
+  if(lead.profile || lead.dominant || lead.note){
+    html += `<div class="context-title">Profil Analizi</div>`;
+    if(lead.dominant) html += `<div class="context-msg"><span class="ctx-role bot">Tip</span><span class="ctx-text">${escHtml(lead.dominant)}</span></div>`;
+    if(lead.profile)  html += `<div class="context-msg"><span class="ctx-role bot">Profil</span><span class="ctx-text">${escHtml(lead.profile)}</span></div>`;
+    if(lead.note)     html += `<div class="context-msg"><span class="ctx-role bot">Not</span><span class="ctx-text">${escHtml(lead.note)}</span></div>`;
+    if(lead.answers && lead.answers.length) html += `<div class="context-msg"><span class="ctx-role bot">Cevaplar</span><span class="ctx-text">${lead.answers.join(', ')}</span></div>`;
+    if(lead.partial)  html += `<div class="context-msg"><span class="ctx-role user">Durum</span><span class="ctx-text">Yarıda bıraktı (${lead.answered||0}/5 soru)</span></div>`;
+  }
+
+  // Konuşma özeti
+  if(lead.context && lead.context.length){
+    html += `<div class="context-title">Konuşma Özeti</div>`;
+    html += lead.context.slice(0,6).map(m=>`<div class="context-msg"><span class="ctx-role ${m.role==='user'?'user':'bot'}">${m.role==='user'?'Müşteri':'Ask·Q'}</span><span class="ctx-text">${escHtml((m.text||'').substring(0,180))}${(m.text||'').length>180?'…':''}</span></div>`).join('');
+  }
+
+  return html;
+  }
 function toggleCtx(safeId){const el=document.getElementById(`ctx_${safeId}`);if(el)el.classList.toggle('open');}
 
-/* DURUM GÜNCELLE */
+/* DURUM GÜNCELLE *
 async function updateStatus(id,newStatus,safeId){
   try{
     const res=await fetch(`${WORKER_URL}/lead-status`,{method:'POST',headers:{'Content-Type':'application/json','x-leads-secret':secret},body:JSON.stringify({id,status:newStatus})});
