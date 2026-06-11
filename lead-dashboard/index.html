@@ -353,9 +353,24 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
    ═══════════════════════════════════════════════════════════════ */
 
 /* ─── CONFIG ─── */
-const WORKER_URL='https://groq-proxy.miyicioglu.workers.dev';
-let secret = 'turyap2025';  // ← Buraya yazın
+const WORKER_URL = 'https://groq-proxy.miyicioglu.workers.dev';
 
+async function getSecret() {
+  const response = await fetch(`${WORKER_URL}/token`, {
+    credentials: 'include'  // Cookie varsa gönder
+  });
+  const data = await response.json();
+  return data.token;
+}
+
+// Kullanım
+let secret = '';
+async function init() {
+  secret = await getSecret();
+  // Artık API isteklerinde kullanabilirsiniz
+}
+
+init();
 /* ─── STATE ─── */
 let allLeads = [];
 let currentFilter = 'all';
