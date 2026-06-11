@@ -590,7 +590,6 @@ function buildCard(lead){
 
 function buildContext(lead){
   let html = '';
-
   // Psikolojik analiz bilgileri
   if(lead.profile || lead.dominant || lead.note){
     html += `<div class="context-title">Profil Analizi</div>`;
@@ -609,7 +608,6 @@ function buildContext(lead){
 
   return html;
   }
-function toggleCtx(safeId){const el=document.getElementById(`ctx_${safeId}`);if(el)el.classList.toggle('open');}
 
 /* DURUM GÜNCELLE *
 async function updateStatus(id,newStatus,safeId){
