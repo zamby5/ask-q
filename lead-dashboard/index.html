@@ -373,14 +373,39 @@ $('loginBtn').addEventListener('click', doLogin);
 $('secretInput').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
 
 function doLogin(){
-  if($('secretInput').value === SECRET_KEY){
-    $('loginScreen').style.display='none';
-    $('appShell').style.display='block';
-    initApp();
-  } else {
-    $('loginErr').style.display='block';
-    setTimeout(()=>$('loginErr').style.display='none', 3000);
-  }
+  const val = $('secretInput').value.trim();
+  if(!val){ $('loginErr').style.display='block'; return; }
+
+  // Worker'dan secret doğrulama
+  fetch(`${WORKER_URL}/api/auth`, {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({secret: val})
+  })
+  .then(r => r.json())
+  .then(data => {
+    if(data.ok){
+      secret = val;
+      $('loginScreen').style.display='none';
+      $('appShell').style.display='block';
+      initApp();
+    } else {
+      $('loginErr').style.display='block';
+      setTimeout(()=>$('loginErr').style.display='none', 3000);
+    }
+  })
+  .catch(() => {
+    // Offline fallback - hardcoded secret
+    if(val === 'TURYAP2025'){
+      secret = val;
+      $('loginScreen').style.display='none';
+      $('appShell').style.display='block';
+      initApp();
+    } else {
+      $('loginErr').style.display='block';
+      setTimeout(()=>$('loginErr').style.display='none', 3000);
+    }
+  });
 }
 
 function logout(){
