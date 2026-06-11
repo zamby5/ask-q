@@ -599,7 +599,13 @@ function buildContext(lead){
     if(lead.answers && lead.answers.length) html += `<div class="context-msg"><span class="ctx-role bot">Cevaplar</span><span class="ctx-text">${lead.answers.join(', ')}</span></div>`;
     if(lead.partial)  html += `<div class="context-msg"><span class="ctx-role user">Durum</span><span class="ctx-text">Yarıda bıraktı (${lead.answered||0}/5 soru)</span></div>`;
   }
-
+  // analysis_result objesi veya eski format
+const ar = lead.analysis_result || {
+  dominant_color: lead.dominant,
+  profile_tag: lead.profile,
+  expert_note: lead.note,
+  score_breakdown: lead.scores,
+};
   // Konuşma özeti
   if(lead.context && lead.context.length){
     html += `<div class="context-title">Konuşma Özeti</div>`;
