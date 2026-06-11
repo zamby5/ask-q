@@ -355,8 +355,23 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 
 /* ─── CONFIG ─── */
 const WORKER_URL = 'https://groq-proxy.miyicioglu.workers.dev';
-let secret = '', allLeads = [], currentFilter = 'all', refreshInterval = null;
-let prevLeadCount = 0, unreadCount = 0;
+
+async function getSecret() {
+  const response = await fetch(`${WORKER_URL}/token`, {
+    credentials: 'include'  // Cookie varsa gönder
+  });
+  const data = await response.json();
+  return data.token;
+}
+
+// Kullanım
+let secret = '';
+async function init() {
+  secret = await getSecret();
+  // Artık API isteklerinde kullanabilirsiniz
+}
+
+init();
 /* ─── STATE ─── */
 let allLeads = [];
 let currentFilter = 'all';
@@ -373,43 +388,14 @@ $('loginBtn').addEventListener('click', doLogin);
 $('secretInput').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
 
 function doLogin(){
-  const val = $('secretInput').value.trim();
-  if(!val){ $('loginErr').style.display='block'; return; }
-
-  // Offline fallback - direkt şifre kontrolü (Worker olmadan da çalışır)
-  if(val === 'TURYAP2025'){
-    secret = val;
+  if($('secretInput').value === 'TURYAP2025'){
     $('loginScreen').style.display='none';
     $('appShell').style.display='block';
     initApp();
-    return;
-  }
-
-  // Worker'dan secret doğrulama (opsiyonel)
-  fetch(`${WORKER_URL}/api/auth`, {
-    method: 'POST',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({secret: val})
-  })
-  .then(r => {
-    if(!r.ok) throw new Error('Auth failed');
-    return r.json();
-  })
-  .then(data => {
-    if(data.ok){
-      secret = val;
-      $('loginScreen').style.display='none';
-      $('appShell').style.display='block';
-      initApp();
-    } else {
-      $('loginErr').style.display='block';
-      setTimeout(()=>{ $('loginErr').style.display='none'; }, 3000);
-    }
-  })
-  .catch(() => {
+  } else {
     $('loginErr').style.display='block';
-    setTimeout(()=>{ $('loginErr').style.display='none'; }, 3000);
-  });
+    setTimeout(()=>$('loginErr').style.display='none', 3000);
+  }
 }
 
 function logout(){
@@ -763,7 +749,7 @@ function toggleNotifications(){
 }
 
 /* ─── DEMO: Auto-login for testing ─── */
-// setTimeout(() => { $('secretInput').value = SECRET_KEY; doLogin(); }, 500);
+// setTimeout(() => { $('secretInput').value = 'TURYAP2025'; doLogin(); }, 500);
 </script>
 </body>
 </html>
