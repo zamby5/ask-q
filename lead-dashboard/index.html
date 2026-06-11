@@ -581,7 +581,7 @@ function buildCard(lead){
     <div class="card-actions">
       <div class="action-btns">
         ${phone?`<a href="tel:${encodeURIComponent(phone)}" class="act-btn call">📞 Ara</a><a href="https://wa.me/${phone.replace(/[^0-9]/g,'')}" target="_blank" class="act-btn wa">💬 WA</a>`:''}
-        ${ctxHtml?`<button class="act-btn expand" onclick="toggleCtx('${safeId}')">💬</button>
+        ${ctxHtml?`<button class="act-btn expand" onclick="toggleCtx('${safeId}')">💬</button>`:''}
       </div>
       <select class="status-select" onchange="updateStatus('${lead.id}',this.value,'${safeId}')">${statusOptions}</select>
     </div>
@@ -605,7 +605,6 @@ function buildContext(lead){
     html += `<div class="context-title">Konuşma Özeti</div>`;
     html += lead.context.slice(0,6).map(m=>`<div class="context-msg"><span class="ctx-role ${m.role==='user'?'user':'bot'}">${m.role==='user'?'Müşteri':'Ask·Q'}</span><span class="ctx-text">${escHtml((m.text||'').substring(0,180))}${(m.text||'').length>180?'…':''}</span></div>`).join('');
   }
-
   return html;
   }
 
