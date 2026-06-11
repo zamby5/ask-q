@@ -669,16 +669,46 @@ async function sendLeadToWorker(d){try{await fetch(WORKER_URL+'/lead',{method:'P
 
 function showLeadToast(){const t=document.createElement('div');t.className='lead-toast';t.textContent='✓ Bilgiler kaydedildi';document.body.appendChild(t);requestAnimationFrame(()=>t.classList.add('show'));setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),400);},3000);}
 
-/* ── PSY PROFIL FONKSİYONLARI ────────────────────────────── */
+//* ── PSY PROFİL FONKSİYONLARI ────────────────────────────── */
 function addPsyWidget(el){const row=document.createElement('div');row.className='msg-row bot';row.innerHTML=`<div class="avatar">${CROWN_SVG}</div>`;row.appendChild(el);document.getElementById('chatArea').appendChild(row);scrollChat();}
 
+function saveLead(partial=false){
+  if(!psyLeadData)return;
+  const result=PROFILER.calc(psyAnswers);
+  const type=(currentTopic==='satis'||currentTopic==='degerleme')?'Seller':'Buyer';
+  const colorMap={K:'Kirmizi',S:'Sari',Y:'Yesil',M:'Mavi'};
+  const answers=psyAnswers.map(a=>colorMap[a]||a);
+  const ld=Object.assign({},psyLeadData,{
+    type,
+    answers,
+    partial,
+    answered:psyAnswers.length,
+    note:    result.expert_note||'',
+    profile: result.profile    ||'',
+    scores:  result.scores     ||{},
+    dominant:result.dominant   ||'',
+    summary: result.summary    ||''
+  });
+  fetch(WORKER_URL+'/lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(ld)}).catch(()=>{});
+}
+
 function showPsyOffer(leadData){
-  if(psyActive)return;psyLeadData=leadData;
+  if(psyActive)return;
+  psyLeadData=leadData;
+  saveLead(true); // telefon geldi, hemen kaydet
   const wrap=document.createElement('div');wrap.className='bubble bot-b';
   wrap.innerHTML=`<div class="psy-offer-wrap"><div class="psy-offer-msg">Size en uygun gayrimenkul deneyimini sunmak için birkaç soru sormak istiyorum. Size en uygun şıkkı işaretlemeniz yeterli. Başlayalım mı?</div><div class="psy-btn-row"><button class="psy-btn primary" id="psyYes">Evet</button><button class="psy-btn ghost" id="psyNo">Hayır</button></div></div>`;
   const row=document.createElement('div');row.className='msg-row bot';row.innerHTML=`<div class="avatar">${CROWN_SVG}</div>`;row.appendChild(wrap);document.getElementById('chatArea').appendChild(row);scrollChat();
-  wrap.querySelector('#psyYes').onclick=()=>{wrap.querySelectorAll('.psy-btn').forEach(b=>{b.disabled=true;b.style.opacity='0.5';});addMsg('Evet','user');startPsyTest();};
-  wrap.querySelector('#psyNo').onclick=()=>{wrap.querySelectorAll('.psy-btn').forEach(b=>{b.disabled=true;b.style.opacity='0.5';});addMsg('Hayır','user');setTimeout(()=>{addMsg('Teşekkürler. Başka sorunuz yoksa Murat Bey <strong>0532 456 48 66</strong> numaralı hattından size en kısa sürede ulaşacaktır. İyi günler dilerim. 🙏','bot');},400);};
+  wrap.querySelector('#psyYes').onclick=()=>{
+    wrap.querySelectorAll('.psy-btn').forEach(b=>{b.disabled=true;b.style.opacity='0.5';});
+    addMsg('Evet','user');startPsyTest();
+  };
+  wrap.querySelector('#psyNo').onclick=()=>{
+    wrap.querySelectorAll('.psy-btn').forEach(b=>{b.disabled=true;b.style.opacity='0.5';});
+    addMsg('Hayır','user');
+    saveLead(true); // hayır dedi ama kayıtlı
+    setTimeout(()=>{addMsg('Teşekkürler. Başka sorunuz yoksa Murat Bey <strong>0532 456 48 66</strong> numaralı hattından size en kısa sürede ulaşacaktır. İyi günler dilerim. 🙏','bot');},400);
+  };
 }
 
 function startPsyTest(){
@@ -699,27 +729,22 @@ function showPsyQuestion(){
       card.querySelectorAll('.psy-opt').forEach(b=>{b.disabled=true;b.style.opacity='0.5';});
       btn.style.opacity='1';btn.style.borderColor='var(--navy-lt)';btn.style.background='rgba(30,74,138,0.08)';
       psyAnswers.push(btn.dataset.c);psyStep++;
-      setTimeout(()=>{if(psyStep<5)showPsyQuestion();else finishPsyTest();},350);
+      if(psyStep<5){
+        saveLead(true); // her soruda güncelle
+        setTimeout(()=>showPsyQuestion(),350);
+      }else{
+        setTimeout(()=>finishPsyTest(),350);
+      }
     };
   });
 }
 
 function finishPsyTest(){
-  const result=PROFILER.calc(psyAnswers);psyActive=false;
-  const type=(currentTopic==='satis'||currentTopic==='degerleme')?'Seller':'Buyer';
-  const colorMap={K:'Kirmizi',S:'Sari',Y:'Yesil',M:'Mavi'};
-  const answers=psyAnswers.map(a=>colorMap[a]||a);
-  if(psyLeadData){
-    const ld=Object.assign({},psyLeadData,{
-      type:type,
-      answers:answers,
-      note:result.expert_note||''
-    });
-    fetch(WORKER_URL+'/lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(ld)}).catch(()=>{});
-    showLeadToast();
-  }
+  psyActive=false;
+  saveLead(false); // tamamlandı, partial=false
+  showLeadToast();
   setTimeout(()=>{
-    const name=psyLeadData&&psyLeadData.name?psyLeadData.name:'';
+    const name=psyLeadData?.name||'';
     addMsg('Vakit ayırdığınız için teşekkürler'+(name?' Sayın '+name:'')+'. Gayrimenkul Uzmanı Murat İyicioğlu en kısa sürede sizinle iletişime geçecektir. 🙏','bot');
   },400);
 }
