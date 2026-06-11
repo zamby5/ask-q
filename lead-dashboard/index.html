@@ -201,6 +201,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
   .stat-num{font-size:22px;}
 }
 </style>
+<base target="_blank">
 </head>
 <body>
 
@@ -354,23 +355,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 
 /* ─── CONFIG ─── */
 const WORKER_URL = 'https://groq-proxy.miyicioglu.workers.dev';
-
-async function getSecret() {
-  const response = await fetch(`${WORKER_URL}/token`, {
-    credentials: 'include'  // Cookie varsa gönder
-  });
-  const data = await response.json();
-  return data.token;
-}
-
-// Kullanım
-let secret = '';
-async function init() {
-  secret = await getSecret();
-  // Artık API isteklerinde kullanabilirsiniz
-}
-
-init();
+let secret = '', allLeads = [], currentFilter = 'all', refreshInterval = null;
+let prevLeadCount = 0, unreadCount = 0;
 /* ─── STATE ─── */
 let allLeads = [];
 let currentFilter = 'all';
