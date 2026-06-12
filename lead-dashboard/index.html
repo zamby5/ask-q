@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -21,7 +22,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 #loginScreen{position:fixed;inset:0;background:var(--navy);display:flex;align-items:center;justify-content:center;z-index:1000;}
 #loginScreen::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 30% 40%,rgba(184,147,42,0.12) 0%,transparent 70%);}
 .login-card{background:rgba(255,255,255,0.04);border:1px solid rgba(184,147,42,0.25);border-radius:20px;padding:40px 36px;width:320px;text-align:center;position:relative;backdrop-filter:blur(12px);box-shadow:0 20px 60px rgba(0,0,0,0.3);}
-.login-logo{width:76px;height:76px;margin:0 auto 16px;overflow:hidden;border-radius:14px;box-shadow:0 0 0 2px rgba(184,147,42,0.4);display:flex;align-items:center;justify-content:center;background:#fff;}
+.login-logo{width:76px;height:76px;margin:0 auto 16px;overflow:hidden;border-radius:14px;box-shadow:0 0 0 2px rgba(184,147,42,0.4);}
 .login-logo svg{width:76px;height:76px;}
 .login-card h1{font-family:'Playfair Display',serif;font-size:22px;color:#fff;margin-bottom:4px;}
 .login-card p{font-size:12px;color:rgba(255,255,255,0.45);margin-bottom:28px;}
@@ -44,7 +45,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .lh-brand-info p{font-size:10px;color:rgba(255,255,255,0.45);margin-top:1px;}
 .lh-header-right{display:flex;align-items:center;gap:10px;}
 
-/* BİLDİRİM ÇANI */
+/* BİLDİRİM ÇANI — YENİ */
 .bell-btn{position:relative;width:36px;height:36px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;}
 .bell-btn:hover{background:rgba(255,255,255,0.16);border-color:var(--gold);}
 .bell-btn svg{width:16px;height:16px;stroke:rgba(255,255,255,0.7);fill:none;stroke-width:2;}
@@ -128,9 +129,13 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .lead-card.is-new{box-shadow:0 0 0 2px var(--gold),var(--shadow);}
 .card-top{padding:16px 16px 12px;border-bottom:1px solid var(--bg);}
 .card-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;}
+.card-header-left{display:flex;flex-direction:column;flex:1;}
 .card-name{font-family:'Playfair Display',serif;font-size:16px;font-weight:600;color:var(--navy);line-height:1.2;}
 .card-time{font-size:10px;color:var(--dimtxt);margin-top:2px;}
+.card-header-right{display:flex;align-items:center;gap:4px;}
 .card-lang{font-size:16px;line-height:1;}
+.delete-btn{width:24px;height:24px;background:transparent;border:none;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s;color:var(--red);font-size:14px;padding:0;}
+.delete-btn:hover{background:rgba(220,38,38,0.1);}
 .card-phone{display:flex;align-items:center;gap:6px;margin-bottom:10px;}
 .card-phone-num{font-size:13px;font-weight:600;color:var(--navy-lt);}
 .copy-btn{width:22px;height:22px;background:var(--bg);border:none;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s;}
@@ -143,7 +148,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .status-badge{display:inline-flex;align-items:center;gap:3px;padding:4px 10px;border-radius:10px;font-size:11px;font-weight:600;}
 .status-badge.yeni{background:#dbeafe;color:#2563eb;}.status-badge.aranacak{background:#fef3c7;color:#d97706;}.status-badge.takip{background:#d1fae5;color:#065f46;}.status-badge.kapali{background:#f1f5f9;color:#64748b;}
 .card-context{padding:0 16px;max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s ease;}
-.card-context.open{max-height:500px;padding:10px 16px 12px;}
+.card-context.open{max-height:200px;padding:10px 16px 12px;}
 .context-title{font-size:10px;color:var(--dimtxt);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;}
 .context-msg{display:flex;gap:6px;margin-bottom:6px;}
 .ctx-role{font-size:10px;font-weight:700;min-width:40px;padding-top:1px;}
@@ -155,7 +160,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .act-btn.call{background:#dcfce7;color:#16a34a;}.act-btn.call:hover{background:#16a34a;color:#fff;}
 .act-btn.wa{background:#dcfce7;color:#16a34a;}.act-btn.wa:hover{background:#25D366;color:#fff;}
 .act-btn.expand{background:var(--white);color:var(--dimtxt);border:1px solid var(--bg-mid);padding:7px 10px;}.act-btn.expand:hover{border-color:var(--navy-lt);color:var(--navy-lt);}
-.act-btn.delete{background:#fee2e2;color:#dc2626;padding:7px 10px;}.act-btn.delete:hover{background:#dc2626;color:#fff;}
 .status-select{background:var(--white);border:1.5px solid var(--bg-mid);border-radius:10px;padding:6px 10px;font-size:11px;font-family:'Nunito',sans-serif;font-weight:600;color:var(--navy);cursor:pointer;outline:none;transition:border-color 0.2s;}
 .status-select:focus{border-color:var(--gold);}
 
@@ -167,7 +171,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .float-q:hover .float-q-tip{opacity:1;}
 @keyframes floatBounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
 
-/* YÜKLEME ve TOAST */
+/* YÜKLEMEve TOAST */
 .loading-overlay{position:fixed;inset:0;background:rgba(238,242,247,0.85);display:flex;align-items:center;justify-content:center;z-index:500;backdrop-filter:blur(4px);}
 .loading-dots{display:flex;gap:6px;}
 .loading-dots span{width:10px;height:10px;background:var(--navy);border-radius:50%;animation:bonce 1.2s infinite;}
@@ -185,64 +189,47 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .date-input{background:var(--white);border:1.5px solid var(--bg-mid);border-radius:20px;padding:7px 14px;font-size:12px;font-family:'Nunito',sans-serif;color:var(--navy);outline:none;transition:border-color 0.2s;cursor:pointer;}
 .date-input:focus{border-color:var(--navy-lt);}
 .export-btn{padding:7px 16px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;border:1.5px solid var(--gold);background:var(--gold);color:var(--navy);font-family:'Nunito',sans-serif;transition:all 0.2s;display:flex;align-items:center;gap:5px;margin-left:auto;}
-.export-btn:hover{background:#c9a030;border-color:#c9a030;}
+.export-btn:hover:not(:disabled){background:#c9a030;border-color:#c9a030;}
 .export-btn:disabled{opacity:0.5;cursor:not-allowed;}
 .export-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;}
 @media(max-width:640px){.date-filter-row{padding:8px 16px 0;}.export-btn span{display:none;}}
 @media(max-width:640px){
   .stats-bar{grid-template-columns:1fr 1fr;padding:16px 16px 0;}
-  .analytics-section{padding:12px 16px 0;}
+  .lead-grid{grid-template-columns:1fr;padding:16px;}
   .analytics-row{grid-template-columns:1fr;}
-  .filter-row{padding:14px 16px 0;}
-  .lead-grid{padding:14px 16px 24px;}
-  .lh-header{padding:12px 16px;}
-  .search-input{width:150px;}
-  .last-refresh{display:none;}
-  .stat-num{font-size:22px;}
+  .filter-row{padding:12px 16px 0;}
+  .search-input{width:100%;}
 }
+
+/* YENİ KAYIT BİLDİRİM PANELİ */
+#newLeadAlert{position:fixed;top:80px;left:50%;transform:translateX(-50%) translateY(-20px);background:var(--navy);border:2px solid var(--gold);border-radius:16px;padding:14px 24px;min-width:280px;text-align:center;box-shadow:0 8px 32px rgba(13,34,71,0.35);z-index:9990;opacity:0;transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);pointer-events:none;backdrop-filter:blur(8px);}
+#newLeadAlert.show{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto;}
+
 </style>
-<base target="_blank">
 </head>
 <body>
 
-<!-- LOGIN -->
+<!-- Login Screen -->
 <div id="loginScreen">
   <div class="login-card">
     <div class="login-logo">
-      <svg viewBox="0 0 76 76" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="76" height="76" rx="14" fill="white"/>
-        <path d="M38 18L20 32V56H32V42H44V56H56V32L38 18Z" fill="#0d2247"/>
-        <path d="M38 22L24 33V52H28V38H48V52H52V33L38 22Z" fill="#b8932a"/>
-        <circle cx="38" cy="48" r="4" fill="#0d2247"/>
-      </svg>
+      <svg viewBox="0 0 100 100"><path d="M50 10 L85 35 L85 85 Q85 95 75 95 L25 95 Q15 95 15 85 L15 35 Z" fill="#0d2247"/><circle cx="50" cy="50" r="18" fill="#b8932a"/></svg>
     </div>
     <h1>Lead Hunter</h1>
     <p>Turyap Queen — Ask·Q</p>
-    <input class="login-input" id="secretInput" type="password" placeholder="Erişim kodu">
-    <button class="login-btn" id="loginBtn">Giriş Yap</button>
-    <div class="login-err" id="loginErr">Hatalı kod. Lütfen tekrar deneyin.</div>
+    <input class="login-input" id="secretInput" type="password" placeholder="Gizli Anahtar">
+    <button class="login-btn" id="loginBtn">Giriş</button>
+    <div class="login-err" id="loginErr"></div>
   </div>
 </div>
 
-<!-- YENİ KAYIT BİLDİRİM PANELİ -->
-<div class="new-lead-alert" id="newLeadAlert">
-  <div class="nla-icon">🔔</div>
-  <div class="nla-title" id="nlaTitle">Yeni Lead Geldi!</div>
-  <div class="nla-sub" id="nlaSub">Bir potansiyel müşteri bilgilerini bıraktı.</div>
-  <button class="nla-close" onclick="dismissAlert()">Tamam, Gördüm</button>
-</div>
-
-<!-- APP -->
+<!-- App Shell -->
 <div id="appShell">
-
-  <!-- Başlık -->
+  <!-- Header -->
   <header class="lh-header">
     <div class="lh-brand">
       <div class="lh-brand-logo">
-        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M20 8L10 16V32H16V22H24V32H30V16L20 8Z" fill="#0d2247"/>
-          <path d="M20 11L13 17V29H15V19H25V29H27V17L20 11Z" fill="#b8932a"/>
-        </svg>
+        <svg viewBox="0 0 100 100"><path d="M50 10 L85 35 L85 85 Q85 95 75 95 L25 95 Q15 95 15 85 L15 35 Z" fill="#0d2247"/><circle cx="50" cy="50" r="18" fill="#b8932a"/></svg>
       </div>
       <div class="lh-brand-info">
         <h1>Lead Hunter</h1>
@@ -250,40 +237,28 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
       </div>
     </div>
     <div class="lh-header-right">
-      <button class="bell-btn" id="bellBtn" onclick="toggleNotifications()">
+      <span class="last-refresh" id="lastRefreshTxt"></span>
+      <div class="bell-btn" id="bellBtn" onclick="clearBell()" title="Bildirimler">
         <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-        <span class="bell-badge" id="bellBadge">0</span>
+        <div class="bell-badge" id="bellBadge">0</div>
+      </div>
+      <button class="refresh-btn" id="refreshBtn" onclick="loadLeads(true)">
+        <svg viewBox="0 0 24 24"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+        Yenile
       </button>
-      <button class="refresh-btn" id="refreshBtn" onclick="refreshData()">
-        <svg viewBox="0 0 24 24"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
-        <span>Yenile</span>
-      </button>
-      <span class="last-refresh" id="lastRefresh">--:--</span>
-      <button class="logout-btn" onclick="logout()">Çıkış</button>
+      <button class="logout-btn" onclick="doLogout()">Çıkış</button>
     </div>
   </header>
 
-  <!-- İstatistikler -->
+  <!-- Stats -->
   <div class="stats-bar">
-    <div class="stat-card s-total">
-      <div class="stat-num" id="statTotal">0</div>
-      <div class="stat-label">Toplam Lead</div>
-    </div>
-    <div class="stat-card s-today">
-      <div class="stat-num" id="statToday">0</div>
-      <div class="stat-label">Bugün</div>
-    </div>
-    <div class="stat-card s-new">
-      <div class="stat-num" id="statNew">0</div>
-      <div class="stat-label">Yeni</div>
-    </div>
-    <div class="stat-card s-contact">
-      <div class="stat-num" id="statContact">0</div>
-      <div class="stat-label">İletişime Geçildi</div>
-    </div>
+    <div class="stat-card s-total"><div class="stat-num" id="sTot">—</div><div class="stat-label">Toplam Lead</div></div>
+    <div class="stat-card s-today"><div class="stat-num" id="sToday">—</div><div class="stat-label">Bugün</div></div>
+    <div class="stat-card s-new"><div class="stat-num" id="sNew">—</div><div class="stat-label">Yeni / Bekleyen</div></div>
+    <div class="stat-card s-contact"><div class="stat-num" id="sDone">—</div><div class="stat-label">Tamamlanan</div></div>
   </div>
 
-  <!-- Analitik -->
+  <!-- Analytics -->
   <div class="analytics-section">
     <div class="analytics-row">
       <div class="analytics-card">
@@ -293,463 +268,440 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
       <div class="analytics-card">
         <div class="analytics-title">Dil Dağılımı</div>
         <div class="lang-dist-grid" id="langDist"></div>
+        <div class="analytics-title" style="margin-top:14px;">Son 7 Gün</div>
+        <div class="trend-bars" id="trendChart"></div>
       </div>
-    </div>
-    <div class="analytics-card">
-      <div class="analytics-title">7 Günlük Trend</div>
-      <div class="trend-bars" id="trendBars"></div>
     </div>
   </div>
 
-  <!-- Tarih Filtre -->
+  <!-- Filters -->
+  <div class="filter-row">
+    <div class="filter-pills">
+      <div class="pill active" data-filter="all" onclick="setFilter('all',this)">Tümü <span class="count" id="cAll">0</span></div>
+      <div class="pill" data-filter="yeni" onclick="setFilter('yeni',this)">🔵 Yeni <span class="count" id="cYeni">0</span></div>
+      <div class="pill" data-filter="aranacak" onclick="setFilter('aranacak',this)">🟡 Aranacak <span class="count" id="cAranacak">0</span></div>
+      <div class="pill" data-filter="takip" onclick="setFilter('takip',this)">🟢 Takipte <span class="count" id="cTakip">0</span></div>
+      <div class="pill" data-filter="kapali" onclick="setFilter('kapali',this)">⚪ Kapandı <span class="count" id="cKapali">0</span></div>
+    </div>
+    <div class="search-wrap">
+      <svg class="search-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input class="search-input" id="searchInput" placeholder="İsim veya telefon ara…" oninput="renderLeads()">
+    </div>
+  </div>
+
+  <!-- Date Filter & Export -->
   <div class="date-filter-row">
     <label>Başlangıç:</label>
-    <input type="date" class="date-input" id="dateFrom">
+    <input class="date-input" type="date" id="dateFrom" onchange="renderLeads()">
     <label>Bitiş:</label>
-    <input type="date" class="date-input" id="dateTo">
-    <button class="export-btn" id="exportBtn" onclick="exportCSV()">
+    <input class="date-input" type="date" id="dateTo" onchange="renderLeads()">
+    <button class="export-btn" id="csvBtn" onclick="exportCSV()">
       <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
       <span>CSV İndir</span>
     </button>
-  </div>
-
-  <!-- Filtre -->
-  <div class="filter-row">
-    <div class="filter-pills" id="filterPills">
-      <div class="pill active" data-filter="all" onclick="setFilter('all')">Tümü<span class="count" id="countAll">0</span></div>
-      <div class="pill" data-filter="yeni" onclick="setFilter('yeni')">Yeni<span class="count" id="countYeni">0</span></div>
-      <div class="pill" data-filter="aranacak" onclick="setFilter('aranacak')">Aranacak<span class="count" id="countAranacak">0</span></div>
-      <div class="pill" data-filter="takip" onclick="setFilter('takip')">Takip<span class="count" id="countTakip">0</span></div>
-      <div class="pill" data-filter="kapali" onclick="setFilter('kapali')">Kapalı<span class="count" id="countKapali">0</span></div>
-    </div>
-    <div class="search-wrap">
-      <svg class="search-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input type="text" class="search-input" id="searchInput" placeholder="Ara..." oninput="handleSearch()">
-    </div>
+    <button class="export-btn" id="excelBtn" onclick="exportExcel()" style="background:var(--navy-lt);border-color:var(--navy-lt);color:#fff;margin-left:0;">
+      <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      <span>Excel İndir</span>
+    </button>
   </div>
 
   <!-- Lead Grid -->
   <div class="lead-grid" id="leadGrid"></div>
-
 </div>
-
-<!-- Floating Q -->
-<a href="https://wa.me/905551234567" target="_blank" class="float-q" title="Ask·Q ile konuş">
-  <svg viewBox="0 0 24 24" fill="white"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-  <span class="float-q-tip">Ask·Q ile konuş</span>
-</a>
 
 <!-- Loading -->
-<div class="loading-overlay" id="loadingOverlay" style="display:none;">
-  <div class="loading-dots"><span></span><span></span><span></span></div>
-</div>
+<div class="loading-overlay" id="loading" style="display:none;"><div class="loading-dots"><span></span><span></span><span></span></div></div>
 
 <!-- Toast -->
 <div class="toast" id="toast"></div>
 
+<!-- New Lead Alert -->
+<div id="newLeadAlert">
+  <div style="font-size:18px;margin-bottom:6px;">🎉</div>
+  <div style="font-family:'Playfair Display',serif;font-size:15px;color:#fff;margin-bottom:3px;" id="nlaTitle">Yeni Lead Geldi!</div>
+  <div style="font-size:11px;color:rgba(255,255,255,0.6);" id="nlaSub">Yeni bir potansiyel müşteri bilgilerini bıraktı.</div>
+  <button class="nla-close" onclick="dismissAlert()">Tamam</button>
+</div>
+
+<!-- Floating Q -->
+<a class="float-q" href="index.html">
+  <div class="float-q-tip">Chatbot'a git</div>
+  <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="9" cy="10" r="1" fill="currentColor"/><circle cx="12" cy="10" r="1" fill="currentColor"/><circle cx="15" cy="10" r="1" fill="currentColor"/></svg>
+</a>
+
 <script>
-/* ═══════════════════════════════════════════════════════════════
-   LEAD HUNTER — TURYAP QUEEN
-   Düzeltilmiş, sağlıklı çalışan sürüm
-   ═══════════════════════════════════════════════════════════════ */
+const WORKER_URL='https://groq-proxy.miyicioglu.workers.dev';
+let secret='',allLeads=[],currentFilter='all',refreshInterval=null;
+let prevLeadCount=0,unreadCount=0;
+let exportInProgress=false;
 
-/* ─── CONFIG ─── */
-const WORKER_URL = 'https://groq-proxy.miyicioglu.workers.dev';
-
-async function getSecret() {
-  const response = await fetch(`${WORKER_URL}/token`, {
-    credentials: 'include'  // Cookie varsa gönder
-  });
-  const data = await response.json();
-  return data.token;
-}
-
-// Kullanım
-let secret = '';
-async function init() {
-  secret = await getSecret();
-  // Artık API isteklerinde kullanabilirsiniz
-}
-
-init();
-/* ─── STATE ─── */
-let allLeads = [];
-let currentFilter = 'all';
-let searchQuery = '';
-let isExporting = false;
-let lastFetchTime = 0;
-let newLeadCount = 0;
-
-/* ─── DOM REFS ─── */
-const $ = id => document.getElementById(id);
-
-/* ─── LOGIN ─── */
-$('loginBtn').addEventListener('click', doLogin);
-$('secretInput').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+const topicMeta={
+  satis:{label:'Satış',cls:'satis',barCls:'tbf-satis'},
+  kiralama:{label:'Kiralama',cls:'kiralama',barCls:'tbf-kiralama'},
+  yatirim:{label:'Yatırım',cls:'yatirim',barCls:'tbf-yatirim'},
+  degerleme:{label:'Değerleme',cls:'degerleme',barCls:'tbf-degerleme'},
+  genel:{label:'Genel',cls:'genel',barCls:'tbf-genel'}
+};
+const statusMeta={
+  yeni:{label:'Yeni',cls:'yeni'},
+  aranacak:{label:'Aranacak',cls:'aranacak'},
+  takip:{label:'Takipte',cls:'takip'},
+  kapali:{label:'Kapandı',cls:'kapali'}
+};
+const langFlags={tr:'🇹🇷',en:'🇺🇸',ar:'🇸🇦',ru:'🇷🇺',fr:'🇫🇷',de:'🇩🇪',es:'🇪🇸',pt:'🇵🇹',ja:'🇯🇵',zh:'🇨🇳'};
+const DAY_NAMES=['Paz','Pzt','Sal','Çar','Per','Cum','Cmt'];
 
 function doLogin(){
-  if($('secretInput').value === 'TURYAP2025'){
-    $('loginScreen').style.display='none';
-    $('appShell').style.display='block';
-    initApp();
-  } else {
-    $('loginErr').style.display='block';
-    setTimeout(()=>$('loginErr').style.display='none', 3000);
-  }
+  const inp=document.getElementById('secretInput');
+  secret=inp.value.trim();
+  if(!secret){showToast('Gizli Anahtar giriniz','error');return;}
+  document.getElementById('loading').style.display='flex';
+  loadLeads(false);
 }
 
-function logout(){
-  $('appShell').style.display='none';
-  $('loginScreen').style.display='flex';
-  $('secretInput').value='';
+function doLogout(){
+  secret='';
+  document.getElementById('appShell').style.display='none';
+  document.getElementById('loginScreen').style.display='flex';
+  document.getElementById('secretInput').value='';
 }
 
-/* ─── INIT ─── */
-function initApp(){
-  const today = new Date().toISOString().split('T')[0];
-  $('dateFrom').value = today;
-  $('dateTo').value = today;
-  fetchLeads();
-  setInterval(fetchLeads, 30000);
-}
-
-/* ─── FETCH ─── */
-async function fetchLeads(){
-  showLoading(true);
+async function loadLeads(manual){
   try{
-    const res = await fetch(`${WORKER_URL}/api/leads`);
-    const data = await res.json();
-    allLeads = data.leads || [];
-    lastFetchTime = Date.now();
-    $('lastRefresh').textContent = new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});
-    renderAll();
-    checkNewLeads(data.leads);
-  }catch(err){
-    console.error('Fetch error:', err);
-    showToast('Veri alınamadı, örnek veriler gösteriliyor', 'error');
-    loadDemoData();
+    document.getElementById('refreshBtn').classList.toggle('spinning',manual);
+    const url=`${WORKER_URL}/leads`;
+    const res=await fetch(url,{headers:{'x-leads-secret':secret}});
+    const data=await res.json();
+    if(Array.isArray(data)){
+      allLeads=data;
+      document.getElementById('appShell').style.display='block';
+      document.getElementById('loginScreen').style.display='none';
+      if(prevLeadCount>0&&allLeads.length>prevLeadCount){
+        const yeni=allLeads.length-prevLeadCount;
+        triggerNewLeadNotification(yeni);
+      }
+      prevLeadCount=allLeads.length;
+      updateStats();renderLeads();
+      document.getElementById('lastRefreshTxt').textContent=`Son: ${new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'})}`;
+      if(!refreshInterval)refreshInterval=setInterval(()=>loadLeads(false),20000);
+    }
+  }catch(e){showToast('Bağlantı hatası','error');}
+  finally{document.getElementById('loading').style.display='none';document.getElementById('refreshBtn').classList.remove('spinning');}
+}
+
+function triggerNewLeadNotification(count){
+  unreadCount+=count;
+  const badge=document.getElementById('bellBadge');
+  const bell=document.getElementById('bellBtn');
+  badge.textContent=unreadCount;
+  badge.classList.add('show');
+  bell.classList.add('has-new');
+  document.getElementById('nlaTitle').textContent=count===1?'Yeni Lead Geldi!':count+' Yeni Lead Geldi!';
+  document.getElementById('nlaSub').textContent=count===1?'Bir potansiyel müşteri bilgilerini bıraktı.':count+' potansiyel müşteri bilgilerini bıraktı.';
+  const alert=document.getElementById('newLeadAlert');
+  alert.classList.add('show');
+  playBellSound();
+  if(Notification&&Notification.permission==='granted'){
+    new Notification('Turyap Queen — Yeni Lead!',{body:count+' yeni potansiyel müşteri bilgilerini bıraktı.',icon:'icon.svg'});
+  }else if(Notification&&Notification.permission!=='denied'){
+    Notification.requestPermission();
   }
-  showLoading(false);
 }
 
-function loadDemoData(){
-  allLeads = [
-    {id:1, name:'Ahmet Yılmaz', phone:'+905551234567', email:'ahmet@email.com', topic:'satis', status:'yeni', lang:'tr', created_at:new Date().toISOString(), messages:[{role:'user',text:'Merhaba, satılık daire hakkında bilgi almak istiyorum'},{role:'bot',text:'Tabii, hangi bölgede arama yapıyorsunuz?'}]},
-    {id:2, name:'John Smith', phone:'+905559876543', email:'john@email.com', topic:'kiralama', status:'aranacak', lang:'en', created_at:new Date(Date.now()-86400000).toISOString(), messages:[{role:'user',text:'I want to rent an apartment'},{role:'bot',text:'Which district are you looking for?'}]},
-    {id:3, name:'Ayşe Kaya', phone:'+905553334455', email:'', topic:'yatirim', status:'takip', lang:'tr', created_at:new Date(Date.now()-172800000).toISOString(), messages:[{role:'user',text:'Yatırım için arsa arıyorum'}]}
-  ];
-  renderAll();
+function playBellSound(){
+  try{
+    const ctx=new(window.AudioContext||window.webkitAudioContext)();
+    const o1=ctx.createOscillator(),g1=ctx.createGain();
+    o1.connect(g1);g1.connect(ctx.destination);
+    o1.frequency.setValueAtTime(880,ctx.currentTime);
+    o1.frequency.exponentialRampToValueAtTime(660,ctx.currentTime+0.2);
+    g1.gain.setValueAtTime(0.4,ctx.currentTime);
+    g1.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.4);
+    o1.start(ctx.currentTime);o1.stop(ctx.currentTime+0.4);
+    const o2=ctx.createOscillator(),g2=ctx.createGain();
+    o2.connect(g2);g2.connect(ctx.destination);
+    o2.frequency.setValueAtTime(1100,ctx.currentTime+0.25);
+    o2.frequency.exponentialRampToValueAtTime(880,ctx.currentTime+0.45);
+    g2.gain.setValueAtTime(0.3,ctx.currentTime+0.25);
+    g2.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.6);
+    o2.start(ctx.currentTime+0.25);o2.stop(ctx.currentTime+0.6);
+  }catch(e){}
 }
 
-/* ─── RENDER ALL ─── */
-function renderAll(){
-  renderStats();
-  renderAnalytics();
-  renderFilters();
-  renderGrid();
+function dismissAlert(){document.getElementById('newLeadAlert').classList.remove('show');}
+function clearBell(){
+  unreadCount=0;
+  document.getElementById('bellBadge').classList.remove('show');
+  document.getElementById('bellBtn').classList.remove('has-new');
+  dismissAlert();
 }
 
-/* ─── STATS ─── */
-function renderStats(){
-  const today = new Date().toISOString().split('T')[0];
-  $('statTotal').textContent = allLeads.length;
-  $('statToday').textContent = allLeads.filter(l => l.created_at && l.created_at.startsWith(today)).length;
-  $('statNew').textContent = allLeads.filter(l => l.status==='yeni').length;
-  $('statContact').textContent = allLeads.filter(l => l.status==='takip' || l.status==='kapali').length;
+function updateStats(){
+  const today=new Date().toDateString();
+  const tot=allLeads.length;
+  const toDay=allLeads.filter(l=>new Date(l.createdAt).toDateString()===today).length;
+  const nw=allLeads.filter(l=>l.status==='yeni'||l.status==='aranacak').length;
+  const done=allLeads.filter(l=>l.status==='kapali').length;
+  document.getElementById('sTot').textContent=tot;
+  document.getElementById('sToday').textContent=toDay;
+  document.getElementById('sNew').textContent=nw;
+  document.getElementById('sDone').textContent=done;
+  const counts={all:tot};
+  ['yeni','aranacak','takip','kapali'].forEach(s=>{counts[s]=allLeads.filter(l=>l.status===s).length;});
+  document.getElementById('cAll').textContent=counts.all;
+  document.getElementById('cYeni').textContent=counts.yeni;
+  document.getElementById('cAranacak').textContent=counts.aranacak;
+  document.getElementById('cTakip').textContent=counts.takip;
+  document.getElementById('cKapali').textContent=counts.kapali;
+  updateAnalytics();
 }
 
-/* ─── ANALYTICS ─── */
-function renderAnalytics(){
-  // Topic bars
-  const topics = {satis:0, kiralama:0, yatirim:0, degerleme:0, genel:0};
-  allLeads.forEach(l => { if(l.topic) topics[l.topic] = (topics[l.topic]||0)+1; });
-  const total = Object.values(topics).reduce((a,b)=>a+b,0) || 1;
-  const topicNames = {satis:'Satış', kiralama:'Kiralama', yatirim:'Yatırım', degerleme:'Değerleme', genel:'Genel'};
-  const topicColors = {satis:'tbf-satis', kiralama:'tbf-kiralama', yatirim:'tbf-yatirim', degerleme:'tbf-degerleme', genel:'tbf-genel'};
-  
-  let topicHtml = '';
-  Object.entries(topics).forEach(([key,val]) => {
-    const pct = Math.round((val/total)*100);
-    topicHtml += `<div class="topic-bar-item">
-      <div class="topic-bar-label"><span>${topicNames[key]}</span><span>${val}</span></div>
-      <div class="topic-bar-track"><div class="topic-bar-fill ${topicColors[key]}" style="width:${pct}%"></div></div>
-    </div>`;
+function updateAnalytics(){
+  const total=allLeads.length||1;
+  const topicOrder=['satis','kiralama','yatirim','degerleme','genel'];
+  const topicCounts={};
+  topicOrder.forEach(k=>{topicCounts[k]=allLeads.filter(l=>(l.topic||'genel')===k).length;});
+  document.getElementById('topicBars').innerHTML=topicOrder.filter(k=>topicCounts[k]>0).map(k=>{
+    const m=topicMeta[k];const pct=Math.round(topicCounts[k]/total*100);
+    return`<div class="topic-bar-item"><div class="topic-bar-label"><span>${m.label}</span><span>${topicCounts[k]}</span></div><div class="topic-bar-track"><div class="topic-bar-fill ${m.barCls}" style="width:${pct}%"></div></div></div>`;
+  }).join('')||'<div style="font-size:11px;color:var(--dimtxt)">Veri bekleniyor…</div>';
+  const langCount={};
+  allLeads.forEach(l=>{const lg=l.lang||'tr';langCount[lg]=(langCount[lg]||0)+1;});
+  document.getElementById('langDist').innerHTML=Object.entries(langCount).sort((a,b)=>b[1]-a[1]).map(([lg,cnt])=>`<div class="lang-dist-item">${langFlags[lg]||'🌐'}<span class="ldi-count">${cnt}</span></div>`).join('')||'<span style="font-size:11px;color:var(--dimtxt)">—</span>';
+  const days=[];const now=new Date();
+  for(let i=6;i>=0;i--){const d=new Date(now);d.setDate(now.getDate()-i);days.push(d);}
+  const dayCounts=days.map(d=>allLeads.filter(l=>new Date(l.createdAt).toDateString()===d.toDateString()).length);
+  const maxCount=Math.max(...dayCounts,1);
+  document.getElementById('trendChart').innerHTML=days.map((d,i)=>{
+    const cnt=dayCounts[i];const h=Math.round((cnt/maxCount)*44)+2;const isToday=i===6;
+    return`<div class="trend-bar-wrap"><div class="trend-bar-num">${cnt||''}</div><div class="trend-bar-fill${isToday?' today':''}" style="height:${h}px"></div><div class="trend-bar-day">${DAY_NAMES[d.getDay()]}</div></div>`;
+  }).join('');
+}
+
+function setFilter(f,el){currentFilter=f;document.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));el.classList.add('active');renderLeads();}
+
+function getFilteredLeads(){
+  const query=document.getElementById('searchInput').value.toLowerCase().trim();
+  const fromVal=document.getElementById('dateFrom').value;
+  const toVal=document.getElementById('dateTo').value;
+  let filtered=allLeads;
+  if(currentFilter!=='all')filtered=filtered.filter(l=>l.status===currentFilter);
+  if(query)filtered=filtered.filter(l=>(l.name||'').toLowerCase().includes(query)||(l.phone||'').replace(/\s/g,'').includes(query.replace(/\s/g,'')));
+  if(fromVal){const f=new Date(fromVal);f.setHours(0,0,0,0);filtered=filtered.filter(l=>new Date(l.createdAt)>=f);}
+  if(toVal){const t=new Date(toVal);t.setHours(23,59,59,999);filtered=filtered.filter(l=>new Date(l.createdAt)<=t);}
+  return filtered;
+}
+
+function renderLeads(){
+  const filtered=getFilteredLeads();
+  const grid=document.getElementById('leadGrid');
+  if(filtered.length===0){grid.innerHTML=`<div class="empty-state"><div class="empty-icon">🔍</div><p>Lead bulunamadı</p></div>`;return;}
+  grid.innerHTML=filtered.map(lead=>buildCard(lead)).join('');
+}
+
+const topicLabels={satis:'Satış',kiralama:'Kiralama',yatirim:'Yatırım',degerleme:'Değerleme',genel:'Genel'};
+const statusLabels={yeni:'Yeni',aranacak:'Aranacak',takip:'Takipte',kapali:'Kapandı'};
+
+function leadsToRows(leads){
+  const rows=[['Tarih','Ad Soyad','Telefon','Konu','Durum','Dil']];
+  leads.forEach(l=>{
+    const d=l.createdAt?new Date(l.createdAt).toLocaleString('tr-TR'):'';
+    rows.push([d,l.name||'',l.phone||'',topicLabels[l.topic]||l.topic||'',statusLabels[l.status]||l.status||'',l.lang||'']);
   });
-  $('topicBars').innerHTML = topicHtml;
+  return rows;
+}
 
-  // Language dist
-  const langs = {};
-  allLeads.forEach(l => { if(l.lang) langs[l.lang] = (langs[l.lang]||0)+1; });
-  const langNames = {tr:'🇹🇷 TR', en:'🇬🇧 EN', ar:'🇸🇦 AR', ru:'🇷🇺 RU'};
-  let langHtml = '';
-  Object.entries(langs).forEach(([key,val]) => {
-    langHtml += `<div class="lang-dist-item">${langNames[key]||key}<span class="ldi-count">${val}</span></div>`;
-  });
-  $('langDist').innerHTML = langHtml || '<div class="lang-dist-item">Veri yok</div>';
-
-  // Trend bars (last 7 days)
-  const days = [];
-  for(let i=6;i>=0;i--){
-    const d = new Date(); d.setDate(d.getDate()-i);
-    days.push(d.toISOString().split('T')[0]);
+function exportCSV(){
+  if(exportInProgress)return;
+  exportInProgress=true;
+  const btn=document.getElementById('csvBtn');
+  btn.disabled=true;
+  try{
+    const rows=leadsToRows(getFilteredLeads());
+    const bom='﻿';
+    const csv=bom+rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(',')).join('\n');
+    const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;
+    a.download='turyapqueen-leads-'+new Date().toISOString().slice(0,10)+'.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast('CSV indirildi ✓','success');
+  }finally{
+    btn.disabled=false;
+    exportInProgress=false;
   }
-  const dayCounts = days.map(d => allLeads.filter(l => l.created_at && l.created_at.startsWith(d)).length);
-  const maxCount = Math.max(...dayCounts, 1);
-  
-  let trendHtml = '';
-  days.forEach((d,idx) => {
-    const h = Math.round((dayCounts[idx]/maxCount)*40);
-    const isToday = idx===6;
-    trendHtml += `<div class="trend-bar-wrap">
-      <div class="trend-bar-fill ${isToday?'today':''}" style="height:${h}px"></div>
-      <div class="trend-bar-num">${dayCounts[idx]}</div>
-      <div class="trend-bar-day">${d.slice(5)}</div>
-    </div>`;
-  });
-  $('trendBars').innerHTML = trendHtml;
 }
 
-/* ─── FILTERS ─── */
-function renderFilters(){
-  const counts = {all:allLeads.length, yeni:0, aranacak:0, takip:0, kapali:0};
-  allLeads.forEach(l => { if(l.status) counts[l.status] = (counts[l.status]||0)+1; });
-  $('countAll').textContent = counts.all;
-  $('countYeni').textContent = counts.yeni;
-  $('countAranacak').textContent = counts.aranacak;
-  $('countTakip').textContent = counts.takip;
-  $('countKapali').textContent = counts.kapali;
-}
-
-function setFilter(f){
-  currentFilter = f;
-  document.querySelectorAll('.pill').forEach(p => p.classList.toggle('active', p.dataset.filter===f));
-  renderGrid();
-}
-
-function handleSearch(){
-  searchQuery = $('searchInput').value.toLowerCase();
-  renderGrid();
-}
-
-/* ─── GRID ─── */
-function renderGrid(){
-  let filtered = allLeads;
-  if(currentFilter!=='all') filtered = filtered.filter(l => l.status===currentFilter);
-  if(searchQuery) filtered = filtered.filter(l => 
-    (l.name||'').toLowerCase().includes(searchQuery) ||
-    (l.phone||'').includes(searchQuery) ||
-    (l.email||'').toLowerCase().includes(searchQuery) ||
-    (l.topic||'').toLowerCase().includes(searchQuery)
-  );
-
-  const grid = $('leadGrid');
-  if(!filtered.length){
-    grid.innerHTML = `<div class="empty-state">
-      <div class="empty-icon">🔍</div>
-      <p>Sonuç bulunamadı</p>
-    </div>`;
-    return;
+function exportExcel(){
+  if(exportInProgress)return;
+  exportInProgress=true;
+  const btn=document.getElementById('excelBtn');
+  btn.disabled=true;
+  try{
+    const rows=leadsToRows(getFilteredLeads());
+    const xml=['<?xml version="1.0" encoding="UTF-8"?>',
+      '<?mso-application progid="Excel.Sheet"?>',
+      '<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">',
+      '<Styles><Style ss:ID="h"><Font ss:Bold="1"/></Style></Styles>',
+      '<Worksheet ss:Name="Leads"><Table>'];
+    rows.forEach((r,i)=>{
+      xml.push('<Row>');
+      r.forEach(c=>{xml.push(`<Cell${i===0?' ss:StyleID="h"':''}><Data ss:Type="String">${String(c).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</Data></Cell>`);});
+      xml.push('</Row>');
+    });
+    xml.push('</Table></Worksheet></Workbook>');
+    const blob=new Blob([xml.join('')],{type:'application/vnd.ms-excel;charset=utf-8'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;
+    a.download='turyapqueen-leads-'+new Date().toISOString().slice(0,10)+'.xls';
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast('Excel indirildi ✓','success');
+  }finally{
+    btn.disabled=false;
+    exportInProgress=false;
   }
-
-  grid.innerHTML = filtered.map(lead => buildCard(lead)).join('');
 }
 
-/* ─── BUILD CARD ─── */
 function buildCard(lead){
-  const isNew = lead.status==='yeni';
-  const topicNames = {satis:'Satış', kiralama:'Kiralama', yatirim:'Yatırım', degerleme:'Değerleme', genel:'Genel'};
-  const statusNames = {yeni:'Yeni', aranacak:'Aranacak', takip:'Takip', kapali:'Kapalı'};
-  const timeStr = lead.created_at ? new Date(lead.created_at).toLocaleString('tr-TR') : '';
-  const phone = lead.phone || '';
-  const email = lead.email || '';
-  
-  return `<div class="lead-card ${isNew?'is-new':''}" data-id="${lead.id}">
+  const topic=topicMeta[lead.topic]||topicMeta.genel;
+  const status=statusMeta[lead.status]||statusMeta.yeni;
+  const flag=langFlags[lead.lang]||'🌐';
+  const timeAgo=relTime(lead.createdAt);
+  const phone=lead.phone||'';
+  const name=lead.name||'İsimsiz';
+  const safeId=(lead.id||'').replace(/[^a-zA-Z0-9_]/g,'_');
+  const ctxHtml=buildContext(lead);
+  const isNew=(Date.now()-new Date(lead.createdAt).getTime())<300000;
+  const statusOptions=Object.entries(statusMeta).map(([k,v])=>`<option value="${k}" ${lead.status===k?'selected':''}>${v.label}</option>`).join('');
+  return`<div class="lead-card${isNew?' is-new':''}" id="card_${safeId}">
     <div class="card-top">
       <div class="card-header">
-        <div>
-          <div class="card-name">${escapeHtml(lead.name||'İsimsiz')}</div>
-          <div class="card-time">${timeStr}</div>
+        <div class="card-header-left"><div class="card-name">${escHtml(name)}</div><div class="card-time">${timeAgo}${isNew?' 🟢':''}</div></div>
+        <div class="card-header-right">${phone?'':''}
+          <div class="card-lang">${flag}</div>
+          <button class="delete-btn" onclick="deleteLead('${lead.id}','${safeId}')" title="Sil">🗑️</button>
         </div>
-        <div class="card-lang">${lead.lang==='tr'?'🇹🇷':lead.lang==='en'?'🇬🇧':lead.lang==='ar'?'🇸🇦':lead.lang==='ru'?'🇷🇺':'🌐'}</div>
       </div>
       ${phone?`<div class="card-phone">
-        <span class="card-phone-num">${escapeHtml(phone)}</span>
-        <button class="copy-btn" onclick="copyText('${escapeHtml(phone)}')" title="Kopyala">
-          <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-        </button>
-      </div>`:''}
-      ${email?`<div class="card-phone" style="margin-top:-6px;margin-bottom:10px;">
-        <span class="card-phone-num" style="font-size:11px;color:var(--dimtxt);">${escapeHtml(email)}</span>
-      </div>`:''}
+        <span class="card-phone-num">${escHtml(phone)}</span>
+        <button class="copy-btn" onclick="copyPhone('${escHtml(phone)}')" title="Kopyala"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      </div>`:'<div class="card-phone"><span class="card-phone-num" style="color:var(--dimtxt);">Telefon yok</span></div>'}
       <div class="card-badges">
-        <span class="topic-badge ${lead.topic||'genel'}">${topicNames[lead.topic]||'Genel'}</span>
-        <span class="status-badge ${lead.status||'yeni'}">${statusNames[lead.status]||'Yeni'}</span>
+        <span class="topic-badge ${topic.cls}">${topic.label}</span>
+        <span class="status-badge ${status.cls}" id="sbadge_${safeId}">${status.label}</span>
       </div>
     </div>
-    <div class="card-context" id="ctx-${lead.id}">
-      ${buildContext(lead)}
-    </div>
+    ${ctxHtml?`<div class="card-context" id="ctx_${safeId}">${ctxHtml}</div>`:''}
     <div class="card-actions">
       <div class="action-btns">
-        ${phone?`<a class="act-btn call" href="tel:${phone}">📞 Ara</a>`:''}
-        ${phone?`<a class="act-btn wa" href="https://wa.me/${phone.replace(/[^0-9]/g,'')}" target="_blank">💬 WA</a>`:''}
-        <button class="act-btn expand" onclick="toggleContext(${lead.id})">💬</button>
-        <button class="act-btn delete" onclick="deleteLead(${lead.id})" title="Sil">🗑️</button>
+        ${phone?`<a href="tel:${encodeURIComponent(phone)}" class="act-btn call">📞 Ara</a><a href="https://wa.me/${phone.replace(/[^0-9]/g,'')}" target="_blank" class="act-btn wa">💬 WA</a>`:''}
+        ${ctxHtml?`<button class="act-btn expand" onclick="toggleCtx('${safeId}')">💬</button>`:''}
       </div>
-      <select class="status-select" onchange="updateStatus(${lead.id}, this.value)">
-        <option value="yeni" ${lead.status==='yeni'?'selected':''}>Yeni</option>
-        <option value="aranacak" ${lead.status==='aranacak'?'selected':''}>Aranacak</option>
-        <option value="takip" ${lead.status==='takip'?'selected':''}>Takip</option>
-        <option value="kapali" ${lead.status==='kapali'?'selected':''}>Kapalı</option>
-      </select>
+      <select class="status-select" onchange="updateStatus('${lead.id}',this.value,'${safeId}')">${statusOptions}</select>
     </div>
   </div>`;
 }
 
-/* ─── BUILD CONTEXT ─── */
 function buildContext(lead){
-  if(!lead.messages || !lead.messages.length){
-    return '<div class="context-title">Konuşma Geçmişi</div><div class="context-msg"><span class="ctx-text">Henüz mesaj yok.</span></div>';
+  if(!lead.context||!lead.context.length)return'';
+  const msgs=lead.context.slice(0,6);
+  const rows=msgs.map(m=>`<div class="context-msg"><span class="ctx-role ${m.role==='user'?'user':'bot'}">${m.role==='user'?'Müşteri':'Ask·Q'}</span><span class="ctx-text">${escHtml((m.text||'').substring(0,180))}${(m.text||'').length>180?'…':''}</span></div>`).join('');
+  return`<div class="context-title">Konuşma Özeti</div>${rows}`;
+}
+
+function toggleCtx(safeId){
+  const el=document.getElementById(`ctx_${safeId}`);
+  if(el)el.classList.toggle('open');
+}
+
+async function updateStatus(id,newStatus,safeId){
+  try{
+    const res=await fetch(`${WORKER_URL}/lead-status`,{method:'POST',headers:{'Content-Type':'application/json','x-leads-secret':secret},body:JSON.stringify({id,status:newStatus})});
+    const data=await res.json();
+    if(data.ok){
+      const lead=allLeads.find(l=>l.id===id);
+      if(lead){
+        lead.status=newStatus;
+        updateStats();
+        const badge=document.getElementById(`sbadge_${safeId}`);
+        if(badge){
+          const sm=statusMeta[newStatus]||statusMeta.yeni;
+          badge.className=`status-badge ${sm.cls}`;
+          badge.textContent=sm.label;
+        }
+        showToast('Durum güncellendi ✓','success');
+      }
+    }
+  }catch(e){
+    showToast('Güncelleme başarısız','error');
   }
-  
-  let html = '<div class="context-title">Konuşma Geçmişi</div>';
-  lead.messages.forEach(msg => {
-    const roleLabel = msg.role==='user'?'Kullanıcı':'Bot';
-    const roleClass = msg.role==='user'?'user':'bot';
-    html += `<div class="context-msg">
-      <span class="ctx-role ${roleClass}">${roleLabel}:</span>
-      <span class="ctx-text">${escapeHtml(msg.text||'')}</span>
-    </div>`;
-  });
-  return html;
 }
 
-function toggleContext(id){
-  const el = $(`ctx-${id}`);
-  el.classList.toggle('open');
-}
-
-/* ─── STATUS UPDATE ─── */
-function updateStatus(id, status){
-  const lead = allLeads.find(l => l.id===id);
-  if(!lead) return;
-  
-  lead.status = status;
-  
-  // API çağrısı (opsiyonel)
-  fetch(`${WORKER_URL}/api/leads/${id}/status`, {
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({status})
-  }).catch(()=>{});
-  
-  renderAll();
-  showToast('Durum güncellendi', 'success');
-}
-
-/* ─── DELETE LEAD ─── */
-function deleteLead(id){
-  if(!confirm('Bu leadi silmek istediğinize emin misiniz?')) return;
-  
-  allLeads = allLeads.filter(l => l.id !== id);
-  
-  // API çağrısı (opsiyonel)
-  fetch(`${WORKER_URL}/api/leads/${id}`, {
-    method:'DELETE'
-  }).catch(()=>{});
-  
-  renderAll();
-  showToast('Lead silindi', 'success');
-}
-
-/* ─── EXPORT CSV ─── */
-function exportCSV(){
-  if(isExporting) return;
-  isExporting = true;
-  $('exportBtn').disabled = true;
-  
-  let csv = 'ID,İsim,Telefon,E-posta,Konu,Durum,Dil,Tarih\n';
-  allLeads.forEach(l => {
-    csv += `${l.id},"${(l.name||'').replace(/"/g,'""')}","${l.phone||''}","${l.email||''}",${l.topic||''},${l.status||''},${l.lang||''},${l.created_at||''}\n`;
-  });
-  
-  const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `leads_${new Date().toISOString().split('T')[0]}.csv`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-  
-  showToast('CSV indirildi', 'success');
-  
-  setTimeout(() => {
-    isExporting = false;
-    $('exportBtn').disabled = false;
-  }, 2000);
-}
-
-/* ─── UTILITIES ─── */
-function escapeHtml(text){
-  if(!text) return '';
-  const div = document.createElement('div');
-  div.textContent = text;
-  return div.innerHTML;
-}
-
-function copyText(text){
-  navigator.clipboard.writeText(text).then(() => showToast('Kopyalandı', 'success'));
-}
-
-function showToast(msg, type='success'){
-  const t = $('toast');
-  t.textContent = msg;
-  t.className = `toast ${type} show`;
-  setTimeout(() => t.classList.remove('show'), 2500);
-}
-
-function showLoading(show){
-  $('loadingOverlay').style.display = show ? 'flex' : 'none';
-}
-
-function refreshData(){
-  $('refreshBtn').classList.add('spinning');
-  fetchLeads().then(() => {
-    setTimeout(() => $('refreshBtn').classList.remove('spinning'), 500);
-  });
-}
-
-/* ─── NOTIFICATIONS ─── */
-function checkNewLeads(leads){
-  const prevCount = parseInt($('bellBadge').textContent) || 0;
-  const newCount = leads.filter(l => l.status==='yeni').length;
-  if(newCount > prevCount && prevCount > 0){
-    showNewLeadAlert();
+async function deleteLead(id,safeId){
+  if(!confirm('Bu lead\'i silmek istediğinizden emin misiniz?'))return;
+  try{
+    const res=await fetch(`${WORKER_URL}/lead-delete`,{method:'POST',headers:{'Content-Type':'application/json','x-leads-secret':secret},body:JSON.stringify({id})});
+    const data=await res.json();
+    if(data.ok){
+      allLeads=allLeads.filter(l=>l.id!==id);
+      const card=document.getElementById(`card_${safeId}`);
+      if(card){
+        card.style.animation='cardOut 0.3s ease forwards';
+        setTimeout(()=>{card.remove();renderLeads();updateStats();},300);
+      }
+      showToast('Lead silindi ✓','success');
+    }else{
+      showToast('Silme başarısız','error');
+    }
+  }catch(e){
+    allLeads=allLeads.filter(l=>l.id!==id);
+    const card=document.getElementById(`card_${safeId}`);
+    if(card){
+      card.style.animation='cardOut 0.3s ease forwards';
+      setTimeout(()=>{card.remove();renderLeads();updateStats();},300);
+    }
+    showToast('Lead silindi (yerel) ✓','success');
   }
-  newLeadCount = newCount;
-  $('bellBadge').textContent = newCount;
-  $('bellBadge').classList.toggle('show', newCount > 0);
-  $('bellBtn').classList.toggle('has-new', newCount > 0);
 }
 
-function showNewLeadAlert(){
-  const alert = $('newLeadAlert');
-  alert.classList.add('show');
-  setTimeout(() => alert.classList.remove('show'), 8000);
+function copyPhone(phone){
+  navigator.clipboard.writeText(phone).then(()=>showToast('Kopyalandı ✓','success'));
 }
 
-function dismissAlert(){
-  $('newLeadAlert').classList.remove('show');
+function relTime(iso){
+  if(!iso)return'';
+  const diff=Date.now()-new Date(iso).getTime();
+  const mins=Math.floor(diff/60000);
+  if(mins<1)return'Az önce';
+  if(mins<60)return`${mins} dk önce`;
+  const hrs=Math.floor(mins/60);
+  if(hrs<24)return`${hrs} saat önce`;
+  const days=Math.floor(hrs/24);
+  if(days<7)return`${days} gün önce`;
+  return new Date(iso).toLocaleDateString('tr-TR',{day:'numeric',month:'short'});
 }
 
-function toggleNotifications(){
-  showToast(`${newLeadCount} yeni lead var`, 'success');
+function escHtml(s){
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-/* ─── DEMO: Auto-login for testing ─── */
-// setTimeout(() => { $('secretInput').value = 'TURYAP2025'; doLogin(); }, 500);
+function showToast(msg,type='success'){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.className=`toast ${type}`;
+  requestAnimationFrame(()=>t.classList.add('show'));
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+document.getElementById('secretInput').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+document.getElementById('loginBtn').addEventListener('click',doLogin);
 </script>
+<style>
+@keyframes cardOut{from{opacity:1;transform:none;}to{opacity:0;transform:translateX(-20px);}}
+</style>
 </body>
 </html>
