@@ -13,37 +13,44 @@ html,body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--navy)
 .login-card{background:rgba(255,255,255,0.04);border:1px solid rgba(184,147,42,0.25);border-radius:20px;padding:40px 36px;width:320px;text-align:center;position:relative;backdrop-filter:blur(12px);}
 .login-card h1{font-family:'Playfair Display',serif;font-size:22px;color:#fff;margin-bottom:4px;}
 .login-card p{font-size:12px;color:rgba(255,255,255,0.45);margin-bottom:28px;}
-.login-input{width:100%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:13px 18px;font-size:14px;color:#fff;outline:none;text-align:center;margin-bottom:14px;}
+.login-input{width:100%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:13px 18px;font-size:14px;color:#fff;outline:none;text-align:center;margin-bottom:14px;transition:border-color 0.2s;}
 .login-input:focus{border-color:var(--gold);}
-.login-btn{width:100%;padding:13px;background:var(--gold);border:none;border-radius:12px;color:var(--navy);font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;cursor:pointer;}
+.login-btn{width:100%;padding:13px;background:var(--gold);border:none;border-radius:12px;color:var(--navy);font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s;}
 .login-btn:hover{background:#c9a030;}
-#appShell{display:none;min-height:100vh;position:relative;z-index:1;padding-bottom:90px;}
-.lh-header{background:var(--navy);border-bottom:2px solid var(--gold);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.login-err{font-size:11px;color:#fca5a5;margin-top:10px;display:none;}
+#appShell{display:none;min-height:100vh;position:relative;z-index:1;padding-bottom:60px;}
+.lh-header{background:var(--navy);border-bottom:2px solid var(--gold);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(13,34,71,0.15);}
 .lh-brand{display:flex;align-items:center;gap:12px;flex:1;}
 .lh-brand-logo{width:46px;height:46px;background:#fff;border-radius:9px;overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.lh-brand-logo svg{width:40px;height:40px;}
 .lh-brand-info h1{font-family:'Playfair Display',serif;font-size:16px;color:#fff;}
 .lh-brand-info p{font-size:10px;color:rgba(255,255,255,0.45);margin-top:1px;}
 .lh-header-right{display:flex;align-items:center;gap:10px;}
-.refresh-btn{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:20px;padding:7px 14px;color:rgba(255,255,255,0.7);font-family:'Nunito',sans-serif;font-size:11px;cursor:pointer;display:flex;align-items:center;gap:5px;}
+.refresh-btn{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:20px;padding:7px 14px;color:rgba(255,255,255,0.7);font-family:'Nunito',sans-serif;font-size:11px;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all 0.2s;}
 .refresh-btn:hover{background:rgba(255,255,255,0.14);}
+.refresh-btn:disabled{opacity:0.5;cursor:not-allowed;}
 .refresh-btn.spinning svg{animation:spin 1s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
 .refresh-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;}
-.logout-btn{background:transparent;border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:7px 12px;color:rgba(255,255,255,0.45);font-size:11px;cursor:pointer;}
+.logout-btn{background:transparent;border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:7px 12px;color:rgba(255,255,255,0.45);font-size:11px;cursor:pointer;transition:all 0.2s;}
+.logout-btn:hover{border-color:rgba(255,255,255,0.3);color:rgba(255,255,255,0.7);}
 .stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:20px 24px 0;}
 .stat-card{background:var(--white);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow);position:relative;}
 .stat-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--navy);}
 .stat-num{font-family:'Playfair Display',serif;font-size:26px;font-weight:600;color:var(--navy);}
 .stat-label{font-size:10px;color:var(--dimtxt);text-transform:uppercase;margin-top:5px;}
-.filter-row{display:flex;align-items:center;gap:10px;padding:16px 24px 0;}
-.filter-pills{display:flex;gap:6px;}
-.pill{padding:7px 16px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1.5px solid #dce4ef;background:var(--white);color:var(--dimtxt);}
+.filter-row{display:flex;align-items:center;gap:10px;padding:16px 24px 0;flex-wrap:wrap;}
+.filter-pills{display:flex;gap:6px;flex-wrap:wrap;}
+.pill{padding:7px 16px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1.5px solid #dce4ef;background:var(--white);color:var(--dimtxt);transition:all 0.2s;}
+.pill:hover{border-color:var(--navy);color:var(--navy);}
 .pill.active{background:var(--navy);border-color:var(--navy);color:#fff;}
 .pill .count{display:inline-block;background:rgba(255,255,255,0.2);border-radius:10px;padding:1px 6px;font-size:10px;margin-left:4px;}
 .lead-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px;padding:16px 24px 32px;}
 .empty-state{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--dimtxt);}
-.lead-card{background:var(--white);border-radius:16px;padding:0;box-shadow:var(--shadow);overflow:hidden;animation:cardIn 0.3s ease;}
+.empty-icon{font-size:40px;opacity:0.4;margin-bottom:12px;}
+.lead-card{background:var(--white);border-radius:16px;padding:0;box-shadow:var(--shadow);overflow:hidden;animation:cardIn 0.3s ease;transition:all 0.2s;}
 @keyframes cardIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+.lead-card:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(13,34,71,0.12);}
 .lead-card.is-new{box-shadow:0 0 0 2px var(--gold),var(--shadow);}
 .card-top{padding:16px 16px 12px;border-bottom:1px solid #eef2f7;}
 .card-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;}
@@ -52,36 +59,41 @@ html,body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--navy)
 .card-time{font-size:10px;color:var(--dimtxt);margin-top:2px;}
 .card-header-right{display:flex;align-items:center;gap:4px;}
 .card-lang{font-size:16px;}
-.delete-btn{width:24px;height:24px;background:transparent;border:none;cursor:pointer;color:var(--red);font-size:14px;padding:0;}
-.delete-btn:hover{background:rgba(220,38,38,0.1);border-radius:6px;}
+.delete-btn{width:24px;height:24px;background:transparent;border:none;cursor:pointer;color:var(--red);font-size:14px;padding:0;transition:all 0.15s;border-radius:6px;}
+.delete-btn:hover{background:rgba(220,38,38,0.1);}
 .card-phone{font-size:13px;font-weight:600;color:#1e4a8a;margin-bottom:10px;}
 .card-badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
 .topic-badge{display:inline-flex;padding:4px 10px;border-radius:10px;font-size:11px;font-weight:600;}
 .topic-badge.satis{background:#eff6ff;color:#2563eb;}
 .topic-badge.kiralama{background:#f0fdf4;color:#16a34a;}
 .topic-badge.yatirim{background:#fefce8;color:#b8932a;}
+.topic-badge.degerleme{background:#faf5ff;color:#7c3aed;}
+.topic-badge.genel{background:#f1f5f9;color:#64748b;}
 .status-badge{display:inline-flex;padding:4px 10px;border-radius:10px;font-size:11px;font-weight:600;}
 .status-badge.yeni{background:#dbeafe;color:#2563eb;}
 .status-badge.aranacak{background:#fef3c7;color:#d97706;}
 .status-badge.takip{background:#d1fae5;color:#065f46;}
 .status-badge.kapali{background:#f1f5f9;color:#64748b;}
-.card-context{padding:0 16px;max-height:0;overflow:hidden;transition:max-height 0.3s;}
-.card-context.open{max-height:250px;padding:10px 16px;overflow-y:auto;}
+.card-context{padding:0 16px;max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s ease;}
+.card-context.open{max-height:400px;padding:10px 16px;overflow-y:auto;}
+.context-title{font-size:10px;color:var(--dimtxt);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;font-weight:700;}
 .context-msg{display:flex;gap:6px;margin-bottom:6px;}
 .ctx-role{font-size:10px;font-weight:700;min-width:40px;color:var(--navy);}
-.ctx-text{font-size:11px;color:#4a6080;line-height:1.5;}
+.ctx-text{font-size:11px;color:#4a6080;line-height:1.5;word-wrap:break-word;}
 .analysis-box{background:#f0fdf4;border-left:3px solid var(--green);padding:10px;border-radius:6px;margin-top:8px;}
-.analysis-text{font-size:11px;color:#047857;line-height:1.5;}
+.analysis-title{font-size:10px;font-weight:700;color:var(--green);margin-bottom:4px;}
+.analysis-text{font-size:11px;color:#047857;line-height:1.5;word-wrap:break-word;}
 .card-actions{padding:12px 16px;background:#eef2f7;display:flex;gap:8px;align-items:center;}
 .action-btns{display:flex;gap:6px;}
-.act-btn{padding:7px 14px;border-radius:12px;font-size:12px;font-weight:600;border:none;cursor:pointer;text-decoration:none;background:#dcfce7;color:#16a34a;display:flex;align-items:center;gap:4px;}
+.act-btn{padding:7px 14px;border-radius:12px;font-size:12px;font-weight:600;border:none;cursor:pointer;text-decoration:none;background:#dcfce7;color:#16a34a;display:flex;align-items:center;gap:4px;transition:all 0.2s;}
 .act-btn:hover{background:#16a34a;color:#fff;}
-.status-select{background:var(--white);border:1.5px solid #dce4ef;border-radius:10px;padding:6px 10px;font-size:11px;color:var(--navy);cursor:pointer;margin-left:auto;}
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(10px);padding:10px 22px;border-radius:20px;font-size:13px;font-weight:600;opacity:0;transition:all 0.3s;z-index:9999;white-space:nowrap;}
+.status-select{background:var(--white);border:1.5px solid #dce4ef;border-radius:10px;padding:6px 10px;font-size:11px;color:var(--navy);cursor:pointer;margin-left:auto;outline:none;transition:border-color 0.2s;}
+.status-select:focus{border-color:var(--gold);}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(10px);padding:10px 22px;border-radius:20px;font-size:13px;font-weight:600;opacity:0;transition:all 0.3s;z-index:9999;white-space:nowrap;pointer-events:none;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 .toast.success{background:var(--green);color:#fff;}
 .toast.error{background:var(--red);color:#fff;}
-@media(max-width:640px){.stats-bar{grid-template-columns:1fr 1fr;padding:16px 16px 0;}.lead-grid{grid-template-columns:1fr;padding:16px;}}
+@media(max-width:640px){.stats-bar{grid-template-columns:1fr 1fr;padding:16px 16px 0;}.lead-grid{grid-template-columns:1fr;padding:16px;}.pill .count{display:none;}}
 </style>
 </head>
 <body>
@@ -91,8 +103,9 @@ html,body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--navy)
     <div class="login-logo"><svg viewBox="0 0 100 100"><path d="M50 10 L85 35 L85 85 Q85 95 75 95 L25 95 Q15 95 15 85 L15 35 Z" fill="#0d2247"/><circle cx="50" cy="50" r="18" fill="#b8932a"/></svg></div>
     <h1>Lead Hunter</h1>
     <p>Turyap Queen — Ask·Q</p>
-    <input class="login-input" id="secretInput" type="password" placeholder="Gizli Anahtar">
+    <input class="login-input" id="secretInput" type="password" placeholder="Gizli Anahtar" autocomplete="off">
     <button class="login-btn" id="loginBtn">Giriş</button>
+    <div class="login-err" id="loginErr"></div>
   </div>
 </div>
 
@@ -103,7 +116,7 @@ html,body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--navy)
       <div class="lh-brand-info"><h1>Lead Hunter</h1><p>Turyap Queen — Ask·Q</p></div>
     </div>
     <div class="lh-header-right">
-      <button class="refresh-btn" id="refreshBtn" onclick="loadLeads(true)"><svg viewBox="0 0 24 24"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>Yenile</button>
+      <button class="refresh-btn" id="refreshBtn" onclick="manualRefresh()" title="Yenile"><svg viewBox="0 0 24 24"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>Yenile</button>
       <button class="logout-btn" onclick="doLogout()">Çıkış</button>
     </div>
   </header>
@@ -117,11 +130,11 @@ html,body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--navy)
 
   <div class="filter-row">
     <div class="filter-pills">
-      <div class="pill active" onclick="setFilter('all',this)">Tümü <span class="count" id="cAll">0</span></div>
-      <div class="pill" onclick="setFilter('yeni',this)">🔵 Yeni <span class="count" id="cYeni">0</span></div>
-      <div class="pill" onclick="setFilter('aranacak',this)">🟡 Aranacak <span class="count" id="cAranacak">0</span></div>
-      <div class="pill" onclick="setFilter('takip',this)">🟢 Takipte <span class="count" id="cTakip">0</span></div>
-      <div class="pill" onclick="setFilter('kapali',this)">⚪ Kapandı <span class="count" id="cKapali">0</span></div>
+      <div class="pill active" data-filter="all" onclick="setFilter('all', this)">Tümü <span class="count" id="cAll">0</span></div>
+      <div class="pill" data-filter="yeni" onclick="setFilter('yeni', this)">🔵 Yeni <span class="count" id="cYeni">0</span></div>
+      <div class="pill" data-filter="aranacak" onclick="setFilter('aranacak', this)">🟡 Aranacak <span class="count" id="cAranacak">0</span></div>
+      <div class="pill" data-filter="takip" onclick="setFilter('takip', this)">🟢 Takipte <span class="count" id="cTakip">0</span></div>
+      <div class="pill" data-filter="kapali" onclick="setFilter('kapali', this)">⚪ Kapandı <span class="count" id="cKapali">0</span></div>
     </div>
   </div>
 
@@ -132,75 +145,138 @@ html,body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--navy)
 
 <script>
 const WORKER_URL='https://groq-proxy.miyicioglu.workers.dev';
-let secret='',allLeads=[],currentFilter='all',lastLoadTime=0,loadDelay=5000;
-const langFlags={tr:'🇹🇷',en:'🇺🇸',ar:'🇸🇦',ru:'🇷🇺',fr:'🇫🇷',de:'🇩🇪',es:'🇪🇸'};
+const AUTO_REFRESH_INTERVAL=20000;
+const MIN_REFRESH_DELAY=2000;
+const DATE_FORMAT_REGEX=/^\d{4}-\d{2}-\d{2}/;
+
+let secret='';
+let allLeads=[];
+let currentFilter='all';
+let lastRefreshTime=0;
+let refreshInProgress=false;
+
+const langFlags={tr:'🇹🇷',en:'🇺🇸',ar:'🇸🇦',ru:'🇷🇺',fr:'🇫🇷',de:'🇩🇪',es:'🇪🇸',pt:'🇵🇹',ja:'🇯🇵',zh:'🇨🇳'};
 const topicMeta={satis:{label:'Satış',cls:'satis'},kiralama:{label:'Kiralama',cls:'kiralama'},yatirim:{label:'Yatırım',cls:'yatirim'},degerleme:{label:'Değerleme',cls:'degerleme'},genel:{label:'Genel',cls:'genel'}};
 const statusMeta={yeni:{label:'Yeni',cls:'yeni'},aranacak:{label:'Aranacak',cls:'aranacak'},takip:{label:'Takipte',cls:'takip'},kapali:{label:'Kapandı',cls:'kapali'}};
 
 function doLogin(){
-  const inp=document.getElementById('secretInput');
-  secret=inp.value.trim();
-  if(!secret){showToast('Secret giriniz','error');return;}
+  const input=document.getElementById('secretInput');
+  const err=document.getElementById('loginErr');
+  secret=(input.value||'').trim();
+  err.style.display='none';
+  
+  if(!secret){
+    err.textContent='Gizli Anahtar boş olamaz';
+    err.style.display='block';
+    return;
+  }
+  
   document.getElementById('appShell').style.display='block';
   document.getElementById('loginScreen').style.display='none';
-  loadLeads(false);
+  loadLeads();
+  setInterval(()=>loadLeads(), AUTO_REFRESH_INTERVAL);
 }
 
 function doLogout(){
   secret='';
+  allLeads=[];
+  currentFilter='all';
   document.getElementById('appShell').style.display='none';
   document.getElementById('loginScreen').style.display='flex';
   document.getElementById('secretInput').value='';
 }
 
-async function loadLeads(manual){
+function manualRefresh(){
   const now=Date.now();
-  if(!manual && now-lastLoadTime<loadDelay)return;
-  lastLoadTime=now;
+  if(now-lastRefreshTime < MIN_REFRESH_DELAY){
+    showToast('Çok hızlı yenileme','error');
+    return;
+  }
+  loadLeads();
+}
+
+async function loadLeads(){
+  if(refreshInProgress)return;
+  refreshInProgress=true;
+  
+  const btn=document.getElementById('refreshBtn');
+  btn.classList.add('spinning');
+  btn.disabled=true;
+  lastRefreshTime=Date.now();
   
   try{
-    document.getElementById('refreshBtn').classList.add('spinning');
-    const res=await fetch(`${WORKER_URL}/leads`,{headers:{'x-leads-secret':secret}});
+    const res=await fetch(`${WORKER_URL}/leads`, {
+      headers:{'x-leads-secret':secret}
+    });
+    
+    if(!res.ok){
+      throw new Error(`HTTP ${res.status}`);
+    }
+    
     const data=await res.json();
     
-    if(!Array.isArray(data)||!data.length){
-      console.warn('Invalid API response');
+    if(!Array.isArray(data)){
+      console.warn('API returned non-array:', typeof data);
       return;
     }
     
-    // DeDuplicate by ID - ÇOKLAMA SORUNU ÇÖZÜLDÜ
-    const seenIds=new Set();
-    const unique=[];
-    for(const lead of data){
-      if(lead.id && !seenIds.has(lead.id)){
-        seenIds.add(lead.id);
-        unique.push(lead);
-      }
-    }
-    
-    allLeads=unique;
+    const deduped=deduplicateLeads(data);
+    allLeads=deduped;
     updateStats();
     renderLeads();
+    
   }catch(e){
-    console.log('API failed:',e.message);
+    console.error('Load failed:', e.message);
+    showToast('Veri yükleme başarısız','error');
   }finally{
-    document.getElementById('refreshBtn').classList.remove('spinning');
+    btn.classList.remove('spinning');
+    btn.disabled=false;
+    refreshInProgress=false;
   }
 }
 
+function deduplicateLeads(leads){
+  const seen=new Map();
+  const unique=[];
+  
+  for(const lead of leads){
+    const id=String(lead.id||'').trim();
+    if(id && !seen.has(id)){
+      seen.set(id, true);
+      unique.push(lead);
+    }
+  }
+  
+  return unique;
+}
+
 function updateStats(){
-  const today=new Date().toDateString();
+  const today=new Date().toISOString().split('T')[0];
   const tot=allLeads.length;
-  const toDay=allLeads.filter(l=>new Date(l.createdAt).toDateString()===today).length;
-  const nw=allLeads.filter(l=>l.status==='yeni'||l.status==='aranacak').length;
-  const done=allLeads.filter(l=>l.status==='kapali').length;
+  
+  let toDay=0;
+  for(const lead of allLeads){
+    if(lead.createdAt && lead.createdAt.substring(0, 10)===today){
+      toDay++;
+    }
+  }
+  
+  let nw=0, done=0;
+  for(const lead of allLeads){
+    if(lead.status==='yeni' || lead.status==='aranacak') nw++;
+    if(lead.status==='kapali') done++;
+  }
   
   document.getElementById('sTot').textContent=tot;
   document.getElementById('sToday').textContent=toDay;
   document.getElementById('sNew').textContent=nw;
   document.getElementById('sDone').textContent=done;
   
-  const counts={all:tot,yeni:allLeads.filter(l=>l.status==='yeni').length,aranacak:allLeads.filter(l=>l.status==='aranacak').length,takip:allLeads.filter(l=>l.status==='takip').length,kapali:allLeads.filter(l=>l.status==='kapali').length};
+  const counts={all:tot,yeni:0,aranacak:0,takip:0,kapali:0};
+  for(const lead of allLeads){
+    if(lead.status in counts) counts[lead.status]++;
+  }
+  
   document.getElementById('cAll').textContent=counts.all;
   document.getElementById('cYeni').textContent=counts.yeni;
   document.getElementById('cAranacak').textContent=counts.aranacak;
@@ -208,7 +284,7 @@ function updateStats(){
   document.getElementById('cKapali').textContent=counts.kapali;
 }
 
-function setFilter(f,el){
+function setFilter(f, el){
   currentFilter=f;
   document.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));
   el.classList.add('active');
@@ -217,11 +293,13 @@ function setFilter(f,el){
 
 function renderLeads(){
   let filtered=allLeads;
-  if(currentFilter!=='all')filtered=filtered.filter(l=>l.status===currentFilter);
+  if(currentFilter!=='all'){
+    filtered=allLeads.filter(l=>l.status===currentFilter);
+  }
   
   const grid=document.getElementById('leadGrid');
   if(filtered.length===0){
-    grid.innerHTML='<div class="empty-state"><div style="font-size:40px;opacity:0.4;margin-bottom:12px;">🔍</div><p>Lead bulunamadı</p></div>';
+    grid.innerHTML='<div class="empty-state"><div class="empty-icon">🔍</div><p>Lead bulunamadı</p></div>';
     return;
   }
   
@@ -233,12 +311,16 @@ function buildCard(lead){
   const status=statusMeta[lead.status]||statusMeta.yeni;
   const flag=langFlags[lead.lang]||'🌐';
   const timeAgo=relTime(lead.createdAt);
-  const phone=lead.phone||'';
-  const name=lead.name||'İsimsiz';
-  const safeId=String(lead.id).replace(/[^a-zA-Z0-9_]/g,'_');
+  const phone=String(lead.phone||'').trim();
+  const name=String(lead.name||'İsimsiz').trim();
+  const leadId=String(lead.id||'').trim();
+  const safeId=leadId.replace(/[^a-zA-Z0-9_]/g, '_');
   const ctxHtml=buildContext(lead);
   const isNew=(Date.now()-new Date(lead.createdAt).getTime())<300000;
-  const statusOptions=Object.entries(statusMeta).map(([k,v])=>`<option value="${k}" ${lead.status===k?'selected':''}>${v.label}</option>`).join('');
+  
+  const statusOptions=Object.entries(statusMeta)
+    .map(([k,v])=>`<option value="${k}" ${lead.status===k?'selected':''}>${v.label}</option>`)
+    .join('');
   
   return`<div class="lead-card${isNew?' is-new':''}" id="card_${safeId}">
     <div class="card-top">
@@ -249,22 +331,22 @@ function buildCard(lead){
         </div>
         <div class="card-header-right">
           <div class="card-lang">${flag}</div>
-          <button class="delete-btn" onclick="deleteLead('${lead.id}','${safeId}')">🗑️</button>
+          <button class="delete-btn" onclick="deleteLead('${leadId}', '${safeId}')" title="Sil">🗑️</button>
         </div>
       </div>
       <div class="card-phone">${phone?escHtml(phone):'📱 Telefon yok'}</div>
       <div class="card-badges">
         <span class="topic-badge ${topic.cls}">${topic.label}</span>
-        <span class="status-badge ${status.cls}">${status.label}</span>
+        <span class="status-badge ${status.cls}" id="sbadge_${safeId}">${status.label}</span>
       </div>
     </div>
     ${ctxHtml?`<div class="card-context" id="ctx_${safeId}">${ctxHtml}</div>`:''}
     <div class="card-actions">
       <div class="action-btns">
-        ${phone?`<a href="tel:${encodeURIComponent(phone)}" class="act-btn">📞 Ara</a><a href="https://wa.me/${phone.replace(/[^0-9]/g,'')}" target="_blank" class="act-btn">💬 WA</a>`:''}
+        ${phone?`<a href="tel:${encodeURIComponent(phone)}" class="act-btn">📞 Ara</a><a href="https://wa.me/${phone.replace(/[^0-9]/g, '')}" target="_blank" class="act-btn">💬 WA</a>`:''}
         ${ctxHtml?`<button class="act-btn" onclick="toggleCtx('${safeId}')" style="background:var(--white);color:var(--dimtxt);border:1px solid #dce4ef;">💬</button>`:''}
       </div>
-      <select class="status-select" onchange="updateStatus('${lead.id}',this.value)">${statusOptions}</select>
+      <select class="status-select" onchange="updateStatus('${leadId}', this.value, '${safeId}')">${statusOptions}</select>
     </div>
   </div>`;
 }
@@ -273,13 +355,18 @@ function buildContext(lead){
   let html='';
   
   if(lead.context && Array.isArray(lead.context) && lead.context.length>0){
-    const msgs=lead.context.slice(0,4);
-    const rows=msgs.map(m=>`<div class="context-msg"><span class="ctx-role">${m.role==='user'?'👤':'🤖'}</span><span class="ctx-text">${escHtml((m.text||'').substring(0,180))}</span></div>`).join('');
-    html+=`<div class="context-title" style="font-size:10px;color:#7a90a8;text-transform:uppercase;margin-bottom:8px;font-weight:700;">💬 Konuşma</div>${rows}`;
+    const msgs=lead.context.slice(0, 5);
+    const rows=msgs.map(m=>{
+      const role=m.role==='user'?'👤':'🤖';
+      const text=String(m.text||'').substring(0, 200);
+      return `<div class="context-msg"><span class="ctx-role">${role}</span><span class="ctx-text">${escHtml(text)}</span></div>`;
+    }).join('');
+    html+=`<div class="context-title">💬 Konuşma</div>${rows}`;
   }
   
   if(lead.analysis_result){
-    html+=`<div class="analysis-box"><div style="font-size:10px;font-weight:700;color:#059669;margin-bottom:4px;">📊 Analiz</div><div class="analysis-text">${escHtml((lead.analysis_result||'').substring(0,300))}</div></div>`;
+    const text=String(lead.analysis_result||'').substring(0, 400);
+    html+=`<div class="analysis-box"><div class="analysis-title">📊 Analiz</div><div class="analysis-text">${escHtml(text)}</div></div>`;
   }
   
   return html;
@@ -287,60 +374,85 @@ function buildContext(lead){
 
 function toggleCtx(safeId){
   const el=document.getElementById(`ctx_${safeId}`);
-  if(el)el.classList.toggle('open');
+  if(el) el.classList.toggle('open');
 }
 
-function updateStatus(id,newStatus){
-  const lead=allLeads.find(l=>l.id==id);
-  if(lead){
-    lead.status=newStatus;
-    updateStats();
-    renderLeads();
-    showToast('Durum güncellendi ✓','success');
+function updateStatus(id, newStatus, safeId){
+  const lead=allLeads.find(l=>l.id===id);
+  if(!lead) return;
+  
+  lead.status=newStatus;
+  updateStats();
+  renderLeads();
+  
+  const badge=document.getElementById(`sbadge_${safeId}`);
+  if(badge){
+    const sm=statusMeta[newStatus]||statusMeta.yeni;
+    badge.className=`status-badge ${sm.cls}`;
+    badge.textContent=sm.label;
   }
+  
+  showToast('Durum güncellendi ✓','success');
 }
 
-function deleteLead(id,safeId){
-  if(!confirm('Silmek istediğinizden emin misiniz?'))return;
-  allLeads=allLeads.filter(l=>l.id!=id);
+function deleteLead(id, safeId){
+  if(!confirm('Silmek istediğinizden emin misiniz?')) return;
+  
+  allLeads=allLeads.filter(l=>l.id!==id);
   const card=document.getElementById(`card_${safeId}`);
+  
   if(card){
     card.style.opacity='0';
     card.style.transform='translateX(-20px)';
-    setTimeout(()=>{card.remove();updateStats();renderLeads();},300);
+    setTimeout(()=>{
+      if(card.parentNode) card.remove();
+      updateStats();
+      renderLeads();
+    }, 300);
   }
+  
   showToast('Lead silindi ✓','success');
 }
 
 function relTime(iso){
-  if(!iso)return'';
-  const diff=Date.now()-new Date(iso).getTime();
+  if(!iso) return '';
+  
+  const date=new Date(iso);
+  if(isNaN(date.getTime())) return '';
+  
+  const diff=Date.now()-date.getTime();
   const mins=Math.floor(diff/60000);
-  if(mins<1)return'Az önce';
-  if(mins<60)return`${mins}dk`;
+  
+  if(mins<1) return 'Az önce';
+  if(mins<60) return `${mins}dk`;
+  
   const hrs=Math.floor(mins/60);
-  if(hrs<24)return`${hrs}h`;
+  if(hrs<24) return `${hrs}h`;
+  
   const days=Math.floor(hrs/24);
-  return days<7?`${days}g`:new Date(iso).toLocaleDateString('tr-TR',{day:'numeric',month:'short'});
+  if(days<7) return `${days}g`;
+  
+  return date.toLocaleDateString('tr-TR', {day:'numeric', month:'short'});
 }
 
 function escHtml(s){
-  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  const map={'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'};
+  return String(s||'').replace(/[&<>"']/g, c=>map[c]);
 }
 
-function showToast(msg,type='success'){
+function showToast(msg, type='success'){
   const t=document.getElementById('toast');
   t.textContent=msg;
   t.className=`toast ${type}`;
   t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2500);
+  setTimeout(()=>t.classList.remove('show'), 2500);
 }
 
-document.getElementById('secretInput').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
-document.getElementById('loginBtn').addEventListener('click',doLogin);
+document.getElementById('secretInput').addEventListener('keydown', e=>{
+  if(e.key==='Enter') doLogin();
+});
 
-// Auto refresh her 20 saniyede
-setInterval(()=>loadLeads(false),20000);
+document.getElementById('loginBtn').addEventListener('click', doLogin);
 </script>
 </body>
 </html>
