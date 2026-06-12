@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -18,7 +17,6 @@
 html,body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--navy);min-height:100%;}
 body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 70% 50% at 10% 0%,rgba(30,74,138,0.07) 0%,transparent 60%),radial-gradient(ellipse 50% 40% at 90% 100%,rgba(184,147,42,0.06) 0%,transparent 55%);pointer-events:none;z-index:0;}
 
-/* LOGIN */
 #loginScreen{position:fixed;inset:0;background:var(--navy);display:flex;align-items:center;justify-content:center;z-index:1000;}
 #loginScreen::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 30% 40%,rgba(184,147,42,0.12) 0%,transparent 70%);}
 .login-card{background:rgba(255,255,255,0.04);border:1px solid rgba(184,147,42,0.25);border-radius:20px;padding:40px 36px;width:320px;text-align:center;position:relative;backdrop-filter:blur(12px);box-shadow:0 20px 60px rgba(0,0,0,0.3);}
@@ -33,10 +31,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .login-btn:hover{background:var(--gold-lt);}
 .login-err{font-size:12px;color:#f87171;margin-top:10px;display:none;}
 
-/* APP */
 #appShell{display:none;min-height:100vh;position:relative;z-index:1;padding-bottom:90px;}
 
-/* BAŞLIK */
 .lh-header{background:var(--navy);border-bottom:2px solid var(--gold);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(13,34,71,0.2);}
 .lh-brand{display:flex;align-items:center;gap:12px;}
 .lh-brand-logo{width:46px;height:46px;background:#fff;border-radius:9px;overflow:hidden;box-shadow:0 0 0 1.5px var(--gold),0 2px 10px rgba(0,0,0,0.25);flex-shrink:0;display:flex;align-items:center;justify-content:center;}
@@ -45,7 +41,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .lh-brand-info p{font-size:10px;color:rgba(255,255,255,0.45);margin-top:1px;}
 .lh-header-right{display:flex;align-items:center;gap:10px;}
 
-/* BİLDİRİM ÇANI — YENİ */
 .bell-btn{position:relative;width:36px;height:36px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;}
 .bell-btn:hover{background:rgba(255,255,255,0.16);border-color:var(--gold);}
 .bell-btn svg{width:16px;height:16px;stroke:rgba(255,255,255,0.7);fill:none;stroke-width:2;}
@@ -64,15 +59,9 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .logout-btn{background:transparent;border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:7px 12px;color:rgba(255,255,255,0.45);font-size:11px;font-family:'Nunito',sans-serif;cursor:pointer;transition:all 0.2s;}
 .logout-btn:hover{border-color:rgba(255,255,255,0.3);color:rgba(255,255,255,0.7);}
 
-/* YENİ KAYIT BİLDİRİM PANELI */
 .new-lead-alert{position:fixed;top:80px;left:50%;transform:translateX(-50%) translateY(-20px);background:var(--navy);border:2px solid var(--gold);border-radius:16px;padding:14px 24px;min-width:280px;text-align:center;box-shadow:0 8px 32px rgba(13,34,71,0.35);z-index:9990;opacity:0;transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);pointer-events:none;backdrop-filter:blur(8px);}
 .new-lead-alert.show{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto;}
-.nla-icon{font-size:22px;margin-bottom:6px;}
-.nla-title{font-family:'Playfair Display',serif;font-size:15px;color:#fff;margin-bottom:3px;}
-.nla-sub{font-size:11px;color:rgba(255,255,255,0.6);}
-.nla-close{margin-top:10px;background:var(--gold);border:none;border-radius:8px;padding:6px 16px;color:var(--navy);font-family:'Nunito',sans-serif;font-size:11px;font-weight:700;cursor:pointer;}
 
-/* ANA İSTATİSTİKLER */
 .stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:20px 24px 0;}
 .stat-card{background:var(--white);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow);position:relative;overflow:hidden;}
 .stat-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;}
@@ -83,7 +72,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .stat-num{font-family:'Playfair Display',serif;font-size:26px;font-weight:600;color:var(--navy);line-height:1;}
 .stat-label{font-size:10px;color:var(--dimtxt);text-transform:uppercase;letter-spacing:0.1em;margin-top:5px;}
 
-/* ANALİTİK */
 .analytics-section{padding:16px 24px 0;display:flex;flex-direction:column;gap:12px;}
 .analytics-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .analytics-card{background:var(--white);border-radius:14px;padding:14px 16px;box-shadow:var(--shadow);}
@@ -103,7 +91,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .trend-bar-day{font-size:8px;color:var(--dimtxt);text-align:center;}
 .trend-bar-num{font-size:9px;font-weight:700;color:var(--navy);}
 
-/* FİLTRE */
 .filter-row{display:flex;align-items:center;gap:10px;padding:16px 24px 0;flex-wrap:wrap;}
 .filter-pills{display:flex;gap:6px;flex-wrap:wrap;flex:1;}
 .pill{padding:7px 16px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.2s;border:1.5px solid var(--bg-mid);background:var(--white);color:var(--dimtxt);}
@@ -116,13 +103,11 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .search-input:focus{border-color:var(--navy-lt);}
 .search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:14px;height:14px;stroke:var(--dimtxt);fill:none;stroke-width:2;}
 
-/* LEAD GRID */
 .lead-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px;padding:16px 24px 32px;}
 .empty-state{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--dimtxt);}
 .empty-state .empty-icon{font-size:40px;margin-bottom:12px;opacity:0.4;}
 .empty-state p{font-size:13px;}
 
-/* LEAD KARTI */
 .lead-card{background:var(--white);border-radius:16px;padding:0;box-shadow:var(--shadow);overflow:hidden;transition:all 0.2s;animation:cardIn 0.3s cubic-bezier(0.34,1.56,0.64,1);}
 @keyframes cardIn{from{opacity:0;transform:translateY(6px) scale(0.98);}to{opacity:1;transform:none;}}
 .lead-card:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(13,34,71,0.12);}
@@ -148,10 +133,10 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .status-badge{display:inline-flex;align-items:center;gap:3px;padding:4px 10px;border-radius:10px;font-size:11px;font-weight:600;}
 .status-badge.yeni{background:#dbeafe;color:#2563eb;}.status-badge.aranacak{background:#fef3c7;color:#d97706;}.status-badge.takip{background:#d1fae5;color:#065f46;}.status-badge.kapali{background:#f1f5f9;color:#64748b;}
 .card-context{padding:0 16px;max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s ease;}
-.card-context.open{max-height:200px;padding:10px 16px 12px;}
-.context-title{font-size:10px;color:var(--dimtxt);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;}
+.card-context.open{max-height:300px;padding:10px 16px 12px;overflow-y:auto;}
+.context-title{font-size:10px;color:var(--dimtxt);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;font-weight:700;}
 .context-msg{display:flex;gap:6px;margin-bottom:6px;}
-.ctx-role{font-size:10px;font-weight:700;min-width:40px;padding-top:1px;}
+.ctx-role{font-size:10px;font-weight:700;min-width:50px;padding-top:1px;}
 .ctx-role.user{color:var(--navy-lt);}.ctx-role.bot{color:var(--gold);}
 .ctx-text{font-size:11px;color:#4a6080;line-height:1.5;}
 .card-actions{padding:12px 16px;background:var(--bg);display:flex;align-items:center;justify-content:space-between;gap:8px;}
@@ -163,7 +148,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .status-select{background:var(--white);border:1.5px solid var(--bg-mid);border-radius:10px;padding:6px 10px;font-size:11px;font-family:'Nunito',sans-serif;font-weight:600;color:var(--navy);cursor:pointer;outline:none;transition:border-color 0.2s;}
 .status-select:focus{border-color:var(--gold);}
 
-/* FLOATING Q */
 .float-q{position:fixed;bottom:28px;right:24px;width:54px;height:54px;background:var(--navy);border:2px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 20px rgba(13,34,71,0.35);z-index:200;transition:all 0.25s;animation:floatBounce 3s ease-in-out infinite;text-decoration:none;}
 .float-q:hover{transform:scale(1.1);box-shadow:0 8px 28px rgba(13,34,71,0.45);animation:none;}
 .float-q svg{width:34px;height:34px;}
@@ -171,7 +155,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .float-q:hover .float-q-tip{opacity:1;}
 @keyframes floatBounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
 
-/* YÜKLEMEve TOAST */
 .loading-overlay{position:fixed;inset:0;background:rgba(238,242,247,0.85);display:flex;align-items:center;justify-content:center;z-index:500;backdrop-filter:blur(4px);}
 .loading-dots{display:flex;gap:6px;}
 .loading-dots span{width:10px;height:10px;background:var(--navy);border-radius:50%;animation:bonce 1.2s infinite;}
@@ -183,7 +166,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .toast.success{background:#16a34a;color:#fff;}
 .toast.error{background:#dc2626;color:#fff;}
 
-/* TARİH FİLTRE */
 .date-filter-row{display:flex;align-items:center;gap:10px;padding:10px 24px 0;flex-wrap:wrap;}
 .date-filter-row label{font-size:11px;color:var(--dimtxt);font-weight:700;}
 .date-input{background:var(--white);border:1.5px solid var(--bg-mid);border-radius:20px;padding:7px 14px;font-size:12px;font-family:'Nunito',sans-serif;color:var(--navy);outline:none;transition:border-color 0.2s;cursor:pointer;}
@@ -192,8 +174,9 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .export-btn:hover:not(:disabled){background:#c9a030;border-color:#c9a030;}
 .export-btn:disabled{opacity:0.5;cursor:not-allowed;}
 .export-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;}
-@media(max-width:640px){.date-filter-row{padding:8px 16px 0;}.export-btn span{display:none;}}
 @media(max-width:640px){
+  .date-filter-row{padding:8px 16px 0;}
+  .export-btn span{display:none;}
   .stats-bar{grid-template-columns:1fr 1fr;padding:16px 16px 0;}
   .lead-grid{grid-template-columns:1fr;padding:16px;}
   .analytics-row{grid-template-columns:1fr;}
@@ -201,15 +184,12 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
   .search-input{width:100%;}
 }
 
-/* YENİ KAYIT BİLDİRİM PANELİ */
 #newLeadAlert{position:fixed;top:80px;left:50%;transform:translateX(-50%) translateY(-20px);background:var(--navy);border:2px solid var(--gold);border-radius:16px;padding:14px 24px;min-width:280px;text-align:center;box-shadow:0 8px 32px rgba(13,34,71,0.35);z-index:9990;opacity:0;transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);pointer-events:none;backdrop-filter:blur(8px);}
 #newLeadAlert.show{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto;}
-
 </style>
 </head>
 <body>
 
-<!-- Login Screen -->
 <div id="loginScreen">
   <div class="login-card">
     <div class="login-logo">
@@ -223,9 +203,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
   </div>
 </div>
 
-<!-- App Shell -->
 <div id="appShell">
-  <!-- Header -->
   <header class="lh-header">
     <div class="lh-brand">
       <div class="lh-brand-logo">
@@ -250,7 +228,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     </div>
   </header>
 
-  <!-- Stats -->
   <div class="stats-bar">
     <div class="stat-card s-total"><div class="stat-num" id="sTot">—</div><div class="stat-label">Toplam Lead</div></div>
     <div class="stat-card s-today"><div class="stat-num" id="sToday">—</div><div class="stat-label">Bugün</div></div>
@@ -258,7 +235,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <div class="stat-card s-contact"><div class="stat-num" id="sDone">—</div><div class="stat-label">Tamamlanan</div></div>
   </div>
 
-  <!-- Analytics -->
   <div class="analytics-section">
     <div class="analytics-row">
       <div class="analytics-card">
@@ -274,7 +250,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     </div>
   </div>
 
-  <!-- Filters -->
   <div class="filter-row">
     <div class="filter-pills">
       <div class="pill active" data-filter="all" onclick="setFilter('all',this)">Tümü <span class="count" id="cAll">0</span></div>
@@ -289,7 +264,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     </div>
   </div>
 
-  <!-- Date Filter & Export -->
   <div class="date-filter-row">
     <label>Başlangıç:</label>
     <input class="date-input" type="date" id="dateFrom" onchange="renderLeads()">
@@ -305,25 +279,19 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     </button>
   </div>
 
-  <!-- Lead Grid -->
   <div class="lead-grid" id="leadGrid"></div>
 </div>
 
-<!-- Loading -->
 <div class="loading-overlay" id="loading" style="display:none;"><div class="loading-dots"><span></span><span></span><span></span></div></div>
-
-<!-- Toast -->
 <div class="toast" id="toast"></div>
 
-<!-- New Lead Alert -->
 <div id="newLeadAlert">
   <div style="font-size:18px;margin-bottom:6px;">🎉</div>
   <div style="font-family:'Playfair Display',serif;font-size:15px;color:#fff;margin-bottom:3px;" id="nlaTitle">Yeni Lead Geldi!</div>
   <div style="font-size:11px;color:rgba(255,255,255,0.6);" id="nlaSub">Yeni bir potansiyel müşteri bilgilerini bıraktı.</div>
-  <button class="nla-close" onclick="dismissAlert()">Tamam</button>
+  <button class="nla-close" onclick="dismissAlert()" style="background:var(--gold);border:none;border-radius:8px;padding:6px 16px;color:var(--navy);font-family:'Nunito',sans-serif;font-size:11px;font-weight:700;cursor:pointer;">Tamam</button>
 </div>
 
-<!-- Floating Q -->
 <a class="float-q" href="index.html">
   <div class="float-q-tip">Chatbot'a git</div>
   <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="9" cy="10" r="1" fill="currentColor"/><circle cx="12" cy="10" r="1" fill="currentColor"/><circle cx="15" cy="10" r="1" fill="currentColor"/></svg>
@@ -332,8 +300,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 <script>
 const WORKER_URL='https://groq-proxy.miyicioglu.workers.dev';
 let secret='',allLeads=[],currentFilter='all',refreshInterval=null;
-let prevLeadCount=0,unreadCount=0;
-let exportInProgress=false;
+let prevLeadCount=0,unreadCount=0,exportInProgress=false;
 
 const topicMeta={
   satis:{label:'Satış',cls:'satis',barCls:'tbf-satis'},
@@ -372,6 +339,7 @@ async function loadLeads(manual){
     const url=`${WORKER_URL}/leads`;
     const res=await fetch(url,{headers:{'x-leads-secret':secret}});
     const data=await res.json();
+    console.log('📊 API Response:', {type:typeof data, isArray:Array.isArray(data), count:Array.isArray(data)?data.length:0, sample:Array.isArray(data)&&data.length>0?data[0]:null});
     if(Array.isArray(data)){
       allLeads=data;
       document.getElementById('appShell').style.display='block';
@@ -385,7 +353,7 @@ async function loadLeads(manual){
       document.getElementById('lastRefreshTxt').textContent=`Son: ${new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'})}`;
       if(!refreshInterval)refreshInterval=setInterval(()=>loadLeads(false),20000);
     }
-  }catch(e){showToast('Bağlantı hatası','error');}
+  }catch(e){console.error('❌ Load error:',e);showToast('Bağlantı hatası','error');}
   finally{document.getElementById('loading').style.display='none';document.getElementById('refreshBtn').classList.remove('spinning');}
 }
 
@@ -581,7 +549,7 @@ function buildCard(lead){
     <div class="card-top">
       <div class="card-header">
         <div class="card-header-left"><div class="card-name">${escHtml(name)}</div><div class="card-time">${timeAgo}${isNew?' 🟢':''}</div></div>
-        <div class="card-header-right">${phone?'':''}
+        <div class="card-header-right">
           <div class="card-lang">${flag}</div>
           <button class="delete-btn" onclick="deleteLead('${lead.id}','${safeId}')" title="Sil">🗑️</button>
         </div>
@@ -607,10 +575,27 @@ function buildCard(lead){
 }
 
 function buildContext(lead){
-  if(!lead.context||!lead.context.length)return'';
-  const msgs=lead.context.slice(0,6);
-  const rows=msgs.map(m=>`<div class="context-msg"><span class="ctx-role ${m.role==='user'?'user':'bot'}">${m.role==='user'?'Müşteri':'Ask·Q'}</span><span class="ctx-text">${escHtml((m.text||'').substring(0,180))}${(m.text||'').length>180?'…':''}</span></div>`).join('');
-  return`<div class="context-title">Konuşma Özeti</div>${rows}`;
+  if(!lead)return '';
+  let html='';
+  
+  // Context messages varsa göster (conversation history)
+  if(lead.context && Array.isArray(lead.context) && lead.context.length>0){
+    const msgs=lead.context.slice(0,6);
+    const rows=msgs.map(m=>`<div class="context-msg"><span class="ctx-role ${m.role==='user'?'user':'bot'}">${m.role==='user'?'👤':'🤖'}</span><span class="ctx-text">${escHtml((m.text||'').substring(0,200))}${(m.text||'').length>200?'…':''}</span></div>`).join('');
+    html+=`<div class="context-title">💬 Konuşma</div>${rows}`;
+  }
+  
+  // Analysis result varsa ekle
+  if(lead.analysis_result){
+    html+=`<div class="context-title" style="margin-top:10px;color:#059669;">📊 Analiz Sonucu</div><div class="ctx-text" style="color:#047857;line-height:1.6;">${escHtml((lead.analysis_result||'').substring(0,400))}${(lead.analysis_result||'').length>400?'…':''}</div>`;
+  }
+  
+  // Analysis field varsa (alternatif field name)
+  if(lead.analysis && !lead.analysis_result){
+    html+=`<div class="context-title" style="margin-top:10px;color:#059669;">📊 Analiz</div><div class="ctx-text" style="color:#047857;line-height:1.6;">${escHtml((lead.analysis||'').substring(0,400))}${(lead.analysis||'').length>400?'…':''}</div>`;
+  }
+  
+  return html;
 }
 
 function toggleCtx(safeId){
