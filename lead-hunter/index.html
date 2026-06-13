@@ -100,9 +100,7 @@ button:hover{background:#a0812a;}
 const API='https://groq-proxy.miyicioglu.workers.dev';
 let secret='';
 let leads=[];
-let deleted=new Set();
 let filter='all';
-let lastIds=new Set();
 
 function login(){
   secret=document.getElementById('sec').value.trim();
@@ -116,12 +114,26 @@ function login(){
 function logout(){
   secret='';
   leads=[];
-  deleted=new Set();
-  lastIds=new Set();
   filter='all';
+  localStorage.removeItem('leads_deleted');
   document.getElementById('app').style.display='none';
   document.getElementById('login').style.display='flex';
   document.getElementById('sec').value='';
+}
+
+function getDeleted(){
+  try{
+    const d=localStorage.getItem('leads_deleted');
+    return d?new Set(JSON.parse(d)):new Set();
+  }catch(e){
+    return new Set();
+  }
+}
+
+function saveDeleted(deleted){
+  try{
+    localStorage.setItem('leads_deleted', JSON.stringify(Array.from(deleted)));
+  }catch(e){}
 }
 
 async function load(){
@@ -132,47 +144,27 @@ async function load(){
     
     if(!Array.isArray(d)) return;
     
-    // ✅ AGGRESSIVE DEDUP: Filter by ID + check existing + check deleted
-    const newLeads=[];
-    const seenThisLoad=new Set();
+    const deleted=getDeleted();
+    
+    // ✅ ULTIMATE DEDUP: Map by ID for true uniqueness
+    const byId=new Map();
     
     for(const item of d){
       const id=String(item.id||'').trim();
       if(!id) continue;
       
-      // Skip if duplicate in THIS load
-      if(seenThisLoad.has(id)) continue;
-      seenThisLoad.add(id);
-      
-      // Skip if deleted
+      // Skip deleted items
       if(deleted.has(id)) continue;
       
-      // Skip if already exists in memory with same ID
-      if(lastIds.has(id)){
-        const existing=leads.find(x=>x.id===id);
-        if(existing){
-          // Update existing
-          Object.assign(existing, item);
-          continue;
-        }
+      // If exists, update it; otherwise add new
+      if(byId.has(id)){
+        Object.assign(byId.get(id), item);
+      }else{
+        byId.set(id, item);
       }
-      
-      newLeads.push(item);
-      lastIds.add(id);
     }
     
-    // Merge new leads with existing
-    leads=[...leads, ...newLeads];
-    
-    // Final cleanup: remove any actual duplicates
-    const finalIds=new Set();
-    leads=leads.filter(x=>{
-      const id=String(x.id||'').trim();
-      if(finalIds.has(id)) return false;
-      finalIds.add(id);
-      return true;
-    });
-    
+    leads=Array.from(byId.values());
     stats();
     draw();
   }catch(e){
@@ -242,19 +234,27 @@ function card(x){
     }).join('');
   }
   
-  // ✅ CRITICAL FIX: Analysis display - handle string AND object
+  // ✅ CRITICAL: Only show analysis if it has meaningful content
   let ana='';
   if(x.analysis_result){
     let analysisText='';
+    let isValid=false;
     
     if(typeof x.analysis_result==='string'){
-      analysisText=x.analysis_result;
-    }else if(typeof x.analysis_result==='object'){
-      // If it's an object, stringify it properly
-      analysisText=JSON.stringify(x.analysis_result, null, 2);
+      const trimmed=String(x.analysis_result).trim();
+      if(trimmed && trimmed!=='[object Object]' && trimmed!=='{}'){
+        analysisText=trimmed;
+        isValid=true;
+      }
+    }else if(typeof x.analysis_result==='object' && x.analysis_result!==null){
+      const str=JSON.stringify(x.analysis_result);
+      if(str && str!=='{}' && str!=='[]'){
+        analysisText=str;
+        isValid=true;
+      }
     }
     
-    if(analysisText && analysisText.trim() && analysisText!=='[object Object]'){
+    if(isValid){
       analysisText=esc(analysisText.substring(0, 400));
       ana=`<div class="analysis-box"><div class="analysis-title">📊 Analiz</div><div class="analysis-text">${analysisText}</div></div>`;
     }
@@ -304,13 +304,16 @@ function stat(id, s, sid){
 function del(id, sid){
   if(!confirm('Silmek istediğinizden emin misiniz?')) return;
   
+  // ✅ Persistent deletion via localStorage
+  const deleted=getDeleted();
   deleted.add(id);
+  saveDeleted(deleted);
+  
   leads=leads.filter(x=>x.id!==id);
-  lastIds.delete(id);
   
   stats();
   draw();
-  toast('Lead silindi');
+  toast('Lead silindi (kalıcı)');
 }
 
 function time(iso){
