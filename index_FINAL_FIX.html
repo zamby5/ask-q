@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lead Hunter</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:Nunito,sans-serif;background:#eef2f7;color:#0d2247;}
+#login{position:fixed;inset:0;background:#0d2247;display:flex;align-items:center;justify-content:center;z-index:1000;}
+.card{background:#fff;border-radius:12px;padding:30px;width:300px;text-align:center;}
+.card h1{font-size:20px;margin-bottom:4px;}
+.card p{font-size:11px;color:#7a90a8;margin-bottom:20px;}
+input{width:100%;padding:10px;border:1px solid #dce4ef;border-radius:8px;font-size:13px;margin-bottom:10px;font-family:Nunito;}
+input:focus{outline:none;border-color:#b8932a;}
+button{width:100%;padding:10px;background:#b8932a;color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:Nunito;}
+button:hover{background:#a0812a;}
+#app{display:none;min-height:100vh;padding:20px;}
+.header{background:#0d2247;color:#fff;padding:15px 20px;border-radius:8px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;}
+.header h1{font-size:18px;}
+.header button{width:auto;padding:6px 12px;font-size:11px;}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px;}
+.stat{background:#fff;padding:15px;border-radius:8px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.1);}
+.stat-num{font-size:24px;font-weight:700;color:#0d2247;}
+.stat-label{font-size:10px;color:#7a90a8;margin-top:5px;text-transform:uppercase;}
+.filters{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;}
+.filter{padding:8px 12px;border-radius:20px;border:1px solid #dce4ef;background:#fff;font-size:11px;cursor:pointer;font-weight:600;}
+.filter.active{background:#0d2247;color:#fff;border-color:#0d2247;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;}
+.lead{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.1);}
+.lead.new{border:2px solid #b8932a;}
+.lead-head{padding:12px;border-bottom:1px solid #eef2f7;display:flex;justify-content:space-between;align-items:start;}
+.lead-name{font-weight:600;font-size:14px;}
+.lead-time{font-size:10px;color:#7a90a8;margin-top:2px;}
+.lead-actions{display:flex;gap:4px;}
+.del{background:0;border:0;color:#dc2626;cursor:pointer;font-size:14px;padding:0;width:20px;height:20px;}
+.lead-phone{padding:0 12px;font-size:12px;color:#1e4a8a;font-weight:600;margin-bottom:8px;}
+.lead-badge{padding:0 12px;display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;}
+.badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:6px;}
+.topic-badge{background:#eff6ff;color:#2563eb;}
+.status-badge{background:#dbeafe;color:#2563eb;}
+.lead-context{padding:0 12px;font-size:11px;color:#4a6080;margin-bottom:8px;max-height:0;overflow:hidden;transition:max-height 0.3s;}
+.lead-context.open{max-height:200px;overflow-y:auto;}
+.context-msg{margin-bottom:6px;line-height:1.4;}
+.ctx-role{font-weight:700;min-width:35px;display:inline-block;}
+.analysis-box{padding:10px 12px;background:#f0fdf4;border-left:3px solid #16a34a;margin:0 12px 8px;border-radius:4px;}
+.analysis-title{font-size:10px;font-weight:700;color:#16a34a;margin-bottom:4px;}
+.analysis-text{font-size:11px;color:#047857;line-height:1.4;word-wrap:break-word;white-space:pre-wrap;}
+.lead-footer{padding:8px 12px;background:#eef2f7;display:flex;gap:6px;align-items:center;}
+.act{padding:5px 10px;border-radius:8px;font-size:11px;font-weight:600;background:#dcfce7;color:#16a34a;text-decoration:none;border:0;cursor:pointer;display:flex;align-items:center;}
+.act:hover{background:#16a34a;color:#fff;}
+.ctx-btn{background:#fff;border:1px solid #dce4ef;color:#7a90a8;padding:5px 8px;}
+.status{background:#fff;border:1px solid #dce4ef;border-radius:6px;padding:5px;font-size:11px;margin-left:auto;cursor:pointer;}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);background:#16a34a;color:#fff;padding:10px 20px;border-radius:8px;font-size:12px;opacity:0;transition:all 0.3s;pointer-events:none;z-index:999;}
+.toast.error{background:#dc2626;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+@media(max-width:640px){.stats{grid-template-columns:repeat(2,1fr);}.grid{grid-template-columns:1fr;}.filters{font-size:10px;}}
+</style>
+</head>
+<body>
+
+<div id="login">
+  <div class="card">
+    <h1>Lead Hunter</h1>
+    <p>Turyap Queen — Ask·Q</p>
+    <input id="sec" type="password" placeholder="Secret">
+    <button onclick="login()">Giriş</button>
+  </div>
+</div>
+
+<div id="app">
+  <div class="header">
+    <h1>Lead Hunter</h1>
+    <button onclick="refresh()">⟲ Yenile</button>
+    <button onclick="logout()">Çıkış</button>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-num" id="st">0</div><div class="stat-label">Toplam</div></div>
+    <div class="stat"><div class="stat-num" id="st0">0</div><div class="stat-label">Bugün</div></div>
+    <div class="stat"><div class="stat-num" id="st1">0</div><div class="stat-label">Yeni</div></div>
+    <div class="stat"><div class="stat-num" id="st2">0</div><div class="stat-label">Kapandı</div></div>
+  </div>
+
+  <div class="filters">
+    <div class="filter active" onclick="filt('all',this)">Tümü</div>
+    <div class="filter" onclick="filt('yeni',this)">🔵 Yeni</div>
+    <div class="filter" onclick="filt('aranacak',this)">🟡 Aranacak</div>
+    <div class="filter" onclick="filt('takip',this)">🟢 Takipte</div>
+    <div class="filter" onclick="filt('kapali',this)">⚪ Kapandı</div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const API='https://groq-proxy.miyicioglu.workers.dev';
+let secret='';
+let leads=[];
+let deleted=new Set();
+let filter='all';
+let lastIds=new Set();
+
+function login(){
+  secret=document.getElementById('sec').value.trim();
+  if(!secret)return;
+  load();
+  document.getElementById('login').style.display='none';
+  document.getElementById('app').style.display='block';
+  setInterval(load, 20000);
+}
+
+function logout(){
+  secret='';
+  leads=[];
+  deleted=new Set();
+  lastIds=new Set();
+  filter='all';
+  document.getElementById('app').style.display='none';
+  document.getElementById('login').style.display='flex';
+  document.getElementById('sec').value='';
+}
+
+async function load(){
+  try{
+    const r=await fetch(API+'/leads', {headers:{'x-leads-secret':secret}});
+    if(!r.ok) throw new Error(r.status);
+    const d=await r.json();
+    
+    if(!Array.isArray(d)) return;
+    
+    // ✅ AGGRESSIVE DEDUP: Filter by ID + check existing + check deleted
+    const newLeads=[];
+    const seenThisLoad=new Set();
+    
+    for(const item of d){
+      const id=String(item.id||'').trim();
+      if(!id) continue;
+      
+      // Skip if duplicate in THIS load
+      if(seenThisLoad.has(id)) continue;
+      seenThisLoad.add(id);
+      
+      // Skip if deleted
+      if(deleted.has(id)) continue;
+      
+      // Skip if already exists in memory with same ID
+      if(lastIds.has(id)){
+        const existing=leads.find(x=>x.id===id);
+        if(existing){
+          // Update existing
+          Object.assign(existing, item);
+          continue;
+        }
+      }
+      
+      newLeads.push(item);
+      lastIds.add(id);
+    }
+    
+    // Merge new leads with existing
+    leads=[...leads, ...newLeads];
+    
+    // Final cleanup: remove any actual duplicates
+    const finalIds=new Set();
+    leads=leads.filter(x=>{
+      const id=String(x.id||'').trim();
+      if(finalIds.has(id)) return false;
+      finalIds.add(id);
+      return true;
+    });
+    
+    stats();
+    draw();
+  }catch(e){
+    console.log('Error:', e.message);
+  }
+}
+
+function refresh(){
+  load();
+}
+
+function stats(){
+  const now=new Date().toISOString().split('T')[0];
+  let y=0, z=0;
+  
+  for(const x of leads){
+    if(x.createdAt && x.createdAt.substring(0, 10)===now) y++;
+    if(x.status==='kapali') z++;
+  }
+  
+  let nw=0;
+  for(const x of leads){
+    if(x.status==='yeni' || x.status==='aranacak') nw++;
+  }
+  
+  document.getElementById('st').textContent=leads.length;
+  document.getElementById('st0').textContent=y;
+  document.getElementById('st1').textContent=nw;
+  document.getElementById('st2').textContent=z;
+}
+
+function filt(f, el){
+  filter=f;
+  document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));
+  el.classList.add('active');
+  draw();
+}
+
+function draw(){
+  let f=leads;
+  if(filter!=='all') f=f.filter(x=>x.status===filter);
+  
+  const g=document.getElementById('grid');
+  if(!f.length){
+    g.innerHTML='<div style="text-align:center;padding:40px;color:#7a90a8;">Lead bulunamadı</div>';
+    return;
+  }
+  
+  g.innerHTML=f.map(x=>card(x)).join('');
+}
+
+function card(x){
+  const id=String(x.id||'').trim();
+  const sid=id.replace(/[^a-z0-9_]/gi, '_');
+  const nm=esc(x.name||'İsimsiz');
+  const ph=String(x.phone||'').trim();
+  const tm=time(x.createdAt);
+  const n=(Date.now()-new Date(x.createdAt).getTime())<300000;
+  
+  // ✅ Context display
+  let ctx='';
+  if(x.context && Array.isArray(x.context) && x.context.length>0){
+    ctx=x.context.slice(0, 4).map(m=>{
+      const role=m.role==='user'?'👤 Müşteri':'🤖 Ask·Q';
+      const text=esc(String(m.text||'').substring(0, 150));
+      return `<div class="context-msg"><span class="ctx-role">${role}</span><br>${text}</div>`;
+    }).join('');
+  }
+  
+  // ✅ CRITICAL FIX: Analysis display - handle string AND object
+  let ana='';
+  if(x.analysis_result){
+    let analysisText='';
+    
+    if(typeof x.analysis_result==='string'){
+      analysisText=x.analysis_result;
+    }else if(typeof x.analysis_result==='object'){
+      // If it's an object, stringify it properly
+      analysisText=JSON.stringify(x.analysis_result, null, 2);
+    }
+    
+    if(analysisText && analysisText.trim() && analysisText!=='[object Object]'){
+      analysisText=esc(analysisText.substring(0, 400));
+      ana=`<div class="analysis-box"><div class="analysis-title">📊 Analiz</div><div class="analysis-text">${analysisText}</div></div>`;
+    }
+  }
+  
+  return`<div class="lead${n?' new':''}">
+    <div class="lead-head">
+      <div><div class="lead-name">${nm}</div><div class="lead-time">${tm}${n?' 🟢':''}</div></div>
+      <div class="lead-actions"><button class="del" onclick="del('${id}','${sid}')">🗑️</button></div>
+    </div>
+    ${ph?`<div class="lead-phone">${esc(ph)}</div>`:'<div class="lead-phone" style="color:#7a90a8;">📱 No phone</div>'}
+    <div class="lead-badge">
+      <span class="badge topic-badge">${esc(x.topic||'Genel')}</span>
+      <span class="badge status-badge" id="sb_${sid}">${esc(x.status||'yeni')}</span>
+    </div>
+    ${ctx?`<div class="lead-context" id="ctx_${sid}">${ctx}</div>`:''}
+    ${ana}
+    <div class="lead-footer">
+      <div style="display:flex;gap:6px;">
+        ${ph?`<a href="tel:${encodeURIComponent(ph)}" class="act">📞 Ara</a><a href="https://wa.me/${ph.replace(/[^0-9]/g, '')}" target="_blank" class="act">💬 WA</a>`:''}
+        ${ctx?`<button class="act ctx-btn" onclick="ctx('${sid}')">💬</button>`:''}
+      </div>
+      <select class="status" onchange="stat('${id}',this.value,'${sid}')">
+        <option value="yeni" ${x.status==='yeni'?'selected':''}>Yeni</option>
+        <option value="aranacak" ${x.status==='aranacak'?'selected':''}>Aranacak</option>
+        <option value="takip" ${x.status==='takip'?'selected':''}>Takipte</option>
+        <option value="kapali" ${x.status==='kapali'?'selected':''}>Kapandı</option>
+      </select>
+    </div>
+  </div>`;
+}
+
+function ctx(sid){
+  const el=document.getElementById('ctx_'+sid);
+  if(el) el.classList.toggle('open');
+}
+
+function stat(id, s, sid){
+  const x=leads.find(l=>l.id===id);
+  if(x){
+    x.status=s;
+    stats();
+    draw();
+  }
+}
+
+function del(id, sid){
+  if(!confirm('Silmek istediğinizden emin misiniz?')) return;
+  
+  deleted.add(id);
+  leads=leads.filter(x=>x.id!==id);
+  lastIds.delete(id);
+  
+  stats();
+  draw();
+  toast('Lead silindi');
+}
+
+function time(iso){
+  if(!iso) return '';
+  const d=new Date(iso);
+  if(isNaN(d.getTime())) return '';
+  const m=Math.floor((Date.now()-d.getTime())/60000);
+  if(m<1) return 'Az önce';
+  if(m<60) return m+'dk';
+  const h=Math.floor(m/60);
+  if(h<24) return h+'h';
+  const g=Math.floor(h/24);
+  return g<7?g+'g':'';
+}
+
+function esc(s){
+  const m={'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'};
+  return String(s||'').replace(/[&<>"]/g, c=>m[c]);
+}
+
+function toast(msg, type=''){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.className='toast '+type+' show';
+  setTimeout(()=>t.classList.remove('show'), 2500);
+}
+
+document.getElementById('sec').addEventListener('keydown', e=>{
+  if(e.key==='Enter') login();
+});
+</script>
+</body>
+</html>
