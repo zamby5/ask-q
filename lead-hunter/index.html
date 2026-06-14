@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lead Hunter</title>
+<title>Lead Hunter Pro</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -30,6 +30,7 @@ button:hover{background:#a0812a;}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;}
 .lead{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.1);}
 .lead.new{border:2px solid #b8932a;}
+.lead.survey-no{border:2px solid #dc2626;}
 .lead-head{padding:12px;border-bottom:1px solid #eef2f7;display:flex;justify-content:space-between;align-items:start;}
 .lead-name{font-weight:600;font-size:14px;}
 .lead-time{font-size:10px;color:#7a90a8;margin-top:2px;}
@@ -40,6 +41,8 @@ button:hover{background:#a0812a;}
 .badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:6px;}
 .topic-badge{background:#eff6ff;color:#2563eb;}
 .status-badge{background:#dbeafe;color:#2563eb;}
+.survey-badge{background:#fff3cd;color:#cc8800;font-weight:700;}
+.survey-accepted{background:#dcfce7;color:#16a34a;}
 .lead-context{padding:0 12px;font-size:11px;color:#4a6080;margin-bottom:8px;max-height:0;overflow:hidden;transition:max-height 0.3s;}
 .lead-context.open{max-height:200px;overflow-y:auto;}
 .context-msg{margin-bottom:6px;line-height:1.4;}
@@ -47,14 +50,17 @@ button:hover{background:#a0812a;}
 .analysis-box{padding:10px 12px;background:#f0fdf4;border-left:3px solid #16a34a;margin:0 12px 8px;border-radius:4px;}
 .analysis-title{font-size:10px;font-weight:700;color:#16a34a;margin-bottom:4px;}
 .analysis-text{font-size:11px;color:#047857;line-height:1.4;word-wrap:break-word;white-space:pre-wrap;}
-.lead-footer{padding:8px 12px;background:#eef2f7;display:flex;gap:6px;align-items:center;}
+.lead-footer{padding:8px 12px;background:#eef2f7;display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
 .act{padding:5px 10px;border-radius:8px;font-size:11px;font-weight:600;background:#dcfce7;color:#16a34a;text-decoration:none;border:0;cursor:pointer;display:flex;align-items:center;}
 .act:hover{background:#16a34a;color:#fff;}
 .ctx-btn{background:#fff;border:1px solid #dce4ef;color:#7a90a8;padding:5px 8px;}
-.status{background:#fff;border:1px solid #dce4ef;border-radius:6px;padding:5px;font-size:11px;margin-left:auto;cursor:pointer;}
+.status{background:#fff;border:1px solid #dce4ef;border-radius:6px;padding:5px;font-size:11px;cursor:pointer;flex:1;min-width:100px;}
+.survey-select{background:#fff;border:1px solid #dce4ef;border-radius:6px;padding:5px;font-size:11px;cursor:pointer;flex:1;min-width:100px;}
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);background:#16a34a;color:#fff;padding:10px 20px;border-radius:8px;font-size:12px;opacity:0;transition:all 0.3s;pointer-events:none;z-index:999;}
 .toast.error{background:#dc2626;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.name-phone-only{background:#fff5f5;}
+.name-phone-badge{background:#fecaca;color:#991b1b;font-weight:700;}
 @media(max-width:640px){.stats{grid-template-columns:repeat(2,1fr);}.grid{grid-template-columns:1fr;}.filters{font-size:10px;}}
 </style>
 </head>
@@ -62,7 +68,7 @@ button:hover{background:#a0812a;}
 
 <div id="login">
   <div class="card">
-    <h1>Lead Hunter</h1>
+    <h1>Lead Hunter Pro</h1>
     <p>Turyap Queen — Ask·Q</p>
     <input id="sec" type="password" placeholder="Secret">
     <button onclick="login()">Giriş</button>
@@ -71,7 +77,7 @@ button:hover{background:#a0812a;}
 
 <div id="app">
   <div class="header">
-    <h1>Lead Hunter</h1>
+    <h1>Lead Hunter Pro</h1>
     <button onclick="refresh()">⟲ Yenile</button>
     <button onclick="logout()">Çıkış</button>
   </div>
@@ -89,6 +95,7 @@ button:hover{background:#a0812a;}
     <div class="filter" onclick="filt('aranacak',this)">🟡 Aranacak</div>
     <div class="filter" onclick="filt('takip',this)">🟢 Takipte</div>
     <div class="filter" onclick="filt('kapali',this)">⚪ Kapandı</div>
+    <div class="filter" onclick="filt('survey-no',this)">📋 Anket Red</div>
   </div>
 
   <div class="grid" id="grid"></div>
@@ -136,6 +143,43 @@ function saveDeleted(deleted){
   }catch(e){}
 }
 
+// ✅ DEDUP by ID AND PHONE NUMBER
+function deduplicateLeads(d){
+  const byId=new Map();
+  const byPhone=new Map();
+  
+  for(const item of d){
+    const id=String(item.id||'').trim();
+    const phone=String(item.phone||'').trim().replace(/[^0-9]/g,'');
+    
+    if(!id) continue;
+    
+    // Already exists by ID? Update it
+    if(byId.has(id)){
+      Object.assign(byId.get(id), item);
+      continue;
+    }
+    
+    // Already exists by phone? Skip or update based on createdAt
+    if(phone && byPhone.has(phone)){
+      const existing=byPhone.get(phone);
+      const newDate=new Date(item.createdAt).getTime();
+      const existDate=new Date(existing.createdAt).getTime();
+      if(newDate > existDate){
+        byId.delete(existing.id);
+        byId.set(id, item);
+        byPhone.set(phone, item);
+      }
+      continue;
+    }
+    
+    byId.set(id, item);
+    if(phone) byPhone.set(phone, item);
+  }
+  
+  return Array.from(byId.values());
+}
+
 async function load(){
   try{
     const r=await fetch(API+'/leads', {headers:{'x-leads-secret':secret}});
@@ -146,25 +190,15 @@ async function load(){
     
     const deleted=getDeleted();
     
-    // ✅ ULTIMATE DEDUP: Map by ID for true uniqueness
-    const byId=new Map();
-    
-    for(const item of d){
+    // ✅ Remove deleted items
+    let filtered=d.filter(item=>{
       const id=String(item.id||'').trim();
-      if(!id) continue;
-      
-      // Skip deleted items
-      if(deleted.has(id)) continue;
-      
-      // If exists, update it; otherwise add new
-      if(byId.has(id)){
-        Object.assign(byId.get(id), item);
-      }else{
-        byId.set(id, item);
-      }
-    }
+      return !deleted.has(id);
+    });
     
-    leads=Array.from(byId.values());
+    // ✅ Deduplicate by ID and PHONE
+    leads=deduplicateLeads(filtered);
+    
     stats();
     draw();
   }catch(e){
@@ -187,7 +221,7 @@ function stats(){
   
   let nw=0;
   for(const x of leads){
-    if(x.status==='yeni' || x.status==='aranacak') nw++;
+    if((x.status==='yeni' || x.status==='aranacak') && x.survey_status!=='no') nw++;
   }
   
   document.getElementById('st').textContent=leads.length;
@@ -205,7 +239,12 @@ function filt(f, el){
 
 function draw(){
   let f=leads;
-  if(filter!=='all') f=f.filter(x=>x.status===filter);
+  
+  if(filter==='survey-no'){
+    f=f.filter(x=>x.survey_status==='no');
+  }else if(filter!=='all'){
+    f=f.filter(x=>x.status===filter);
+  }
   
   const g=document.getElementById('grid');
   if(!f.length){
@@ -224,6 +263,10 @@ function card(x){
   const tm=time(x.createdAt);
   const n=(Date.now()-new Date(x.createdAt).getTime())<300000;
   
+  // ✅ Survey Status Check
+  const isSurveyNo=x.survey_status==='no';
+  const isSurveyYes=x.survey_status==='yes';
+  
   // ✅ Context display
   let ctx='';
   if(x.context && Array.isArray(x.context) && x.context.length>0){
@@ -234,9 +277,9 @@ function card(x){
     }).join('');
   }
   
-  // ✅ CRITICAL: Only show analysis if it has meaningful content
+  // ✅ IMPROVED: Only show analysis for survey ACCEPTED leads
   let ana='';
-  if(x.analysis_result){
+  if(!isSurveyNo && x.analysis_result){
     let analysisText='';
     let isValid=false;
     
@@ -260,7 +303,11 @@ function card(x){
     }
   }
   
-  return`<div class="lead${n?' new':''}">
+  // ✅ NAME & PHONE ONLY badge for survey rejection
+  const surveyBadge=isSurveyNo?'<span class="badge name-phone-badge">📋 Anket Red</span>':
+                     isSurveyYes?'<span class="badge survey-accepted">✅ Anket Kabul</span>':'';
+  
+  return`<div class="lead${n?' new':''}${isSurveyNo?' survey-no':''}">
     <div class="lead-head">
       <div><div class="lead-name">${nm}</div><div class="lead-time">${tm}${n?' 🟢':''}</div></div>
       <div class="lead-actions"><button class="del" onclick="del('${id}','${sid}')">🗑️</button></div>
@@ -269,19 +316,27 @@ function card(x){
     <div class="lead-badge">
       <span class="badge topic-badge">${esc(x.topic||'Genel')}</span>
       <span class="badge status-badge" id="sb_${sid}">${esc(x.status||'yeni')}</span>
+      ${surveyBadge}
     </div>
-    ${ctx?`<div class="lead-context" id="ctx_${sid}">${ctx}</div>`:''}
+    ${!isSurveyNo?`${ctx?`<div class="lead-context" id="ctx_${sid}">${ctx}</div>`:''}`:``}
     ${ana}
     <div class="lead-footer">
-      <div style="display:flex;gap:6px;">
+      <div style="display:flex;gap:6px;width:100%;">
         ${ph?`<a href="tel:${encodeURIComponent(ph)}" class="act">📞 Ara</a><a href="https://wa.me/${ph.replace(/[^0-9]/g, '')}" target="_blank" class="act">💬 WA</a>`:''}
-        ${ctx?`<button class="act ctx-btn" onclick="ctx('${sid}')">💬</button>`:''}
+        ${!isSurveyNo && ctx?`<button class="act ctx-btn" onclick="ctx('${sid}')">💬</button>`:''}
       </div>
+    </div>
+    <div class="lead-footer">
       <select class="status" onchange="stat('${id}',this.value,'${sid}')">
         <option value="yeni" ${x.status==='yeni'?'selected':''}>Yeni</option>
         <option value="aranacak" ${x.status==='aranacak'?'selected':''}>Aranacak</option>
         <option value="takip" ${x.status==='takip'?'selected':''}>Takipte</option>
         <option value="kapali" ${x.status==='kapali'?'selected':''}>Kapandı</option>
+      </select>
+      <select class="survey-select" onchange="setSurveyStatus('${id}',this.value,'${sid}')">
+        <option value="" ${!x.survey_status?'selected':''}>Anket Durumu</option>
+        <option value="yes" ${x.survey_status==='yes'?'selected':''}>✅ Kabul</option>
+        <option value="no" ${x.survey_status==='no'?'selected':''}>❌ Red</option>
       </select>
     </div>
   </div>`;
@@ -301,10 +356,20 @@ function stat(id, s, sid){
   }
 }
 
+// ✅ NEW: Survey status setter
+function setSurveyStatus(id, status, sid){
+  const x=leads.find(l=>l.id===id);
+  if(x){
+    x.survey_status=status;
+    toast(`Anket durumu: ${status==='yes'?'Kabul':'Red'}`);
+    stats();
+    draw();
+  }
+}
+
 function del(id, sid){
   if(!confirm('Silmek istediğinizden emin misiniz?')) return;
   
-  // ✅ Persistent deletion via localStorage
   const deleted=getDeleted();
   deleted.add(id);
   saveDeleted(deleted);
