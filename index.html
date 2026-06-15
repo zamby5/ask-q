@@ -538,7 +538,7 @@ const WORKER_URL = 'https://groq-proxy.miyicioglu.workers.dev';
 const LEAD_WORKER_URL = 'https://leadshunter.miyicioglu.workers.dev';
 const GROQ_DIRECT = 'https://api.groq.com/openai/v1/chat/completions';
 const GROQ_MODEL = 'llama-3.3-70b-versatile';
-  
+   
 /* ═══════════════════════════════════════════════════════════════
    PSİKOLOJİK PROFİL MODÜLÜ
    ═══════════════════════════════════════════════════════════════ */
@@ -600,60 +600,60 @@ const PROFILER={
       {t:'Beni sabırla dinleyen, her adımda yanımda olan, sadık ve güven veren kişi.',c:'Y'},
       {t:'İşini şansa bırakmayan, mükemmeliyetçi, kurallara uyan ve verilerle konuşan kişi.',c:'M'}]}
   ],
-  TENANT_Q:[
-  {q:'Kiralık bir ev ararken önceliğiniz ne olur?',opts:[
-    {t:'Hemen taşınabileceğim, hızlı sonuçlanan bir süreç.',c:'K'},
-    {t:'Konforlu, estetik, yaşam tarzımı yansıtan bir yer.',c:'S'},
-    {t:'Güvenli, sakin, uzun süre yerleşebileceğim bir mahalle.',c:'Y'},
-    {t:'Kira/masraf dengesi uygun, sözleşme şartları net bir yer.',c:'M'}]},
-  {q:'Evi gezerken dikkatinizi en çok ne çeker?',opts:[
-    {t:'Konum, ulaşım ve işime yakınlık.',c:'K'},
-    {t:'Dekorasyon, ışık ve genel atmosfer.',c:'S'},
-    {t:'Bina güvenliği, komşuluk düzeni.',c:'Y'},
-    {t:'Aidat, faturalar ve teknik altyapı detayları.',c:'M'}]},
-  {q:'Kira bütçenizi nasıl yönetirsiniz?',opts:[
-    {t:'Bütçemi aşsa da hemen taşınmamı sağlayan yeri tercih ederim.',c:'K'},
-    {t:'Beğendiğim yer için bütçemi biraz esnetebilirim.',c:'S'},
-    {t:'Belirlediğim bütçenin dışına asla çıkmam.',c:'Y'},
-    {t:'Bölgedeki kira emsallerini karşılaştırarak karar veririm.',c:'M'}]},
-  {q:'Kiralama sürecinde sizi en çok ne zorlar?',opts:[
-    {t:'Yavaş ilerleyen, bekletilen süreçler.',c:'K'},
-    {t:'Soğuk, resmi ve duygusuz iletişim.',c:'S'},
-    {t:'Aceleye getirilmek, baskı altında karar vermek.',c:'Y'},
-    {t:'Sözleşme veya depozitoyla ilgili eksik/belirsiz bilgi.',c:'M'}]},
-  {q:'Gayrimenkul danışmanınızda en çok ne ararsınız?',opts:[
-    {t:'Hızlı sonuç getiren, profesyonel tavır.',c:'K'},
-    {t:'Sıcak, samimi ve pozitif iletişim.',c:'S'},
-    {t:'Güvenilir, şeffaf ve sabırlı yaklaşım.',c:'Y'},
-    {t:'Doğru bilgi ve net sözleşme detayları sunan uzmanlık.',c:'M'}]}
-],
-LANDLORD_Q:[
-  {q:'Mülkünüzü kiraya verirken kira bedelini nasıl belirlersiniz?',opts:[
-    {t:'Piyasanın üstünde, kararlı bir rakamla başlarım.',c:'K'},
-    {t:'Evimin özel yönlerini yansıtan, hak ettiği değerde bir rakam.',c:'S'},
-    {t:'Çok beklemeyecek ama mağdur etmeyecek dengeli bir rakam.',c:'Y'},
-    {t:'Bölgedeki kira emsallerine dayalı, veriyle desteklenmiş bir rakam.',c:'M'}]},
-  {q:'Kiracı adaylarıyla ilgili önceliğiniz nedir?',opts:[
-    {t:'Süreci hızlandıracak, ödeme gücü net kiracılar gelsin.',c:'K'},
-    {t:'Evime değer verecek, evi iyi kullanacak kiracılar olsun.',c:'S'},
-    {t:'Güvenilir, referansları sağlam, uzun süre kalacak kiracılar olsun.',c:'Y'},
-    {t:'Kiracı geçmişi ve gelir belgeleri önceden değerlendirilip raporlansın.',c:'M'}]},
-  {q:'Kira sözleşmesi ve depozito konusunda yaklaşımınız nedir?',opts:[
-    {t:'Standart şartlarla hızlıca imzalansın, vakit kaybetmeyelim.',c:'K'},
-    {t:'Şartlar net olsun ama süreç keyifli ve rahat geçsin.',c:'S'},
-    {t:'Her madde önceden açıkça konuşulsun, sürpriz olmasın.',c:'Y'},
-    {t:'Sözleşme yasal olarak eksiksiz, depozito şartları detaylı yazılı olsun.',c:'M'}]},
-  {q:'Kiracıdan gelen bir talep veya şikayet karşısında tepkiniz ne olur?',opts:[
-    {t:'Makul ise hızlıca çözerim, gereksiz tartışmaya girmem.',c:'K'},
-    {t:'Kiracıyla iyi ilişkiyi sürdürmek önemli, esnek davranırım.',c:'S'},
-    {t:'Sorunun büyümeden, sakin şekilde çözülmesini isterim.',c:'Y'},
-    {t:'Talebi sözleşme şartlarına göre değerlendirir, yazılı süreç isterim.',c:'M'}]},
-  {q:'Sizin için mükemmel bir gayrimenkul danışmanı kimdir?',opts:[
-    {t:'İşi hızlı bitiren, sonuç odaklı kişi.',c:'K'},
-    {t:'Mülkümün değerini bilen, iyi sunan, samimi kişi.',c:'S'},
-    {t:'Güven veren, süreci adım adım takip eden kişi.',c:'Y'},
-    {t:'Doğru kiracıyı veri ile bulan, sözleşmeyi eksiksiz hazırlayan kişi.',c:'M'}]}
-],
+  RENTER_Q:[
+    {q:'Kiralık daire ararken ilk baktığınız şey ne olur?',opts:[
+      {t:'Konumu ve ulaşımı; doğru fırsatı bulursam hemen karar veririm, beklemem.',c:'K'},
+      {t:'Ferahlığı, ışığı ve bana "evet, burada yaşarım" dedirten atmosferi.',c:'S'},
+      {t:'Binanın ve mahallenin güvenilirliği, sakin ve huzurlu bir ortam olması.',c:'Y'},
+      {t:'Metrekare, aidat, depozito ve yakın çevredeki emsal kira fiyatları.',c:'M'}]},
+    {q:'Ev sahibiyle ilk görüşmede sizi en çok ne etkiler?',opts:[
+      {t:'Net ve kararlı olması; gereksiz yazışmadan hızlı anlaşmak isterim.',c:'K'},
+      {t:'Sıcak, samimi ve anlayışlı biri olması; iyi bir komşuluk ilişkisi kurmak isterim.',c:'S'},
+      {t:'Güvenilir, saygılı ve özel alanıma müdahale etmeyeceğini hissettirmesi.',c:'Y'},
+      {t:'Sözleşme maddeleri, bakım sorumlulukları ve haklarım konusunda şeffaf olması.',c:'M'}]},
+    {q:'Kira bütçenizi nasıl belirlediniz?',opts:[
+      {t:'Doğru yeri bulursam biraz esnetebilirim, fırsatı kaçırmak istemem.',c:'K'},
+      {t:'Yaşam kalitemi düşürmeyecek kadar vermek istiyorum, konfora da açığım.',c:'S'},
+      {t:'Kesin bir üst sınır koydum ve bunu kesinlikle aşmayacağım.',c:'Y'},
+      {t:'Bölgedeki emsal kiraları araştırdım, piyasanın altında ya da üstünde olmak istemiyorum.',c:'M'}]},
+    {q:'Kiraladığınız evde bir sorun çıksa nasıl yaklaşırsınız?',opts:[
+      {t:'Hızlı çözüm beklerim; belirsizliğe ve sürüncemede kalmaya tahammülüm yok.',c:'K'},
+      {t:'Anlayışlı olurum ama ev sahibinin önemsemesini ve iletişimde açık olmasını isterim.',c:'S'},
+      {t:'Her şeyi önceden netleştirmiş olmayı tercih ederim, sürpriz sorunlar beni yorar.',c:'Y'},
+      {t:'Sözleşmedeki sorumlulukları kontrol eder, yasal çerçevede çözüm ararım.',c:'M'}]},
+    {q:'Bir kiralık evi tercih ederken danışmanınızdan ne bekliyorsunuz?',opts:[
+      {t:'Filtreleyip en uygun seçenekleri hızlı sunması; zamanımı boşa harcamaması.',c:'K'},
+      {t:'Beni dinleyip gerçekten bana uyan yeri bulması; sayıdan çok uyumu önemsemesi.',c:'S'},
+      {t:'Güvenli, şeffaf ve baskısız bir süreç yürütmesi; beni zorlamadan rehberlik etmesi.',c:'Y'},
+      {t:'Aynı bölgedeki alternatifleri karşılaştırmalı sunması; kararı veriye dayandırmama yardım etmesi.',c:'M'}]}
+  ],
+  LANDLORD_Q:[
+    {q:'Kiracı seçerken en önde gelen kriteriniz nedir?',opts:[
+      {t:'Ödeme gücü yüksek, referansı sağlam, hızlı karar verebilecek biri olsun.',c:'K'},
+      {t:'Evimi anlayan, mekânı özenle kullanacak, nazik ve güler yüzlü biri olsun.',c:'S'},
+      {t:'Sakin, sorunsuz, uzun süreli kalacak ve komşularla anlaşacak biri olsun.',c:'Y'},
+      {t:'Gelir belgesi, kefil durumu ve geçmiş kira sicili net olan biri olsun.',c:'M'}]},
+    {q:'Kira bedelini nasıl belirliyorsunuz?',opts:[
+      {t:'Piyasanın en üstünde tutarım; doğru kiracı gelirse zaten öder.',c:'K'},
+      {t:'Evimin özelliklerine ve sunduğu yaşam kalitesine göre premium bir bedel koyarım.',c:'S'},
+      {t:'Hızlı dolsun, uzun süre boş kalmasın diye piyasayla uyumlu makul bir bedel tercih ederim.',c:'Y'},
+      {t:'Bölgedeki emsal kiraları ve boşluk oranlarını analiz ettikten sonra net bir rakam belirlerim.',c:'M'}]},
+    {q:'Kiracı geç ödeme yaparsa ya da mülkünüze zarar verirse tavrınız ne olur?',opts:[
+      {t:'Önce uyarırım; çözülmezse hukuki süreci hemen başlatırım, toleransım sınırlı.',c:'K'},
+      {t:'Kişisel ilişkiye bakarım; güvendiğim biriyse anlayış gösteririm ama sonunda sonuç isterim.',c:'S'},
+      {t:'Gerilim yaşamaktan hoşlanmam; arabulucu olarak sizi kullanmak isterim.',c:'Y'},
+      {t:'Sözleşmedeki maddeleri tek tek uygularım; kayıplarımı belgeleyip yasal yoldan takip ederim.',c:'M'}]},
+    {q:'Kiralama sürecindeki en büyük endişeniz nedir?',opts:[
+      {t:'Boşluk süresi ve kaybedilen gelir; mülk ne zaman dolacak?',c:'K'},
+      {t:'Evimin kötü kullanılması, değerinin düşmesi veya prestijinin zedelenmesi.',c:'S'},
+      {t:'Sorunlu kiracıyla uğraşmak, hukuki süreçlere girmek ve stres yaşamak.',c:'Y'},
+      {t:'Yasal zorunlulukları atlamak, yanlış sözleşme veya eksik belge yüzünden zarar etmek.',c:'M'}]},
+    {q:'Sizin için ideal bir gayrimenkul danışmanı kiralamalarda ne yapar?',opts:[
+      {t:'Mülkü hızla pazarlar, nitelikli adayları önceden filtreler ve süreci kısa tutar.',c:'K'},
+      {t:'Mülkümü en iyi şekilde sunar, potansiyel kiracılara doğru imajı yansıtır.',c:'S'},
+      {t:'Her adımda bilgi verir, kiracı seçiminde beni rahatlatır ve güven ortamı kurar.',c:'Y'},
+      {t:'Sözleşme şablonunu hazırlar, referans kontrolü yapar ve tüm süreci belgeler.',c:'M'}]}
+  ],
   HYBRID:{
     'K-M':{tag:'Rasyonel Yatırımcı',note:'Murat Bey, bu müşteri sonuç odaklı ama veriyle ikna olur. Sunumu ROI tabloları üzerinden hızlıca yapın.'},
     'K-S':{tag:'Karizmatik Lider',note:'Murat Bey, prestij ve hız ister, sosyal onay da önemli. Referans projeler ve başarı hikâyeleriyle karşılayın.'},
@@ -687,8 +687,8 @@ LANDLORD_Q:[
 let psyLeadData=null,psyAnswers=[],psyQuestions=[],psyStep=0,psyActive=false;
 const LEAD_INSTRUCTION={role:'system',content:`DAHİLİ LEAD KAYIT TALİMATI — KULLANICIYA ASLA BELİRTME:
 İsim VE geçerli telefon (en az 10 rakam) alındıktan sonra, veda mesajının EN SONUNA şu formatta gizli JSON ekle (konuşma başına yalnızca bir kez):
-<LEAD_DATA>{"name":"AD_SOYAD","phone":"TELEFON","type":"Seller veya Buyer","answers":[],"note":""}</LEAD_DATA>
-type: satıcı/ev sahibi için Seller, alıcı/kiracı için Buyer. answers dizisini boş bırak. Kullanıcıya asla söz etme.`};
+<LEAD_DATA>{"name":"AD_SOYAD","phone":"TELEFON","type":"Seller veya Buyer veya Renter veya Landlord","answers":[],"note":""}</LEAD_DATA>
+type: satıcı/ev sahibi için Seller, alıcı için Buyer, kiralık arayan için Renter, kiraya veren için Landlord. answers dizisini boş bırak. Kullanıcıya asla söz etme.`};
 
 let lang='tr',history=[],currentTopic='genel',leadCaptured=false,ttsEnabled=false,isRecording=false,recognition=null;
 const flags={tr:'🇹🇷',en:'🇬🇧',ru:'🇷🇺',de:'🇩🇪'};
@@ -723,52 +723,44 @@ async function sendLeadToWorker(d){try{await fetch(WORKER_URL+'/lead',{method:'P
 
 function showLeadToast(){const t=document.createElement('div');t.className='lead-toast';t.textContent='✓ Bilgiler kaydedildi';document.body.appendChild(t);requestAnimationFrame(()=>t.classList.add('show'));setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),400);},3000);}
 
-//* ── PSY PROFİL FONKSİYONLARI ────────────────────────────── */
+/* ── PSY PROFİL FONKSİYONLARI ────────────────────────────── */
 function addPsyWidget(el){const row=document.createElement('div');row.className='msg-row bot';row.innerHTML=`<div class="avatar">${CROWN_SVG}</div>`;row.appendChild(el);document.getElementById('chatArea').appendChild(row);scrollChat();}
+
+function getPsyQuestions(){
+  if(currentTopic==='satis'||currentTopic==='degerleme')return PROFILER.SELLER_Q;
+  if(currentTopic==='kirasatma')return PROFILER.LANDLORD_Q;
+  if(currentTopic==='kiralama')return PROFILER.RENTER_Q;
+  return PROFILER.BUYER_Q;
+}
 
 function saveLead(partial=false){
   if(!psyLeadData)return;
   const result=PROFILER.calc(psyAnswers);
-  const type=(currentTopic==='satis'||currentTopic==='degerleme')?'Seller'
-  :(currentTopic==='kiraya-ver')?'Landlord'
-  :(currentTopic==='kiralama')?'Tenant'
-  :'Buyer';
+  const TYPE_MAP={satis:'Seller',degerleme:'Seller',kirasatma:'Landlord',kiralama:'Renter',satin:'Buyer',yatirim:'Buyer',genel:'Buyer'};
+  const type=TYPE_MAP[currentTopic]||'Buyer';
   const colorMap={K:'Kirmizi',S:'Sari',Y:'Yesil',M:'Mavi'};
   const answers=psyAnswers.map(a=>colorMap[a]||a);
-
-  // Dominant ve secondary rengi bul
   const counts={Kirmizi:0,Sari:0,Yesil:0,Mavi:0};
   answers.forEach(a=>{if(counts[a]!==undefined)counts[a]++;});
   const sorted=Object.entries(counts).sort((a,b)=>b[1]-a[1]);
-  const dominant=sorted[0][0];
-  const secondary=sorted[1][0];
-
   const ld=Object.assign({},psyLeadData,{
-    type,
-    answers,
-    partial,
-    answered:psyAnswers.length,
+    type,answers,partial,answered:psyAnswers.length,
     analysis_result:{
-      dominant_color: dominant,
-      secondary_color: secondary,
-      score_ratio: `${sorted[0][1]}/${sorted[1][1]}`,
-      profile_tag: result.profile||'',
-      expert_note: result.expert_note||'',
-      score_breakdown: Object.fromEntries(sorted),
+      dominant_color:sorted[0][0],
+      secondary_color:sorted[1][0],
+      score_ratio:`${sorted[0][1]}/${sorted[1][1]}`,
+      profile_tag:result.profile_tag||'',
+      expert_note:result.expert_note||'',
+      score_breakdown:Object.fromEntries(sorted)
     }
   });
-
-  fetch(WORKER_URL+'/lead',{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify(ld)
-  }).catch(()=>{});
+  fetch(WORKER_URL+'/lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(ld)}).catch(()=>{});
 }
 
 function showPsyOffer(leadData){
   if(psyActive)return;
   psyLeadData=leadData;
-  saveLead(true); // telefon geldi, hemen kaydet
+  saveLead(true);
   const wrap=document.createElement('div');wrap.className='bubble bot-b';
   wrap.innerHTML=`<div class="psy-offer-wrap"><div class="psy-offer-msg">Size en uygun gayrimenkul deneyimini sunmak için birkaç soru sormak istiyorum. Size en uygun şıkkı işaretlemeniz yeterli. Başlayalım mı?</div><div class="psy-btn-row"><button class="psy-btn primary" id="psyYes">Evet</button><button class="psy-btn ghost" id="psyNo">Hayır</button></div></div>`;
   const row=document.createElement('div');row.className='msg-row bot';row.innerHTML=`<div class="avatar">${CROWN_SVG}</div>`;row.appendChild(wrap);document.getElementById('chatArea').appendChild(row);scrollChat();
@@ -779,24 +771,16 @@ function showPsyOffer(leadData){
   wrap.querySelector('#psyNo').onclick=()=>{
     wrap.querySelectorAll('.psy-btn').forEach(b=>{b.disabled=true;b.style.opacity='0.5';});
     addMsg('Hayır','user');
-    saveLead(true); // hayır dedi ama kayıtlı
+    saveLead(true);
     setTimeout(()=>{addMsg('Teşekkürler. Başka sorunuz yoksa Murat Bey <strong>0532 456 48 66</strong> numaralı hattından size en kısa sürede ulaşacaktır. İyi günler dilerim. 🙏','bot');},400);
   };
 }
 
 function startPsyTest(){
   psyActive=true;psyAnswers=[];psyStep=0;
-  if(currentTopic==='satis'||currentTopic==='degerleme'){
-    psyQuestions=PROFILER.SELLER_Q;
-  }else if(currentTopic==='kiralama'){
-    psyQuestions=PROFILER.TENANT_Q;
-  }else if(currentTopic==='kiraya-ver'){
-    psyQuestions=PROFILER.LANDLORD_Q;
-  }else{
-    psyQuestions=PROFILER.BUYER_Q;
-  }
+  psyQuestions=getPsyQuestions();
   setTimeout(()=>showPsyQuestion(),300);
-} 
+}
 
 function showPsyQuestion(){
   const qd=psyQuestions[psyStep];
@@ -810,19 +794,15 @@ function showPsyQuestion(){
       card.querySelectorAll('.psy-opt').forEach(b=>{b.disabled=true;b.style.opacity='0.5';});
       btn.style.opacity='1';btn.style.borderColor='var(--navy-lt)';btn.style.background='rgba(30,74,138,0.08)';
       psyAnswers.push(btn.dataset.c);psyStep++;
-      if(psyStep<5){
-        saveLead(true); // her soruda güncelle
-        setTimeout(()=>showPsyQuestion(),350);
-      }else{
-        setTimeout(()=>finishPsyTest(),350);
-      }
+      if(psyStep<5){saveLead(true);setTimeout(()=>showPsyQuestion(),350);}
+      else{setTimeout(()=>finishPsyTest(),350);}
     };
   });
 }
 
 function finishPsyTest(){
   psyActive=false;
-  saveLead(false); // tamamlandı, partial=false
+  saveLead(false);
   showLeadToast();
   setTimeout(()=>{
     const name=psyLeadData?.name||'';
@@ -835,66 +815,34 @@ async function askQ(userMsg){
   const sysContent=T[lang].system+'\n'+LEAD_INSTRUCTION.content;
   const msgs=[{role:'system',content:sysContent},...history];
   let data=null;
-  // ── Önce Worker'ı dene ──────────────────────────────────────────────────
   try{
-    const res=await fetch(WORKER_URL,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      credentials:'omit',
-      body:JSON.stringify({messages:msgs})
-    });
+    const res=await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},credentials:'omit',body:JSON.stringify({messages:msgs})});
     if(res.ok){data=await res.json();}
     else if(res.status===403||res.status===401){data=null;}
     else{const t=await res.text().catch(()=>'');throw new Error('HTTP '+res.status+': '+t.substring(0,80));}
   }catch(workerErr){
     console.warn('Worker failed, trying direct Groq:',workerErr.message);
-    // ── Worker çalışmadı — Groq API key var mı? ───────────────────────────
-    if(!_gkey||_gkey==='__GROQ_KEY__'){
-      removeTyping();
-      addMsg('Sistem hatası: API yapılandırması eksik.','bot');
-      history.pop();
-      return;
-    }
-    // ── Groq'a doğrudan çağır ─────────────────────────────────────────────
+    if(!_gkey||_gkey==='__GROQ_KEY__'){removeTyping();addMsg('Sistem hatası: API yapılandırması eksik.','bot');history.pop();return;}
     try{
-      const r2=await fetch(GROQ_DIRECT,{
-        method:'POST',
-        headers:{'Content-Type':'application/json','Authorization':'Bearer '+_gkey},
-        body:JSON.stringify({model:GROQ_MODEL,messages:msgs,max_tokens:1024,temperature:0.7})
-      });
+      const r2=await fetch(GROQ_DIRECT,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+_gkey},body:JSON.stringify({model:GROQ_MODEL,messages:msgs,max_tokens:1024,temperature:0.7})});
       if(!r2.ok){const t=await r2.text().catch(()=>'');throw new Error('Groq HTTP '+r2.status+': '+t.substring(0,80));}
       data=await r2.json();
-    }catch(groqErr){
-      removeTyping();
-      console.error('Groq direct also failed:',groqErr);
-      addMsg('Bağlantı hatası. Lütfen API anahtarınızı kontrol edip tekrar deneyin.','bot');
-      history.pop();
-      return;
-    }
+    }catch(groqErr){removeTyping();console.error('Groq direct also failed:',groqErr);addMsg('Bağlantı hatası. Lütfen API anahtarınızı kontrol edip tekrar deneyin.','bot');history.pop();return;}
   }
   removeTyping();
-  // ── Yanıtı parse et ────────────────────────────────────────────────────
   let reply='';
-  if(data&&data.choices&&data.choices[0]&&data.choices[0].message){
-    reply=data.choices[0].message.content||'';
-  }else if(data&&data.content){reply=String(data.content);}
+  if(data&&data.choices&&data.choices[0]&&data.choices[0].message){reply=data.choices[0].message.content||'';}
+  else if(data&&data.content){reply=String(data.content);}
   if(!reply.trim()){reply='Üzgünüm, bir sorun oluştu. Lütfen tekrar deneyin.';}
-  // ── LEAD_DATA yakala ────────────────────────────────────────────────────
   const leadDataMatch=reply.match(/<LEAD_DATA>([\s\S]*?)<\/LEAD_DATA>/);
   if(leadDataMatch&&!leadCaptured){
     try{
       const ld=JSON.parse(leadDataMatch[1]);
       const phoneDigits=((ld.phone||'').match(/\d/g)||[]).length;
-      if(phoneDigits>=10){
-        ld.topic=currentTopic;ld.lang=lang;ld.timestamp=new Date().toISOString();
-        ld.context=history.slice(0,8).map(m=>({role:m.role,text:m.content.substring(0,300)}));
-        leadCaptured=true;
-        setTimeout(()=>showPsyOffer(ld),1400);
-      }
+      if(phoneDigits>=10){ld.topic=currentTopic;ld.lang=lang;ld.timestamp=new Date().toISOString();ld.context=history.slice(0,8).map(m=>({role:m.role,text:m.content.substring(0,300)}));leadCaptured=true;setTimeout(()=>showPsyOffer(ld),1400);}
     }catch(e){}
   }
   reply=reply.replace(/\s*<LEAD_DATA>[\s\S]*?<\/LEAD_DATA>/g,'').trim();
-  // ── Eski ##LEAD## formatı (geriye dönük uyum) ──────────────────────────
   const leadMatch=reply.match(/##LEAD##(\{[^}]+\})##/);
   const phoneInLead=leadMatch?((leadMatch[1]||'').match(/\d/g)||[]).length:0;
   if(leadMatch&&!leadCaptured&&phoneInLead>=10){
@@ -904,11 +852,22 @@ async function askQ(userMsg){
   history.push({role:'assistant',content:reply});addMsg(reply,'bot');
 }
 
+function startChat(type){
+  currentTopic=type;showChat();
+  if(!document.getElementById('chatArea').children.length)addDate();
+  const labels={
+    satis:{tr:'Mülkümü satılığa çıkarmak istiyorum. Ekspertiz ve piyasa değeri hakkında bilgi almak istiyorum.',en:'I would like to list my property for sale. I need a valuation.',ru:'Хочу выставить недвижимость на продажу.',de:'Ich möchte meine Immobilie zum Verkauf anbieten.'},
+    kiralama:{tr:'Kiralık gayrimenkul arıyorum.',en:'I am looking for a property to rent.',ru:'Ищу недвижимость в аренду.',de:'Ich suche eine Mietimmobilie.'},
+    kirasatma:{tr:'Mülkümü kiraya vermek istiyorum. Kiracı bulma ve kira bedeli hakkında bilgi almak istiyorum.',en:'I would like to rent out my property.',ru:'Хочу сдать недвижимость в аренду.',de:'Ich möchte meine Immobilie vermieten.'},
+    yatirim:{tr:'Satılık gayrimenkul arıyorum. Yatırım ve bölge analizi hakkında bilgi almak istiyorum.',en:'I am looking for a property to buy for investment.',ru:'Ищу недвижимость для покупки.',de:'Ich suche eine Immobilie zum Kauf.'},
+    degerleme:{tr:'Mülküm için ücretsiz ekspertiz ve değerleme hizmeti almak istiyorum.',en:'I would like a free expert appraisal and valuation for my property.',ru:'Хочу получить бесплатную оценку своей недвижимости.',de:'Ich möchte eine kostenlose Expertenbewertung für meine Immobilie.'}
+  };
+  const msg=(labels[type]&&(labels[type][lang]||labels[type]['tr']))||labels['yatirim']['tr'];
+  addMsg(msg,'user');askQ(msg);
+}
 
-function startChat(type){currentTopic=type;showChat();if(!document.getElementById('chatArea').children.length)addDate();const labels={satis:{tr:'Mülkümü satılığa çıkarmak istiyorum. Ekspertiz ve piyasa değeri hakkında bilgi almak istiyorum.',en:'I would like to list my property for sale. I need a valuation.',ru:'Хочу выставить недвижимость на продажу.',de:'Ich möchte meine Immobilie zum Verkauf anbieten.'},kiralama:{tr:'Kiralık gayrimenkul arıyorum.',en:'I am looking for a property to rent.',ru:'Ищу недвижимость в аренду.',de:'Ich suche eine Mietimmobilie.'},yatirim:{tr:'Satılık gayrimenkul arıyorum. Yatırım ve bölge analizi hakkında bilgi almak istiyorum.',en:'I am looking for a property to buy for investment.',ru:'Ищу недвижимость для покупки.',de:'Ich suche eine Immobilie zum Kauf.'},degerleme:{tr:'Mülküm için ücretsiz ekspertiz ve değerleme hizmeti almak istiyorum.',en:'I would like a free expert appraisal and valuation for my property.',ru:'Хочу получить бесплатную оценку своей недвижимости.',de:'Ich möchte eine kostenlose Expertenbewertung für meine Immobilie.,'kiraya-ver':{tr:'Mülkümü kiraya vermek istiyorum. Kiracı bulma sürecinde danışmanlık almak istiyorum.',en:'I would like to rent out my property.',ru:'Хочу сдать свою недвижимость в аренду.',de:'Ich möchte meine Immobilie vermieten.'}'}};const msg=labels[type][lang]||labels[type]['tr'];addMsg(msg,'user');askQ(msg);}
 function sendFromHome(){const input=document.getElementById('homeInput');const text=input.value.trim();if(!text)return;input.value='';currentTopic='genel';showChat();if(!document.getElementById('chatArea').children.length)addDate();addMsg(text,'user');askQ(text);}
 function sendMsg(){const input=document.getElementById('chatInput');const text=input.value.trim();if(!text)return;input.value='';addMsg(text,'user');askQ(text);}
-
 applyLang();initVoice();initTTS();
 function fixHeight(){document.querySelector('.app').style.height=(window.visualViewport?window.visualViewport.height:window.innerHeight)+'px';}
 if(window.visualViewport)window.visualViewport.addEventListener('resize',function(){fixHeight();scrollChat();});
