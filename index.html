@@ -600,6 +600,60 @@ const PROFILER={
       {t:'Beni sabırla dinleyen, her adımda yanımda olan, sadık ve güven veren kişi.',c:'Y'},
       {t:'İşini şansa bırakmayan, mükemmeliyetçi, kurallara uyan ve verilerle konuşan kişi.',c:'M'}]}
   ],
+  TENANT_Q:[
+  {q:'Kiralık bir ev ararken önceliğiniz ne olur?',opts:[
+    {t:'Hemen taşınabileceğim, hızlı sonuçlanan bir süreç.',c:'K'},
+    {t:'Konforlu, estetik, yaşam tarzımı yansıtan bir yer.',c:'S'},
+    {t:'Güvenli, sakin, uzun süre yerleşebileceğim bir mahalle.',c:'Y'},
+    {t:'Kira/masraf dengesi uygun, sözleşme şartları net bir yer.',c:'M'}]},
+  {q:'Evi gezerken dikkatinizi en çok ne çeker?',opts:[
+    {t:'Konum, ulaşım ve işime yakınlık.',c:'K'},
+    {t:'Dekorasyon, ışık ve genel atmosfer.',c:'S'},
+    {t:'Bina güvenliği, komşuluk düzeni.',c:'Y'},
+    {t:'Aidat, faturalar ve teknik altyapı detayları.',c:'M'}]},
+  {q:'Kira bütçenizi nasıl yönetirsiniz?',opts:[
+    {t:'Bütçemi aşsa da hemen taşınmamı sağlayan yeri tercih ederim.',c:'K'},
+    {t:'Beğendiğim yer için bütçemi biraz esnetebilirim.',c:'S'},
+    {t:'Belirlediğim bütçenin dışına asla çıkmam.',c:'Y'},
+    {t:'Bölgedeki kira emsallerini karşılaştırarak karar veririm.',c:'M'}]},
+  {q:'Kiralama sürecinde sizi en çok ne zorlar?',opts:[
+    {t:'Yavaş ilerleyen, bekletilen süreçler.',c:'K'},
+    {t:'Soğuk, resmi ve duygusuz iletişim.',c:'S'},
+    {t:'Aceleye getirilmek, baskı altında karar vermek.',c:'Y'},
+    {t:'Sözleşme veya depozitoyla ilgili eksik/belirsiz bilgi.',c:'M'}]},
+  {q:'Gayrimenkul danışmanınızda en çok ne ararsınız?',opts:[
+    {t:'Hızlı sonuç getiren, profesyonel tavır.',c:'K'},
+    {t:'Sıcak, samimi ve pozitif iletişim.',c:'S'},
+    {t:'Güvenilir, şeffaf ve sabırlı yaklaşım.',c:'Y'},
+    {t:'Doğru bilgi ve net sözleşme detayları sunan uzmanlık.',c:'M'}]}
+],
+LANDLORD_Q:[
+  {q:'Mülkünüzü kiraya verirken kira bedelini nasıl belirlersiniz?',opts:[
+    {t:'Piyasanın üstünde, kararlı bir rakamla başlarım.',c:'K'},
+    {t:'Evimin özel yönlerini yansıtan, hak ettiği değerde bir rakam.',c:'S'},
+    {t:'Çok beklemeyecek ama mağdur etmeyecek dengeli bir rakam.',c:'Y'},
+    {t:'Bölgedeki kira emsallerine dayalı, veriyle desteklenmiş bir rakam.',c:'M'}]},
+  {q:'Kiracı adaylarıyla ilgili önceliğiniz nedir?',opts:[
+    {t:'Süreci hızlandıracak, ödeme gücü net kiracılar gelsin.',c:'K'},
+    {t:'Evime değer verecek, evi iyi kullanacak kiracılar olsun.',c:'S'},
+    {t:'Güvenilir, referansları sağlam, uzun süre kalacak kiracılar olsun.',c:'Y'},
+    {t:'Kiracı geçmişi ve gelir belgeleri önceden değerlendirilip raporlansın.',c:'M'}]},
+  {q:'Kira sözleşmesi ve depozito konusunda yaklaşımınız nedir?',opts:[
+    {t:'Standart şartlarla hızlıca imzalansın, vakit kaybetmeyelim.',c:'K'},
+    {t:'Şartlar net olsun ama süreç keyifli ve rahat geçsin.',c:'S'},
+    {t:'Her madde önceden açıkça konuşulsun, sürpriz olmasın.',c:'Y'},
+    {t:'Sözleşme yasal olarak eksiksiz, depozito şartları detaylı yazılı olsun.',c:'M'}]},
+  {q:'Kiracıdan gelen bir talep veya şikayet karşısında tepkiniz ne olur?',opts:[
+    {t:'Makul ise hızlıca çözerim, gereksiz tartışmaya girmem.',c:'K'},
+    {t:'Kiracıyla iyi ilişkiyi sürdürmek önemli, esnek davranırım.',c:'S'},
+    {t:'Sorunun büyümeden, sakin şekilde çözülmesini isterim.',c:'Y'},
+    {t:'Talebi sözleşme şartlarına göre değerlendirir, yazılı süreç isterim.',c:'M'}]},
+  {q:'Sizin için mükemmel bir gayrimenkul danışmanı kimdir?',opts:[
+    {t:'İşi hızlı bitiren, sonuç odaklı kişi.',c:'K'},
+    {t:'Mülkümün değerini bilen, iyi sunan, samimi kişi.',c:'S'},
+    {t:'Güven veren, süreci adım adım takip eden kişi.',c:'Y'},
+    {t:'Doğru kiracıyı veri ile bulan, sözleşmeyi eksiksiz hazırlayan kişi.',c:'M'}]}
+],
   HYBRID:{
     'K-M':{tag:'Rasyonel Yatırımcı',note:'Murat Bey, bu müşteri sonuç odaklı ama veriyle ikna olur. Sunumu ROI tabloları üzerinden hızlıca yapın.'},
     'K-S':{tag:'Karizmatik Lider',note:'Murat Bey, prestij ve hız ister, sosyal onay da önemli. Referans projeler ve başarı hikâyeleriyle karşılayın.'},
@@ -675,7 +729,10 @@ function addPsyWidget(el){const row=document.createElement('div');row.className=
 function saveLead(partial=false){
   if(!psyLeadData)return;
   const result=PROFILER.calc(psyAnswers);
-  const type=(currentTopic==='satis'||currentTopic==='degerleme')?'Seller':'Buyer';
+  const type=(currentTopic==='satis'||currentTopic==='degerleme')?'Seller'
+  :(currentTopic==='kiraya-ver')?'Landlord'
+  :(currentTopic==='kiralama')?'Tenant'
+  :'Buyer';
   const colorMap={K:'Kirmizi',S:'Sari',Y:'Yesil',M:'Mavi'};
   const answers=psyAnswers.map(a=>colorMap[a]||a);
 
@@ -729,9 +786,17 @@ function showPsyOffer(leadData){
 
 function startPsyTest(){
   psyActive=true;psyAnswers=[];psyStep=0;
-  psyQuestions=(currentTopic==='satis'||currentTopic==='degerleme')?PROFILER.SELLER_Q:PROFILER.BUYER_Q;
+  if(currentTopic==='satis'||currentTopic==='degerleme'){
+    psyQuestions=PROFILER.SELLER_Q;
+  }else if(currentTopic==='kiralama'){
+    psyQuestions=PROFILER.TENANT_Q;
+  }else if(currentTopic==='kiraya-ver'){
+    psyQuestions=PROFILER.LANDLORD_Q;
+  }else{
+    psyQuestions=PROFILER.BUYER_Q;
+  }
   setTimeout(()=>showPsyQuestion(),300);
-}
+} 
 
 function showPsyQuestion(){
   const qd=psyQuestions[psyStep];
