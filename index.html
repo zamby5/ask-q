@@ -740,6 +740,411 @@ const PROFILER={
     'Y-Y':{tag:'Güvenli Liman',note:'Murat Bey, her adımda şeffaf olun, belgeleri önceden paylaşın.'},
     'M-M':{tag:'Veri Ustası',note:'Murat Bey, emsal tablosu, fiyat grafiği, hukuki özet belgeler hazırlayın.'}
   },
+  /* ════════════════════════════════════════════════════════════
+   PSYCHOLOGICAL PROFILING MODULE
+   ═══════════════════════════════════════════════════════════════ */
+const PROFILER={
+  COLOR_HEX:{K:'#ef4444',S:'#f59e0b',Y:'#16a34a',M:'#2563eb'},
+  COLOR_LABEL:{K:'🔴 Red',S:'🟡 Yellow',Y:'🟢 Green',M:'🔵 Blue'},
+  COLOR_NAME:{K:'Red',S:'Yellow',Y:'Green',M:'Blue'},
+  BUYER_Q:[
+    {q:'What is your priority when looking for a property?',opts:[
+      {t:'A place with high appreciation potential, prestigious, a "grab it before someone else does" opportunity.',c:'K'},
+      {t:'A place with aesthetic design, comfort, and a unique lifestyle vibe.',c:'S'},
+      {t:'A calm, safe, peaceful neighborhood where I can trust the surroundings.',c:'Y'},
+      {t:'A mathematically sound choice with good regional data, rental yield, and comparable prices.',c:'M'}]},
+    {q:'What catches your attention most when you visit a property for the first time?',opts:[
+      {t:'Appreciation potential and profit margin.',c:'K'},
+      {t:'Light, architectural aesthetics, and living comfort.',c:'S'},
+      {t:'Structural integrity, security, and long-term peace.',c:'Y'},
+      {t:'Technical specifications, floor plans, and documentation.',c:'M'}]},
+    {q:'How do you manage your budget?',opts:[
+      {t:'I evaluate the right opportunity quickly; I keep my budget flexible.',c:'K'},
+      {t:'If I form an emotional bond, I might stretch the budget a bit.',c:'S'},
+      {t:'I never exceed my determined budget.',c:'Y'},
+      {t:'I make decisions by analyzing comparable prices.',c:'M'}]},
+    {q:'What makes your decision-making process most difficult?',opts:[
+      {t:'Bureaucratic procedures and slow-moving processes.',c:'K'},
+      {t:'A formal, emotionless presentation or cold attitude.',c:'S'},
+      {t:'Being pressured or rushed.',c:'Y'},
+      {t:'Missing information, insufficient documents, or data gaps.',c:'M'}]},
+    {q:'What do you look for most in your real estate consultant?',opts:[
+      {t:'Professionalism, being results-oriented, and moving quickly.',c:'K'},
+      {t:'Positive, energetic, and sincere communication.',c:'S'},
+      {t:'Transparent, honest, and reliable relationship.',c:'Y'},
+      {t:'Expert knowledge and proven data.',c:'M'}]}
+  ],
+  SELLER_Q:[
+    {q:'What is your approach to determining the price of your home?',opts:[
+      {t:'An ambitious figure that will dominate the market and bring me maximum profit.',c:'K'},
+      {t:'A special figure that reflects the unique soul, aesthetics, and prestige of my home.',c:'S'},
+      {t:'A safe middle ground that won\'t keep it on the market too long but won\'t cause a loss.',c:'Y'},
+      {t:'A clear figure based on regional comparable sales data and appraisal reports.',c:'M'}]},
+    {q:'What is your rule regarding bringing prospective buyers to your home?',opts:[
+      {t:'Only buyers with ready financing and clear intent; I don\'t want to waste time.',c:'K'},
+      {t:'Let people who understand the vision of the house, know its value, and are affected by the lifestyle.',c:'S'},
+      {t:'Visits must be planned in advance; do not disturb my family order or peace at home.',c:'Y'},
+      {t:'Buyer pre-screening should be data-based and reported to me beforehand.',c:'M'}]},
+    {q:'What is your reaction if you receive a low offer or criticism about your home?',opts:[
+      {t:'If the price works for me at the end of the day, I sell; I don\'t get emotional about criticism, this is business.',c:'K'},
+      {t:'I don\'t like unfair criticism of my home; I don\'t want to sell to those who don\'t know its value.',c:'S'},
+      {t:'I don\'t like tension; I expect you to calm the situation and find a middle ground.',c:'Y'},
+      {t:'I want you to refute the offer and criticism with market realities and logical data.',c:'M'}]},
+    {q:'What is your biggest concern in the sales process?',opts:[
+      {t:'Losing control, wasting time, and experiencing financial loss.',c:'K'},
+      {t:'Damaging the prestige of my property and myself, or my listing becoming ordinary.',c:'S'},
+      {t:'Disruption of my accustomed routine, dealing with untrustworthy people, and stress.',c:'Y'},
+      {t:'Missing a legal procedure or suffering statistical loss due to wrong pricing.',c:'M'}]},
+    {q:'Who is the perfect real estate consultant for you?',opts:[
+      {t:'Someone who doesn\'t make excuses, is competitive, and gets the result no matter what.',c:'K'},
+      {t:'Someone persuasive, socially skilled, who adds value and tells a good story about my property.',c:'S'},
+      {t:'Someone who listens patiently, is with me every step of the way, loyal and trustworthy.',c:'Y'},
+      {t:'Someone who doesn\'t leave things to chance, is a perfectionist, follows the rules, and talks with data.',c:'M'}]}
+  ],
+  TENANT_Q:[
+    {q:'What is your priority when looking for a rental home?',opts:[
+      {t:'A process that results quickly so I can move in immediately.',c:'K'},
+      {t:'A comfortable, aesthetic place that reflects my lifestyle.',c:'S'},
+      {t:'A safe, calm neighborhood where I can stay for a long time.',c:'Y'},
+      {t:'A place with a good balance of rent/expenses and clear contract terms.',c:'M'}]},
+    {q:'What catches your attention most when visiting the home?',opts:[
+      {t:'Location, transportation, and proximity to work.',c:'K'},
+      {t:'Decoration, light, and general atmosphere.',c:'S'},
+      {t:'Building security and neighborhood order.',c:'Y'},
+      {t:'Dues, bills, and technical infrastructure details.',c:'M'}]},
+    {q:'How do you manage your rent budget?',opts:[
+      {t:'I prefer the place that allows me to move in immediately, even if it exceeds my budget.',c:'K'},
+      {t:'I might stretch my budget a bit for a place I like.',c:'S'},
+      {t:'I never exceed my determined budget.',c:'Y'},
+      {t:'I decide by comparing regional rental comparables.',c:'M'}]},
+    {q:'What challenges you the most in the rental process?',opts:[
+      {t:'Slow, stalled processes.',c:'K'},
+      {t:'Cold, formal, and emotionless communication.',c:'S'},
+      {t:'Being rushed or forced to decide under pressure.',c:'Y'},
+      {t:'Missing or ambiguous information regarding contracts or deposits.',c:'M'}]},
+    {q:'What do you look for most in your real estate consultant?',opts:[
+      {t:'A professional attitude that delivers quick results.',c:'K'},
+      {t:'Warm, sincere, and positive communication.',c:'S'},
+      {t:'A reliable, transparent, and patient approach.',c:'Y'},
+      {t:'Expertise that offers correct information and clear contract details.',c:'M'}]}
+  ],
+  LANDLORD_Q:[
+    {q:'How do you determine the rental price when renting out your property?',opts:[
+      {t:'I start with a firm figure above the market.',c:'K'},
+      {t:'A figure that reflects the special aspects of my home and its worth.',c:'S'},
+      {t:'A balanced figure that won\'t wait too long but won\'t victimize me.',c:'Y'},
+      {t:'A figure supported by data based on regional rental comparables.',c:'M'}]},
+    {q:'What is your priority regarding prospective tenants?',opts:[
+      {t:'Tenants with clear payment capacity who will speed up the process.',c:'K'},
+      {t:'Tenants who will value my home and use it well.',c:'S'},
+      {t:'Reliable tenants with strong references who will stay for a long time.',c:'Y'},
+      {t:'Tenant history and income documents should be evaluated and reported beforehand.',c:'M'}]},
+    {q:'What is your approach to the rental contract and deposit?',opts:[
+      {t:'Sign quickly with standard terms, let\'s not waste time.',c:'K'},
+      {t:'Terms should be clear, but the process should be pleasant and comfortable.',c:'S'},
+      {t:'Every clause should be discussed openly beforehand, no surprises.',c:'Y'},
+      {t:'The contract should be legally complete and deposit terms detailed in writing.',c:'M'}]},
+    {q:'What is your reaction to a request or complaint from a tenant?',opts:[
+      {t:'If it\'s reasonable, I solve it quickly; I don\'t enter unnecessary arguments.',c:'K'},
+      {t:'Maintaining a good relationship with the tenant is important; I act flexibly.',c:'S'},
+      {t:'I want the problem solved calmly before it grows.',c:'Y'},
+      {t:'I evaluate the request according to contract terms and require a written process.',c:'M'}]},
+    {q:'Who is the perfect real estate consultant for you?',opts:[
+      {t:'Someone who gets the job done fast, results-oriented.',c:'K'},
+      {t:'Someone who knows the value of my property, presents it well, and is sincere.',c:'S'},
+      {t:'Someone who is reliable and follows the process step by step.',c:'Y'},
+      {t:'Someone who finds the right tenant with data and prepares the contract flawlessly.',c:'M'}]}
+  ],
+  HYBRID:{
+    'K-M':{tag:'Rational Investor',note:'Mr. Murat, this client is results-oriented but persuaded by data. Make the presentation quickly via ROI tables.'},
+    'K-S':{tag:'Charismatic Leader',note:'Mr. Murat wants prestige and speed, social approval is also important. Meet him with reference projects and success stories.'},
+    'K-Y':{tag:'Strong Protector',note:'Mr. Murat decides fast but won\'t compromise on trust. Share contract details transparently.'},
+    'S-Y':{tag:'Emotional Trust Seeker',note:'Mr. Murat prioritizes warm relations and trust. Avoid pressure, be sincere and calm.'},
+    'S-M':{tag:'Visionary Detailer',note:'Mr. Murat wants both aesthetics and proof. Prepare visual presentation + technical documents.'},
+    'Y-M':{tag:'Safe Analyst',note:'Mr. Murat doesn\'t take risks but analyzes. Have comparable prices and legal documents ready.'},
+    'M-K':{tag:'Rational Investor',note:'Mr. Murat is data-focused but wants results speed. Make an analytical presentation.'},
+    'M-S':{tag:'Technical Artist',note:'Mr. Murat wants technical details + aesthetics. Prepare quality visual and document presentation.'},
+    'M-Y':{tag:'Systematic Planner',note:'Mr. Murat, provide a detailed document package, transparent step-by-step roadmap.'},
+    'Y-K':{tag:'Safe Decision Maker',note:'Mr. Murat, establish trust first, then present a clear action plan.'},
+    'Y-S':{tag:'Peace Seeker',note:'Mr. Murat, sincere, pressure-free presentation. Aesthetics and atmosphere are important.'},
+    'S-K':{tag:'Social Fast Decision',note:'Mr. Murat, create excitement. Avoid long analytical presentations.'},
+    'K-K':{tag:'Net Leader',note:'Mr. Murat, keep the meeting short and effective, take action immediately.'},
+    'S-S':{tag:'Social Soul',note:'Mr. Murat, build a personal bond, create a positive atmosphere.'},
+    'Y-Y':{tag:'Safe Harbor',note:'Mr. Murat, be transparent in every step, share documents in advance.'},
+    'M-M':{tag:'Data Master',note:'Mr. Murat, prepare comparable table, price chart, and legal summary documents.'}
+  }
+};
+
+  /* ════════════════════════════════════════════════════════════
+   МОДУЛЬ ПСИХОЛОГИЧЕСКОГО ПРОФИЛИРОВАНИЯ
+   ═══════════════════════════════════════════════════════════════ */
+const PROFILER={
+  COLOR_HEX:{K:'#ef4444',S:'#f59e0b',Y:'#16a34a',M:'#2563eb'},
+  COLOR_LABEL:{K:'🔴 Красный',S:'🟡 Желтый',Y:'🟢 Зеленый',M:'🔵 Синий'},
+  COLOR_NAME:{K:'Красный',S:'Желтый',Y:'Зеленый',M:'Синий'},
+  BUYER_Q:[
+    {q:'Что является вашим приоритетом при поиске недвижимости?',opts:[
+      {t:'Объект с высоким потенциалом роста стоимости, престижный, в стиле «успеть купить, пока не забрали».',c:'K'},
+      {t:'Место с эстетичным дизайном, комфортом и уникальной атмосферой.',c:'S'},
+      {t:'Спокойный, безопасный район, где можно доверять окружению.',c:'Y'},
+      {t:'Математически обоснованный выбор с хорошими региональными данными, доходностью от аренды и рыночными ценами.',c:'M'}]},
+    {q:'На что вы обращаете внимание в первую очередь при посещении объекта?',opts:[
+      {t:'Потенциал роста стоимости и маржа прибыли.',c:'K'},
+      {t:'Свет, архитектурная эстетика и комфорт жизни.',c:'S'},
+      {t:'Прочность конструкции, безопасность и долгосрочный покой.',c:'Y'},
+      {t:'Технические характеристики, планировочные детали и документация.',c:'M'}]},
+    {q:'Как вы управляете своим бюджетом?',opts:[
+      {t:'Быстро оцениваю хорошую возможность; держу бюджет гибким.',c:'K'},
+      {t:'Если возникла эмоциональная привязанность, могу немного увеличить бюджет.',c:'S'},
+      {t:'Никогда не превышаю установленный бюджет.',c:'Y'},
+      {t:'Принимаю решения, анализируя сопоставимые цены.',c:'M'}]},
+    {q:'Что больше всего затрудняет процесс принятия решения?',opts:[
+      {t:'Бюрократические проволочки и медленное продвижение дел.',c:'K'},
+      {t:'Официальная, безэмоциональная презентация или холодное отношение.',c:'S'},
+      {t:'Давление или необходимость спешить.',c:'Y'},
+      {t:'Недостаток информации, отсутствие документов или пробелы в данных.',c:'M'}]},
+    {q:'Что вы больше всего цените в своем агенте по недвижимости?',opts:[
+      {t:'Профессионализм, ориентированность на результат и скорость.',c:'K'},
+      {t:'Позитивное, энергичное и искреннее общение.',c:'S'},
+      {t:'Прозрачные, честные и доверительные отношения.',c:'Y'},
+      {t:'Экспертные знания и подкрепленные данными аргументы.',c:'M'}]}
+  ],
+  SELLER_Q:[
+    {q:'Каков ваш подход к установлению цены на ваш дом?',opts:[
+      {t:'Амбициозная цифра, которая доминирует на рынке и принесет мне максимальную прибыль.',c:'K'},
+      {t:'Особая цифра, отражающая уникальный дух, эстетику и престиж моего дома.',c:'S'},
+      {t:'Безопасная «золотая середина», чтобы не затягивать продажу, но и не потерять в деньгах.',c:'Y'},
+      {t:'Четкая цифра, основанная на данных о продажах аналогичных объектов и отчетах об оценке.',c:'M'}]},
+    {q:'Каковы ваши правила показа дома потенциальным покупателям?',opts:[
+      {t:'Только покупатели с готовым финансированием и четким намерением; не хочу терять время.',c:'K'},
+      {t:'Пусть приходят те, кто понимает видение дома, ценит его и впечатлен стилем жизни.',c:'S'},
+      {t:'Визиты должны планироваться заранее; не нарушайте мой семейный уклад и покой.',c:'Y'},
+      {t:'Предварительный отбор покупателей на основе данных с отчетом мне заранее.',c:'M'}]},
+    {q:'Какова ваша реакция на низкое предложение или критику вашего дома?',opts:[
+      {t:'Если цена устраивает меня в итоге, я продаю; не реагирую эмоционально на критику, это бизнес.',c:'K'},
+      {t:'Мне не нравится несправедливая критика моего дома; не хочу продавать тем, кто не знает его ценности.',c:'S'},
+      {t:'Не люблю напряженность; ожидаю, что вы сгладите ситуацию и найдете компромисс.',c:'Y'},
+      {t:'Хочу, чтобы вы опровергли предложение и критику реальными рыночными данными и логикой.',c:'M'}]},
+    {q:'Что вас больше всего беспокоит в процессе продажи?',opts:[
+      {t:'Потеря контроля, пустая трата времени и финансовые потери.',c:'K'},
+      {t:'Ущерб престижу объекта или моему имиджу, либо обесценивание моего объявления.',c:'S'},
+      {t:'Нарушение привычного ритма жизни, общение с ненадежными людьми и стресс.',c:'Y'},
+      {t:'Упущение юридических процедур или статистические убытки из-за неправильного ценообразования.',c:'M'}]},
+    {q:'Кто для вас идеальный агент по недвижимости?',opts:[
+      {t:'Тот, кто не ищет оправданий, конкурентоспособен и добивается результата любой ценой.',c:'K'},
+      {t:'Убедительный, коммуникабельный, умеющий создать добавочную стоимость и красиво рассказать о доме.',c:'S'},
+      {t:'Тот, кто терпеливо слушает, поддерживает на каждом этапе, предан и вызывает доверие.',c:'Y'},
+      {t:'Перфекционист, который ничего не оставляет на волю случая, следует правилам и говорит языком данных.',c:'M'}]}
+  ],
+  TENANT_Q:[
+    {q:'Что является вашим приоритетом при поиске жилья в аренду?',opts:[
+      {t:'Быстрый процесс, чтобы я мог немедленно въехать.',c:'K'},
+      {t:'Комфортное, эстетичное место, отражающее мой стиль жизни.',c:'S'},
+      {t:'Безопасный, спокойный район, где можно задержаться надолго.',c:'Y'},
+      {t:'Место с хорошим балансом арендной платы/расходов и четкими условиями договора.',c:'M'}]},
+    {q:'На что вы обращаете внимание при осмотре дома?',opts:[
+      {t:'Расположение, транспорт и близость к работе.',c:'K'},
+      {t:'Декор, освещение и общая атмосфера.',c:'S'},
+      {t:'Безопасность здания и порядок среди соседей.',c:'Y'},
+      {t:'Размер коммунальных платежей, счетов и технические детали.',c:'M'}]},
+    {q:'Как вы управляете бюджетом на аренду?',opts:[
+      {t:'Предпочитаю вариант, позволяющий быстро заселиться, даже если это чуть выше бюджета.',c:'K'},
+      {t:'Могу немного расширить бюджет ради того, что мне нравится.',c:'S'},
+      {t:'Никогда не превышаю установленный бюджет.',c:'Y'},
+      {t:'Принимаю решение, сравнивая аналогичные предложения в районе.',c:'M'}]},
+    {q:'Что больше всего затрудняет процесс аренды?',opts:[
+      {t:'Медленные, затянутые процессы.',c:'K'},
+      {t:'Холодное, формальное и безэмоциональное общение.',c:'S'},
+      {t:'Спешка или давление при принятии решения.',c:'Y'},
+      {t:'Отсутствие или неясность информации о договоре или депозите.',c:'M'}]},
+    {q:'Что вы больше всего цените в своем агенте по недвижимости?',opts:[
+      {t:'Профессиональное отношение, приносящее быстрый результат.',c:'K'},
+      {t:'Теплое, искреннее и позитивное общение.',c:'S'},
+      {t:'Надежный, прозрачный и терпеливый подход.',c:'Y'},
+      {t:'Экспертность, предлагающая достоверную информацию и четкие детали договора.',c:'M'}]}
+  ],
+  LANDLORD_Q:[
+    {q:'Как вы определяете размер арендной платы?',opts:[
+      {t:'Начинаю с твердой цифры выше рыночной.',c:'K'},
+      {t:'Цифра, отражающая особые преимущества моего дома и его истинную ценность.',c:'S'},
+      {t:'Сбалансированная цифра, чтобы не ждать долго, но и не остаться в обиде.',c:'Y'},
+      {t:'Цифра, подтвержденная данными об аренде аналогичных объектов в районе.',c:'M'}]},
+    {q:'Что для вас приоритетно в отношении потенциальных арендаторов?',opts:[
+      {t:'Арендаторы с подтвержденной платежеспособностью, которые ускорят процесс.',c:'K'},
+      {t:'Арендаторы, которые будут ценить мой дом и аккуратно им пользоваться.',c:'S'},
+      {t:'Надежные арендаторы с хорошими рекомендациями на длительный срок.',c:'Y'},
+      {t:'Предварительная проверка истории арендатора и доходов с отчетом для меня.',c:'M'}]},
+    {q:'Каков ваш подход к договору аренды и депозиту?',opts:[
+      {t:'Быстро подписать стандартные условия, не теряя времени.',c:'K'},
+      {t:'Условия должны быть ясны, но процесс — приятным и комфортным.',c:'S'},
+      {t:'Каждый пункт должен обсуждаться открыто заранее, никаких сюрпризов.',c:'Y'},
+      {t:'Договор должен быть юридически полным, а условия депозита детально прописаны.',c:'M'}]},
+    {q:'Какова ваша реакция на запрос или жалобу арендатора?',opts:[
+      {t:'Если разумно, решаю быстро; не вступаю в ненужные споры.',c:'K'},
+      {t:'Важно поддерживать хорошие отношения, я действую гибко.',c:'S'},
+      {t:'Хочу, чтобы проблема решалась спокойно, не разрастаясь.',c:'Y'},
+      {t:'Оцениваю запрос согласно договору и требую оформления процесса в письменном виде.',c:'M'}]},
+    {q:'Кто для вас идеальный агент по недвижимости?',opts:[
+      {t:'Тот, кто делает работу быстро и ориентирован на результат.',c:'K'},
+      {t:'Тот, кто знает ценность моего объекта, умеет его презентовать и искренен.',c:'S'},
+      {t:'Тот, кто надежен и сопровождает процесс шаг за шагом.',c:'Y'},
+      {t:'Тот, кто находит правильного арендатора с помощью данных и безупречно готовит договор.',c:'M'}]}
+  ],
+  HYBRID:{
+    'K-M':{tag:'Рациональный инвестор',note:'Г-н Мурат, ориентирован на результат, убеждается данными. Быстро покажите ROI таблицы.'},
+    'K-S':{tag:'Харизматичный лидер',note:'Г-н Мурат хочет престиж и скорость, важно социальное одобрение. Используйте кейсы и истории успеха.'},
+    'K-Y':{tag:'Сильный защитник',note:'Г-н Мурат принимает решения быстро, но требует доверия. Прозрачно обсуждайте детали контракта.'},
+    'S-Y':{tag:'Ищущий доверия',note:'Г-н Мурат ценит теплые отношения и доверие. Избегайте давления, будьте искренни.'},
+    'S-M':{tag:'Визионер-детализатор',note:'Г-н Мурат хочет эстетику и доказательства. Подготовьте визуальную презентацию + технические документы.'},
+    'Y-M':{tag:'Осторожный аналитик',note:'Г-н Мурат не рискует, но анализирует. Держите под рукой сравнительные цены и документы.'},
+    'M-K':{tag:'Рациональный инвестор',note:'Г-н Мурат сфокусирован на данных, но хочет скорость. Сделайте аналитическую презентацию.'},
+    'M-S':{tag:'Технический эстет',note:'Г-н Мурат хочет детали + эстетику. Подготовьте качественный визуал и документы.'},
+    'M-Y':{tag:'Системный планировщик',note:'Г-н Мурат, предоставьте подробный пакет документов, прозрачную дорожную карту.'},
+    'Y-K':{tag:'Осторожный решатель',note:'Г-н Мурат, сначала создайте доверие, затем предложите четкий план действий.'},
+    'Y-S':{tag:'Ищущий покоя',note:'Г-н Мурат, искренняя презентация без давления. Важна эстетика и атмосфера.'},
+    'S-K':{tag:'Социально-быстрый',note:'Г-н Мурат, создайте ажиотаж. Избегайте долгих аналитических отчетов.'},
+    'K-K':{tag:'Лидер-прагматик',note:'Г-н Мурат, держите встречу короткой и эффективной, сразу к делу.'},
+    'S-S':{tag:'Социальный тип',note:'Г-н Мурат, создайте личную связь и позитивную атмосферу.'},
+    'Y-Y':{tag:'Тихая гавань',note:'Г-н Мурат, будьте прозрачны на каждом этапе, заранее делитесь документами.'},
+    'M-M':{tag:'Мастер данных',note:'Г-н Мурат, подготовьте таблицы сравнения, графики цен и краткие юридические справки.'}
+  }
+};
+
+  /* ════════════════════════════════════════════════════════════
+   MODUL ZUR PSYCHOLOGISCHEN PROFILIERUNG
+   ═══════════════════════════════════════════════════════════════ */
+const PROFILER={
+  COLOR_HEX:{K:'#ef4444',S:'#f59e0b',Y:'#16a34a',M:'#2563eb'},
+  COLOR_LABEL:{K:'🔴 Rot',S:'🟡 Gelb',Y:'🟢 Grün',M:'🔵 Blau'},
+  COLOR_NAME:{K:'Rot',S:'Gelb',Y:'Grün',M:'Blau'},
+  BUYER_Q:[
+    {q:'Was ist Ihre Priorität bei der Immobiliensuche?',opts:[
+      {t:'Ein Objekt mit hohem Wertsteigerungspotenzial, prestigeträchtig, nach dem Motto: "Schnell zugreifen, bevor es jemand anderes tut".',c:'K'},
+      {t:'Ein Ort mit ästhetischem Design, Komfort und einem einzigartigen Lebensgefühl.',c:'S'},
+      {t:'Eine ruhige, sichere Nachbarschaft, in der ich Vertrauen in die Umgebung habe.',c:'Y'},
+      {t:'Eine mathematisch fundierte Wahl mit guten regionalen Daten, Mietrendite und Vergleichspreisen.',c:'M'}]},
+    {q:'Was fällt Ihnen beim ersten Besichtigen einer Immobilie am meisten auf?',opts:[
+      {t:'Wertsteigerungspotenzial und Gewinnspanne.',c:'K'},
+      {t:'Licht, architektonische Ästhetik und Wohnkomfort.',c:'S'},
+      {t:'Bausubstanz, Sicherheit und langfristige Ruhe.',c:'Y'},
+      {t:'Technische Daten, Grundrisse und Dokumentation.',c:'M'}]},
+    {q:'Wie verwalten Sie Ihr Budget?',opts:[
+      {t:'Ich evaluiere die richtige Gelegenheit schnell; mein Budget bleibt flexibel.',c:'K'},
+      {t:'Wenn ich eine emotionale Bindung aufbaue, kann ich das Budget etwas dehnen.',c:'S'},
+      {t:'Ich überschreite mein festgelegtes Budget niemals.',c:'Y'},
+      {t:'Ich entscheide auf Basis einer Analyse von Vergleichspreisen.',c:'M'}]},
+    {q:'Was erschwert Ihren Entscheidungsprozess am meisten?',opts:[
+      {t:'Bürokratische Abläufe und langsame Prozesse.',c:'K'},
+      {t:'Eine formelle, emotionslose Präsentation oder eine kalte Haltung.',c:'S'},
+      {t:'Druck ausüben oder zu Eile gedrängt werden.',c:'Y'},
+      {t:'Fehlende Informationen, unzureichende Dokumente oder Datenlücken.',c:'M'}]},
+    {q:'Was erwarten Sie am meisten von Ihrem Immobilienberater?',opts:[
+      {t:'Professionalität, Ergebnisorientierung und schnelles Handeln.',c:'K'},
+      {t:'Positive, energiegeladene und ehrliche Kommunikation.',c:'S'},
+      {t:'Transparente, ehrliche und vertrauensvolle Beziehung.',c:'Y'},
+      {t:'Fachwissen und bewiesene Fakten.',c:'M'}]}
+  ],
+  SELLER_Q:[
+    {q:'Was ist Ihr Ansatz bei der Preisfestlegung für Ihr Zuhause?',opts:[
+      {t:'Eine ehrgeizige Zahl, die den Markt dominiert und mir den maximalen Gewinn bringt.',c:'K'},
+      {t:'Eine besondere Zahl, die die Seele, die Ästhetik und das Prestige meines Hauses widerspiegelt.',c:'S'},
+      {t:'Ein sicherer Mittelweg, der das Objekt nicht zu lange am Markt lässt, aber keinen Verlust verursacht.',c:'Y'},
+      {t:'Eine klare Zahl basierend auf regionalen Vergleichsdaten und Bewertungsgutachten.',c:'M'}]},
+    {q:'Was ist Ihre Regel bei Besichtigungen durch Kaufinteressenten?',opts:[
+      {t:'Nur Käufer mit gesicherter Finanzierung und klarem Kaufinteresse; ich möchte keine Zeit verschwenden.',c:'K'},
+      {t:'Lassen Sie Leute kommen, die die Vision des Hauses verstehen, den Wert kennen und vom Lebensstil beeindruckt sind.',c:'S'},
+      {t:'Besuche müssen im Voraus geplant werden; meine häusliche Ruhe darf nicht gestört werden.',c:'Y'},
+      {t:'Die Vorauswahl der Interessenten sollte datenbasiert erfolgen und mir vorab gemeldet werden.',c:'M'}]},
+    {q:'Wie reagieren Sie auf ein niedriges Angebot oder Kritik an Ihrem Haus?',opts:[
+      {t:'Wenn der Preis am Ende für mich stimmt, verkaufe ich; ich werde nicht emotional, das ist Geschäft.',c:'K'},
+      {t:'Ich mag keine unfairen Kritiken an meinem Zuhause; ich möchte nicht an jemanden verkaufen, der den Wert nicht erkennt.',c:'S'},
+      {t:'Ich mag keine Spannungen; ich erwarte, dass Sie die Situation beruhigen und einen Mittelweg finden.',c:'Y'},
+      {t:'Ich möchte, dass Sie das Angebot und die Kritik mit Marktrealitäten und logischen Daten widerlegen.',c:'M'}]},
+    {q:'Was ist Ihre größte Sorge während des Verkaufsprozesses?',opts:[
+      {t:'Kontrollverlust, Zeitverschwendung und finanzielle Einbußen.',c:'K'},
+      {t:'Schädigung des Prestiges meines Eigentums oder meiner Person, oder dass mein Inserat alltäglich wird.',c:'S'},
+      {t:'Störung meines gewohnten Lebensrhythmus, Umgang mit unzuverlässigen Leuten und Stress.',c:'Y'},
+      {t:'Ein rechtliches Versäumnis oder statistischer Verlust durch falsche Preisgestaltung.',c:'M'}]},
+    {q:'Wer ist der perfekte Immobilienberater für Sie?',opts:[
+      {t:'Jemand, der keine Ausreden sucht, wettbewerbsfähig ist und das Ergebnis erzwingt.',c:'K'},
+      {t:'Jemand, der überzeugend und sozial kompetent ist, der den Wert steigert und eine gute Geschichte über das Haus erzählt.',c:'S'},
+      {t:'Jemand, der geduldig zuhört, mich bei jedem Schritt begleitet, loyal und vertrauenswürdig ist.',c:'Y'},
+      {t:'Jemand, der nichts dem Zufall überlässt, perfektionistisch ist, Regeln befolgt und mit Daten spricht.',c:'M'}]}
+  ],
+  TENANT_Q:[
+    {q:'Was ist Ihre Priorität bei der Suche nach einer Mietwohnung?',opts:[
+      {t:'Ein schneller Prozess, damit ich sofort einziehen kann.',c:'K'},
+      {t:'Ein komfortabler, ästhetischer Ort, der meinen Lebensstil widerspiegelt.',c:'S'},
+      {t:'Eine sichere, ruhige Gegend, in der ich lange bleiben kann.',c:'Y'},
+      {t:'Ein Ort mit ausgewogenem Miet-/Kostenverhältnis und klaren Vertragsbedingungen.',c:'M'}]},
+    {q:'Was fällt Ihnen bei der Besichtigung am meisten auf?',opts:[
+      {t:'Lage, Anbindung und Nähe zum Arbeitsplatz.',c:'K'},
+      {t:'Dekoration, Licht und allgemeine Atmosphäre.',c:'S'},
+      {t:'Gebäudesicherheit und Ordnung in der Nachbarschaft.',c:'Y'},
+      {t:'Nebenkosten, Rechnungen und technische Details.',c:'M'}]},
+    {q:'Wie verwalten Sie Ihr Mietbudget?',opts:[
+      {t:'Ich bevorzuge die Wohnung, in die ich sofort einziehen kann, auch wenn sie etwas über dem Budget liegt.',c:'K'},
+      {t:'Für etwas, das mir gefällt, dehne ich mein Budget etwas.',c:'S'},
+      {t:'Ich überschreite mein festgelegtes Budget niemals.',c:'Y'},
+      {t:'Ich entscheide durch Vergleich der Mietpreise in der Region.',c:'M'}]},
+    {q:'Was erschwert den Mietprozess am meisten?',opts:[
+      {t:'Langsame, stockende Prozesse.',c:'K'},
+      {t:'Kalte, formelle und emotionslose Kommunikation.',c:'S'},
+      {t:'Unter Druck gesetzt werden bei der Entscheidung.',c:'Y'},
+      {t:'Fehlende oder unklare Informationen bezüglich Vertrag oder Kaution.',c:'M'}]},
+    {q:'Was erwarten Sie am meisten von Ihrem Immobilienberater?',opts:[
+      {t:'Eine professionelle Haltung, die schnelle Ergebnisse bringt.',c:'K'},
+      {t:'Warme, ehrliche und positive Kommunikation.',c:'S'},
+      {t:'Ein zuverlässiger, transparenter und geduldiger Ansatz.',c:'Y'},
+      {t:'Fachwissen, das korrekte Informationen und klare Vertragsdetails bietet.',c:'M'}]}
+  ],
+  LANDLORD_Q:[
+    {q:'Wie legen Sie die Miete fest, wenn Sie Ihr Objekt vermieten?',opts:[
+      {t:'Ich beginne mit einem festen Preis über dem Marktdurchschnitt.',c:'K'},
+      {t:'Ein Preis, der die besonderen Aspekte meines Hauses und seinen Wert widerspiegelt.',c:'S'},
+      {t:'Ein ausgewogener Preis, der nicht lange auf sich warten lässt, mich aber nicht benachteiligt.',c:'Y'},
+      {t:'Ein durch Daten gestützter Preis basierend auf regionalen Vergleichswerten.',c:'M'}]},
+    {q:'Was ist Ihre Priorität bei potenziellen Mietern?',opts:[
+      {t:'Mieter mit nachgewiesener Zahlungsfähigkeit, die den Prozess beschleunigen.',c:'K'},
+      {t:'Mieter, die mein Haus schätzen und es gut behandeln.',c:'S'},
+      {t:'Zuverlässige Mieter mit starken Referenzen, die lange bleiben.',c:'Y'},
+      {t:'Vorauswahl von Mieterhistorie und Einkommensnachweisen mit Bericht an mich.',c:'M'}]},
+    {q:'Was ist Ihr Ansatz bezüglich Mietvertrag und Kaution?',opts:[
+      {t:'Standardbedingungen schnell unterschreiben, keine Zeit verlieren.',c:'K'},
+      {t:'Bedingungen klar, aber der Prozess sollte angenehm und komfortabel sein.',c:'S'},
+      {t:'Jeder Punkt muss vorher offen besprochen werden, keine Überraschungen.',c:'Y'},
+      {t:'Der Vertrag muss rechtlich vollständig sein und die Kautionsbedingungen schriftlich detailliert festgehalten werden.',c:'M'}]},
+    {q:'Wie reagieren Sie auf eine Anfrage oder Beschwerde eines Mieters?',opts:[
+      {t:'Wenn es vernünftig ist, löse ich es schnell; ich lasse mich nicht auf unnötige Diskussionen ein.',c:'K'},
+      {t:'Gute Beziehungen zu wahren ist wichtig; ich handle flexibel.',c:'S'},
+      {t:'Ich möchte, dass das Problem ruhig gelöst wird, bevor es wächst.',c:'Y'},
+      {t:'Ich bewerte die Anfrage gemäß den Vertragsbedingungen und erwarte einen schriftlichen Ablauf.',c:'M'}]},
+    {q:'Wer ist der perfekte Immobilienberater für Sie?',opts:[
+      {t:'Jemand, der schnell arbeitet und ergebnisorientiert ist.',c:'K'},
+      {t:'Jemand, der den Wert meines Objekts kennt, es gut präsentiert und aufrichtig ist.',c:'S'},
+      {t:'Jemand, der zuverlässig ist und den Prozess Schritt für Schritt verfolgt.',c:'Y'},
+      {t:'Jemand, der den richtigen Mieter durch Daten findet und den Vertrag fehlerfrei vorbereitet.',c:'M'}]}
+  ],
+  HYBRID:{
+    'K-M':{tag:'Rationaler Investor',note:'Herr Murat, ergebnisorientiert, überzeugt durch Daten. Präsentation kurz über ROI-Tabellen.'},
+    'K-S':{tag:'Charismatischer Anführer',note:'Herr Murat will Prestige und Tempo, soziale Anerkennung ist wichtig. Mit Referenzprojekten und Erfolgsgeschichten überzeugen.'},
+    'K-Y':{tag:'Starker Beschützer',note:'Herr Murat entscheidet schnell, macht aber bei Vertrauen keine Kompromisse. Vertragsdetails transparent teilen.'},
+    'S-Y':{tag:'Suchender nach Vertrauen',note:'Herr Murat priorisiert herzliche Beziehungen und Vertrauen. Druck vermeiden, aufrichtig sein.'},
+    'S-M':{tag:'Visionärer Detailer',note:'Herr Murat will Ästhetik und Beweise. Visuelle Präsentation + technische Unterlagen vorbereiten.'},
+    'Y-M':{tag:'Sicherheits-Analyst',note:'Herr Murat geht kein Risiko ein, analysiert aber. Vergleichspreise und Rechtsdokumente bereithalten.'},
+    'M-K':{tag:'Rationaler Investor',note:'Herr Murat datenfokussiert, will aber Geschwindigkeit. Analytische Präsentation machen.'},
+    'M-S':{tag:'Technischer Ästhet',note:'Herr Murat will technische Details + Ästhetik. Hochwertige visuelle Dokumentation vorbereiten.'},
+    'M-Y':{tag:'Systematischer Planer',note:'Herr Murat, detailliertes Dokumentenpaket und transparenter Schritt-für-Schritt-Plan.'},
+    'Y-K':{tag:'Sicherer Entscheider',note:'Herr Murat, Vertrauen aufbauen, dann klaren Aktionsplan präsentieren.'},
+    'Y-S':{tag:'Ruhesuchender',note:'Herr Murat, aufrichtige, druckfreie Präsentation. Ästhetik und Atmosphäre sind wichtig.'},
+    'S-K':{tag:'Sozial-schneller Typ',note:'Herr Murat, Spannung erzeugen. Lange analytische Berichte vermeiden.'},
+    'K-K':{tag:'Netto-Leader',note:'Herr Murat, Treffen kurz und effektiv halten, sofort zur Tat schreiten.'},
+    'S-S':{tag:'Soziale Seele',note:'Herr Murat, persönliche Bindung aufbauen, positive Atmosphäre schaffen.'},
+    'Y-Y':{tag:'Sicherer Hafen',note:'Herr Murat, in jedem Schritt transparent sein, Dokumente vorab teilen.'},
+    'M-M':{tag:'Datenmeister',note:'Herr Murat, Vergleichstabellen, Preisgrafiken und rechtliche Zusammenfassungen bereithalten.'}
+  }
+};
+
   calc(answers){
     const cnt={K:0,S:0,Y:0,M:0};
     answers.forEach(a=>cnt[a]++);
