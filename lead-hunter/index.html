@@ -218,6 +218,29 @@ function updateStatus(id,status,sid){
   const badge=document.getElementById('sb_'+sid);
   if(badge)badge.textContent=status;
   stats();
+  syncStatus(n,status);
+}
+
+// Worker'da gerçekten var olan POST /lead-status route'una yazar (artık hem
+// status hem survey_status destekliyor); böylece "Aranacak/Takipte/Kapandı"
+// ve "Anket Kabul/Red" değişiklikleri farklı cihaz/tarayıcı arasında kalıcı
+// olur. OVERRIDES (yerel) anlık UI güncellemesi + bu istek başarısız olursa
+// yedek katman olarak kalmaya devam eder.
+async function syncLeadFields(n,fields){
+  try{
+    const r=await fetch(API+'/lead-status',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-leads-secret':secret},
+      body:JSON.stringify(Object.assign({id:n},fields))
+    });
+    if(!r.ok)console.warn('Sunucu güncellemesi onaylanmadı ('+r.status+'); yerel override devam ediyor.');
+  }catch(e){
+    console.warn('Sunucu güncelleme isteği başarısız; yerel override devam ediyor.');
+  }
+}
+
+function syncStatus(n,status){
+  syncLeadFields(n,{status});
 }
 
 function updateSurvey(id,surv,sid){
@@ -230,6 +253,7 @@ function updateSurvey(id,surv,sid){
   toast('Anket: '+(surv==='yes'?'Kabul':surv==='no'?'Red':'Beklemede'));
   stats();
   draw();
+  syncLeadFields(n,{survey_status:surv});
 }
 
 function del(id,sid){
@@ -246,12 +270,16 @@ function del(id,sid){
 }
 
 // Yerel engelleme listesi (blacklist) anında ve her zaman kalıcıdır (localStorage),
-// fakat tarayıcı verisi temizlenirse/değişirse korumayı tamamlamak için sunucudan
-// da silmeyi dener. Endpoint yoksa veya istek başarısız olursa sessizce yerel
-// engellemeye güvenmeye devam eder — davranış mevcutla aynı kalır, bozulmaz.
+// AYRICA worker'daki gerçek silme route'una (POST /lead-delete, KV.delete) istek
+// atarak lead'i sunucudan KALICI olarak kaldırır. Bu sayede farklı cihaz/tarayıcı
+// veya localStorage temizliği sonrasında lead bir daha asla geri gelmez.
 async function syncDelete(n){
   try{
-    const r=await fetch(API+'/leads/'+encodeURIComponent(n),{method:'DELETE',headers:{'x-leads-secret':secret}});
+    const r=await fetch(API+'/lead-delete',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-leads-secret':secret},
+      body:JSON.stringify({id:n})
+    });
     if(!r.ok)console.warn('Sunucu silme onaylanmadı ('+r.status+'); yerel engelleme listesi devam ediyor.');
   }catch(e){
     console.warn('Sunucu silme isteği başarısız; yerel engelleme listesi devam ediyor.');
