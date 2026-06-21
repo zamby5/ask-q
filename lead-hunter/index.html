@@ -7,6 +7,13 @@ let secret='',leads=[],filter='all',timer=null;
 let BLACKLIST={};
 let OVERRIDES={};
 
+// Lead'in id'si eksik/boş gelirse aynı anahtara (örn. "undefined") düşüp
+// birden fazla lead'i yanlışlıkla aynı kayıt sayıp gizlemesini önler.
+function leadKey(x){
+  if(x&&x.id!==undefined&&x.id!==null&&String(x.id).trim()!=='')return String(x.id).toLowerCase().trim();
+  return ['_nokey',(x&&x.phone)||'',(x&&x.name)||'',(x&&x.createdAt)||''].join('|').toLowerCase().trim();
+}
+
 function initBL(){
   try{
     const s=localStorage.getItem(BL_KEY);
@@ -30,17 +37,30 @@ function initOV(){
   }catch(e){
     OVERRIDES={};
   }
+  try{
+    const s=sessionStorage.getItem(OV_KEY);
+    if(s){
+      const tmp=JSON.parse(s);
+      OVERRIDES=Object.assign(OVERRIDES,tmp);
+    }
+  }catch(e){}
 }
 
 function saveBL(){
+  let okL=false,okS=false;
   try{
     localStorage.setItem(BL_KEY,JSON.stringify(BLACKLIST));
+    okL=true;
   }catch(e){
     console.warn('Save BL error');
   }
   try{
     sessionStorage.setItem(BL_KEY,JSON.stringify(BLACKLIST));
+    okS=true;
   }catch(e){}
+  if(!okL&&!okS){
+    toast('⚠️ Silme kaydedilemedi (depolama kapalı)','error');
+  }
 }
 
 function saveOV(){
@@ -49,6 +69,9 @@ function saveOV(){
   }catch(e){
     console.warn('Save OV error');
   }
+  try{
+    sessionStorage.setItem(OV_KEY,JSON.stringify(OVERRIDES));
+  }catch(e){}
 }
 
 function isBL(id){
@@ -89,11 +112,18 @@ async function load(){
     if(!r.ok)throw new Error(r.status);
     let raw=await r.json();
     if(!Array.isArray(raw))return;
-    
-    raw=raw.filter(item=>!isBL(item.id));
-    
+
+    // Silinmiş (blacklist'teki) bir lead sunucudan hâlâ geliyorsa,
+    // bağlantı/endpoint o an erişilebilir olduğunda silmeyi sessizce tekrar dener.
+    raw.forEach(item=>{
+      const n=leadKey(item);
+      if(isBL(n))syncDelete(n);
+    });
+
+    raw=raw.filter(item=>!isBL(leadKey(item)));
+
     raw=raw.map(item=>{
-      const n=String(item.id).toLowerCase().trim();
+      const n=leadKey(item);
       return OVERRIDES[n]?Object.assign({},item,OVERRIDES[n]):item;
     });
 
@@ -113,7 +143,7 @@ function refresh(){
 function stats(){
   const now=Date.now();
   const td=leads.filter(x=>(now-new Date(x.createdAt).getTime())<86400000);
-  const nw=leads.filter(x=>(now-new Date(x.createdAt).getTime())<300000);
+  const nw=leads.filter(x=>x.status==='yeni');
   const cl=leads.filter(x=>x.status==='kapali');
   document.getElementById('st').textContent=leads.length;
   document.getElementById('st0').textContent=td.length;
@@ -144,7 +174,7 @@ function draw(){
 }
 
 function card(x){
-  const id=String(x.id).toLowerCase().trim();
+  const id=leadKey(x);
   const sid=id.replace(/[^a-z0-9_]/gi,'_');
   const nm=esc(x.name||'İsimsiz');
   const ph=String(x.phone||'').trim();
@@ -170,7 +200,7 @@ function card(x){
 
   const sb=isNo?'<span class="badge" style="background:#fecaca;color:#991b1b;font-weight:700;">📋 Red</span>':isYes?'<span class="badge survey-accepted">✅ Kabul</span>':'';
 
-  return '<div class="lead'+(isNew?' new':'')+(isNo?' survey-no':'')+'">'+'<div class="lead-head"><div>'+'<div class="lead-name">'+nm+'</div>'+'<div class="lead-time">'+timeAgo(x.createdAt)+(isNew?' 🟢':'')+' </div>'+'</div>'+'<div class="lead-actions">'+'<button class="del" onclick="del(\''+id+'\',\''+sid+'\')">🗑️</button>'+'</div></div>'+(ph?'<div class="lead-phone">'+esc(ph)+'</div>':'<div class="lead-phone" style="color:#7a90a8;">📱 No phone</div>')+'<div class="lead-badge">'+'<span class="badge topic-badge">'+esc(x.topic||'Genel')+'</span>'+'<span class="badge status-badge" id="sb_'+sid+'">'+esc(x.status||'yeni')+'</span>'+sb+'</div>'+(ctx?'<div class="lead-context" id="ctx_'+sid+'">'+ctx+'</div>':'')+(ana)+' <div class="lead-footer"><div style="display:flex;gap:6px;width:100%;">'+(ph?'<a href="tel:'+encodeURIComponent(ph)+'" class="act">📞 Ara</a><a href="https://wa.me/'+ph.replace(/\D/g,'')+'" target="_blank" class="act">💬 WA</a>':'')+((!isNo&&ctx)?'<button class="act ctx-btn" onclick="toggleCtx(\''+sid+'\')">💬</button>':'')+'</div></div>'+'<div class="lead-footer">'+'<select class="status" onchange="updateStatus(\''+id+'\',this.value,\''+sid+'\')">'+'<option value="yeni" '+(x.status==='yeni'?'selected':'')+'>Yeni</option>'+'<option value="aranacak" '+(x.status==='aranacak'?'selected':'')+'>Aranacak</option>'+'<option value="takip" '+(x.status==='takip'?'selected':'')+'>Takipte</option>'+'<option value="kapali" '+(x.status==='kapali'?'selected':'')+'>Kapandı</option>'+'</select>'+'<select class="survey-select" onchange="updateSurvey(\''+id+'\',this.value,\''+sid+'\')">'+'<option value="" '+(!x.survey_status?'selected':'')+'>Anket Durumu</option>'+'<option value="yes" '+(x.survey_status==='yes'?'selected':'')+'>✅ Kabul</option>'+'<option value="no" '+(x.survey_status==='no'?'selected':'')+'>❌ Red</option>'+'</select>'+'</div></div>';
+  return '<div class="lead'+(isNew?' new':'')+(isNo?' survey-no':'')+'">'+'<div class="lead-head"><div>'+'<div class="lead-name">'+nm+'</div>'+'<div class="lead-time">'+timeAgo(x.createdAt)+(isNew?' 🟢':'')+' </div>'+'</div>'+'<div class="lead-actions">'+'<button class="del" data-id="'+esc(id)+'" data-sid="'+esc(sid)+'">🗑️</button>'+'</div></div>'+(ph?'<div class="lead-phone">'+esc(ph)+'</div>':'<div class="lead-phone" style="color:#7a90a8;">📱 No phone</div>')+'<div class="lead-badge">'+'<span class="badge topic-badge">'+esc(x.topic||'Genel')+'</span>'+'<span class="badge status-badge" id="sb_'+sid+'">'+esc(x.status||'yeni')+'</span>'+sb+'</div>'+(ctx?'<div class="lead-context" id="ctx_'+sid+'">'+ctx+'</div>':'')+(ana)+' <div class="lead-footer"><div style="display:flex;gap:6px;width:100%;">'+(ph?'<a href="tel:'+encodeURIComponent(ph)+'" class="act">📞 Ara</a><a href="https://wa.me/'+ph.replace(/\D/g,'')+'" target="_blank" class="act">💬 WA</a>':'')+((!isNo&&ctx)?'<button class="act ctx-btn" data-sid="'+esc(sid)+'">💬</button>':'')+'</div></div>'+'<div class="lead-footer">'+'<select class="status" data-id="'+esc(id)+'" data-sid="'+esc(sid)+'">'+'<option value="yeni" '+(x.status==='yeni'?'selected':'')+'>Yeni</option>'+'<option value="aranacak" '+(x.status==='aranacak'?'selected':'')+'>Aranacak</option>'+'<option value="takip" '+(x.status==='takip'?'selected':'')+'>Takipte</option>'+'<option value="kapali" '+(x.status==='kapali'?'selected':'')+'>Kapandı</option>'+'</select>'+'<select class="survey-select" data-id="'+esc(id)+'" data-sid="'+esc(sid)+'">'+'<option value="" '+(!x.survey_status?'selected':'')+'>Anket Durumu</option>'+'<option value="yes" '+(x.survey_status==='yes'?'selected':'')+'>✅ Kabul</option>'+'<option value="no" '+(x.survey_status==='no'?'selected':'')+'>❌ Red</option>'+'</select>'+'</div></div>';
 }
 
 function toggleCtx(sid){
@@ -180,7 +210,7 @@ function toggleCtx(sid){
 
 function updateStatus(id,status,sid){
   const n=String(id).toLowerCase().trim();
-  const lead=leads.find(l=>String(l.id).toLowerCase().trim()===n);
+  const lead=leads.find(l=>leadKey(l)===n);
   if(!lead)return;
   lead.status=status;
   OVERRIDES[n]=Object.assign(OVERRIDES[n]||{},{status});
@@ -192,7 +222,7 @@ function updateStatus(id,status,sid){
 
 function updateSurvey(id,surv,sid){
   const n=String(id).toLowerCase().trim();
-  const lead=leads.find(l=>String(l.id).toLowerCase().trim()===n);
+  const lead=leads.find(l=>leadKey(l)===n);
   if(!lead)return;
   lead.survey_status=surv;
   OVERRIDES[n]=Object.assign(OVERRIDES[n]||{},{survey_status:surv});
@@ -208,10 +238,24 @@ function del(id,sid){
   addBL(n);
   delete OVERRIDES[n];
   saveOV();
-  leads=leads.filter(l=>String(l.id).toLowerCase().trim()!==n);
+  leads=leads.filter(l=>leadKey(l)!==n);
   stats();
   draw();
   toast('Silindi ✓');
+  syncDelete(n);
+}
+
+// Yerel engelleme listesi (blacklist) anında ve her zaman kalıcıdır (localStorage),
+// fakat tarayıcı verisi temizlenirse/değişirse korumayı tamamlamak için sunucudan
+// da silmeyi dener. Endpoint yoksa veya istek başarısız olursa sessizce yerel
+// engellemeye güvenmeye devam eder — davranış mevcutla aynı kalır, bozulmaz.
+async function syncDelete(n){
+  try{
+    const r=await fetch(API+'/leads/'+encodeURIComponent(n),{method:'DELETE',headers:{'x-leads-secret':secret}});
+    if(!r.ok)console.warn('Sunucu silme onaylanmadı ('+r.status+'); yerel engelleme listesi devam ediyor.');
+  }catch(e){
+    console.warn('Sunucu silme isteği başarısız; yerel engelleme listesi devam ediyor.');
+  }
 }
 
 function timeAgo(iso){
@@ -238,6 +282,29 @@ function toast(msg,type){
   t.className='toast '+(type||'')+' show';
   setTimeout(()=>t.classList.remove('show'),2500);
 }
+
+// Kart içindeki düğme/seçimler artık inline onclick/onchange yerine
+// data-id/data-sid + event delegation ile çalışıyor (özel karakter içeren
+// id'lerde inline JS string'inin kırılma/işlev bozulma riski ortadan kalkar).
+document.getElementById('grid').addEventListener('click',function(e){
+  const delBtn=e.target.closest('.del');
+  if(delBtn){
+    del(delBtn.dataset.id,delBtn.dataset.sid);
+    return;
+  }
+  const ctxBtn=e.target.closest('.ctx-btn');
+  if(ctxBtn){
+    toggleCtx(ctxBtn.dataset.sid);
+  }
+});
+
+document.getElementById('grid').addEventListener('change',function(e){
+  if(e.target.classList.contains('status')){
+    updateStatus(e.target.dataset.id,e.target.value,e.target.dataset.sid);
+  }else if(e.target.classList.contains('survey-select')){
+    updateSurvey(e.target.dataset.id,e.target.value,e.target.dataset.sid);
+  }
+});
 
 document.getElementById('sec').addEventListener('keydown',e=>{if(e.key==='Enter')login();});
 </script></body></html>
