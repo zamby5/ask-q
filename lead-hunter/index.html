@@ -104,310 +104,359 @@ button:hover{background:#a0812a;}
 <div class="toast" id="toast"></div>
 
 <script>
-const API='https://groq-proxy.miyicioglu.workers.dev';
-let secret='';
-let leads=[];
-let filter='all';
+const API = 'https://groq-proxy.miyicioglu.workers.dev';
 
-function login(){
-  secret=document.getElementById('sec').value.trim();
-  if(!secret)return;
+// ─── STORAGE KEYS ───────────────────────────────────────────────────────────
+// Silinen ID'ler: localStorage'da kalıcı, logout'ta SİLİNMEZ.
+// Çünkü logout sonrası tekrar girildiğinde API hâlâ aynı veriyi döndürür.
+const LS_DELETED  = 'lhp_deleted_ids';   // Set<string> – kalıcı
+const LS_OVERRIDES = 'lhp_overrides';    // {[id]: {status,survey_status}} – kalıcı
+
+let secret = '';
+let leads  = [];
+let filter = 'all';
+let timer  = null;
+
+// ─── PERSIST HELPERS ────────────────────────────────────────────────────────
+function getDeleted() {
+  try {
+    const raw = localStorage.getItem(LS_DELETED);
+    return raw ? new Set(JSON.parse(raw)) : new Set();
+  } catch { return new Set(); }
+}
+
+function saveDeleted(set) {
+  try {
+    localStorage.setItem(LS_DELETED, JSON.stringify([...set]));
+  } catch {}
+}
+
+// Status / survey override'ları localStorage'da sakla.
+// Böylece auto-refresh API'den eski veri getirse bile local değişiklik korunur.
+function getOverrides() {
+  try {
+    const raw = localStorage.getItem(LS_OVERRIDES);
+    return raw ? JSON.parse(raw) : {};
+  } catch { return {}; }
+}
+
+function saveOverride(id, patch) {
+  const ov = getOverrides();
+  ov[id] = Object.assign(ov[id] || {}, patch);
+  try {
+    localStorage.setItem(LS_OVERRIDES, JSON.stringify(ov));
+  } catch {}
+}
+
+// ─── AUTH ───────────────────────────────────────────────────────────────────
+function login() {
+  secret = document.getElementById('sec').value.trim();
+  if (!secret) return;
+  document.getElementById('login').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
   load();
-  document.getElementById('login').style.display='none';
-  document.getElementById('app').style.display='block';
-  setInterval(load, 20000);
+  // Her 20 sn'de bir yenile; önceki timer varsa temizle
+  if (timer) clearInterval(timer);
+  timer = setInterval(load, 20000);
 }
 
-function logout(){
-  secret='';
-  leads=[];
-  filter='all';
-  localStorage.removeItem('leads_deleted');
-  document.getElementById('app').style.display='none';
-  document.getElementById('login').style.display='flex';
-  document.getElementById('sec').value='';
+function logout() {
+  if (timer) { clearInterval(timer); timer = null; }
+  secret = '';
+  leads  = [];
+  filter = 'all';
+  // Dikkat: LS_DELETED ve LS_OVERRIDES kasıtlı SİLİNMİYOR.
+  // Kullanıcı tekrar giriş yapsa bile silinmiş / değiştirilmiş veriler korunmalı.
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login').style.display = 'flex';
+  document.getElementById('sec').value = '';
+  document.getElementById('grid').innerHTML = '';
 }
 
-function getDeleted(){
-  try{
-    const d=localStorage.getItem('leads_deleted');
-    return d?new Set(JSON.parse(d)):new Set();
-  }catch(e){
-    return new Set();
+// ─── DATA LOAD ──────────────────────────────────────────────────────────────
+async function load() {
+  try {
+    const r = await fetch(API + '/leads', { headers: { 'x-leads-secret': secret } });
+    if (!r.ok) throw new Error(r.status);
+    const raw = await r.json();
+    if (!Array.isArray(raw)) return;
+
+    const deleted   = getDeleted();
+    const overrides = getOverrides();
+
+    // 1. Silinenleri filtrele
+    let arr = raw.filter(item => {
+      const id = normalizeId(item.id);
+      return id && !deleted.has(id);
+    });
+
+    // 2. Deduplicate (ID > Phone önceliği)
+    arr = deduplicateLeads(arr);
+
+    // 3. Local override'ları API verisinin üzerine yaz
+    //    (status / survey_status değişiklikleri API'den gelmiş gibi ezilmesin)
+    arr = arr.map(item => {
+      const id = normalizeId(item.id);
+      const ov = overrides[id];
+      return ov ? Object.assign({}, item, ov) : item;
+    });
+
+    leads = arr;
+    stats();
+    draw();
+  } catch (e) {
+    console.error('Load error:', e.message);
   }
 }
 
-function saveDeleted(deleted){
-  try{
-    localStorage.setItem('leads_deleted', JSON.stringify(Array.from(deleted)));
-  }catch(e){}
+function refresh() { load(); }
+
+// ─── DEDUP ──────────────────────────────────────────────────────────────────
+function normalizeId(id) {
+  return String(id || '').trim();
 }
 
-// ✅ DEDUP by ID AND PHONE NUMBER
-function deduplicateLeads(d){
-  const byId=new Map();
-  const byPhone=new Map();
-  
-  for(const item of d){
-    const id=String(item.id||'').trim();
-    const phone=String(item.phone||'').trim().replace(/[^0-9]/g,'');
-    
-    if(!id) continue;
-    
-    // Already exists by ID? Update it
-    if(byId.has(id)){
-      Object.assign(byId.get(id), item);
+function deduplicateLeads(arr) {
+  const byId    = new Map();
+  const byPhone = new Map();
+
+  for (const item of arr) {
+    const id    = normalizeId(item.id);
+    const phone = String(item.phone || '').replace(/\D/g, '');
+    if (!id) continue;
+
+    if (byId.has(id)) {
+      // Aynı ID varsa daha yeni olanı koru
+      const existing = byId.get(id);
+      if (new Date(item.createdAt) > new Date(existing.createdAt)) {
+        byId.set(id, item);
+        if (phone) byPhone.set(phone, item);
+      }
       continue;
     }
-    
-    // Already exists by phone? Skip or update based on createdAt
-    if(phone && byPhone.has(phone)){
-      const existing=byPhone.get(phone);
-      const newDate=new Date(item.createdAt).getTime();
-      const existDate=new Date(existing.createdAt).getTime();
-      if(newDate > existDate){
-        byId.delete(existing.id);
+
+    if (phone && byPhone.has(phone)) {
+      const existing = byPhone.get(phone);
+      if (new Date(item.createdAt) > new Date(existing.createdAt)) {
+        byId.delete(normalizeId(existing.id));
         byId.set(id, item);
         byPhone.set(phone, item);
       }
       continue;
     }
-    
+
     byId.set(id, item);
-    if(phone) byPhone.set(phone, item);
+    if (phone) byPhone.set(phone, item);
   }
-  
-  return Array.from(byId.values());
+
+  return [...byId.values()];
 }
 
-async function load(){
-  try{
-    const r=await fetch(API+'/leads', {headers:{'x-leads-secret':secret}});
-    if(!r.ok) throw new Error(r.status);
-    const d=await r.json();
-    
-    if(!Array.isArray(d)) return;
-    
-    const deleted=getDeleted();
-    
-    // ✅ Remove deleted items
-    let filtered=d.filter(item=>{
-      const id=String(item.id||'').trim();
-      return !deleted.has(id);
-    });
-    
-    // ✅ Deduplicate by ID and PHONE
-    leads=deduplicateLeads(filtered);
-    
-    stats();
-    draw();
-  }catch(e){
-    console.log('Error:', e.message);
+// ─── STATS ──────────────────────────────────────────────────────────────────
+function stats() {
+  const today = new Date().toISOString().slice(0, 10);
+  let todayCnt = 0, newCnt = 0, closedCnt = 0;
+
+  for (const x of leads) {
+    if (x.createdAt && x.createdAt.slice(0, 10) === today) todayCnt++;
+    if (x.status === 'kapali') closedCnt++;
+    if ((x.status === 'yeni' || x.status === 'aranacak') && x.survey_status !== 'no') newCnt++;
   }
+
+  document.getElementById('st').textContent  = leads.length;
+  document.getElementById('st0').textContent = todayCnt;
+  document.getElementById('st1').textContent = newCnt;
+  document.getElementById('st2').textContent = closedCnt;
 }
 
-function refresh(){
-  load();
-}
-
-function stats(){
-  const now=new Date().toISOString().split('T')[0];
-  let y=0, z=0;
-  
-  for(const x of leads){
-    if(x.createdAt && x.createdAt.substring(0, 10)===now) y++;
-    if(x.status==='kapali') z++;
-  }
-  
-  let nw=0;
-  for(const x of leads){
-    if((x.status==='yeni' || x.status==='aranacak') && x.survey_status!=='no') nw++;
-  }
-  
-  document.getElementById('st').textContent=leads.length;
-  document.getElementById('st0').textContent=y;
-  document.getElementById('st1').textContent=nw;
-  document.getElementById('st2').textContent=z;
-}
-
-function filt(f, el){
-  filter=f;
-  document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));
+// ─── FILTER & DRAW ──────────────────────────────────────────────────────────
+function filt(f, el) {
+  filter = f;
+  document.querySelectorAll('.filter').forEach(x => x.classList.remove('active'));
   el.classList.add('active');
   draw();
 }
 
-function draw(){
-  let f=leads;
-  
-  if(filter==='survey-no'){
-    f=f.filter(x=>x.survey_status==='no');
-  }else if(filter!=='all'){
-    f=f.filter(x=>x.status===filter);
+function draw() {
+  let f = leads;
+  if (filter === 'survey-no') {
+    f = f.filter(x => x.survey_status === 'no');
+  } else if (filter !== 'all') {
+    f = f.filter(x => x.status === filter);
   }
-  
-  const g=document.getElementById('grid');
-  if(!f.length){
-    g.innerHTML='<div style="text-align:center;padding:40px;color:#7a90a8;">Lead bulunamadı</div>';
+
+  const g = document.getElementById('grid');
+  if (!f.length) {
+    g.innerHTML = '<div style="text-align:center;padding:40px;color:#7a90a8;">Lead bulunamadı</div>';
     return;
   }
-  
-  g.innerHTML=f.map(x=>card(x)).join('');
+  g.innerHTML = f.map(card).join('');
 }
 
-function card(x){
-  const id=String(x.id||'').trim();
-  const sid=id.replace(/[^a-z0-9_]/gi, '_');
-  const nm=esc(x.name||'İsimsiz');
-  const ph=String(x.phone||'').trim();
-  const tm=time(x.createdAt);
-  const n=(Date.now()-new Date(x.createdAt).getTime())<300000;
-  
-  // ✅ Survey Status Check
-  const isSurveyNo=x.survey_status==='no';
-  const isSurveyYes=x.survey_status==='yes';
-  
-  // ✅ Context display
-  let ctx='';
-  if(x.context && Array.isArray(x.context) && x.context.length>0){
-    ctx=x.context.slice(0, 4).map(m=>{
-      const role=m.role==='user'?'👤 Müşteri':'🤖 Ask·Q';
-      const text=esc(String(m.text||'').substring(0, 150));
-      return `<div class="context-msg"><span class="ctx-role">${role}</span><br>${text}</div>`;
+// ─── CARD ────────────────────────────────────────────────────────────────────
+function card(x) {
+  const id        = normalizeId(x.id);
+  const sid       = id.replace(/[^a-z0-9_]/gi, '_');
+  const nm        = esc(x.name || 'İsimsiz');
+  const ph        = String(x.phone || '').trim();
+  const isNew     = (Date.now() - new Date(x.createdAt).getTime()) < 300000;
+  const isSurveyNo  = x.survey_status === 'no';
+  const isSurveyYes = x.survey_status === 'yes';
+
+  // Context satırları (max 4, her metin max 150 karakter)
+  let ctx = '';
+  if (!isSurveyNo && Array.isArray(x.context) && x.context.length > 0) {
+    ctx = x.context.slice(0, 4).map(m => {
+      const role = m.role === 'user' ? '👤 Müşteri' : '🤖 Ask·Q';
+      return `<div class="context-msg"><span class="ctx-role">${role}</span><br>${esc(String(m.text || '').slice(0, 150))}</div>`;
     }).join('');
   }
-  
-  // ✅ IMPROVED: Only show analysis for survey ACCEPTED leads
-  let ana='';
-  if(!isSurveyNo && x.analysis_result){
-    let analysisText='';
-    let isValid=false;
-    
-    if(typeof x.analysis_result==='string'){
-      const trimmed=String(x.analysis_result).trim();
-      if(trimmed && trimmed!=='[object Object]' && trimmed!=='{}'){
-        analysisText=trimmed;
-        isValid=true;
-      }
-    }else if(typeof x.analysis_result==='object' && x.analysis_result!==null){
-      const str=JSON.stringify(x.analysis_result);
-      if(str && str!=='{}' && str!=='[]'){
-        analysisText=str;
-        isValid=true;
-      }
+
+  // Analiz kutusu – sadece anket kabul edilmişse ve veri gerçekten varsa
+  let ana = '';
+  if (!isSurveyNo && x.analysis_result) {
+    let txt = '';
+    if (typeof x.analysis_result === 'string') {
+      txt = x.analysis_result.trim();
+    } else if (typeof x.analysis_result === 'object') {
+      txt = JSON.stringify(x.analysis_result);
     }
-    
-    if(isValid){
-      analysisText=esc(analysisText.substring(0, 400));
-      ana=`<div class="analysis-box"><div class="analysis-title">📊 Analiz</div><div class="analysis-text">${analysisText}</div></div>`;
+    // Boş / placeholder değerleri gösterme
+    if (txt && txt !== '{}' && txt !== '[]' && txt !== '[object Object]') {
+      ana = `<div class="analysis-box">
+        <div class="analysis-title">📊 Analiz</div>
+        <div class="analysis-text">${esc(txt.slice(0, 400))}</div>
+      </div>`;
     }
   }
-  
-  // ✅ NAME & PHONE ONLY badge for survey rejection
-  const surveyBadge=isSurveyNo?'<span class="badge name-phone-badge">📋 Anket Red</span>':
-                     isSurveyYes?'<span class="badge survey-accepted">✅ Anket Kabul</span>':'';
-  
-  return`<div class="lead${n?' new':''}${isSurveyNo?' survey-no':''}">
-    <div class="lead-head">
-      <div><div class="lead-name">${nm}</div><div class="lead-time">${tm}${n?' 🟢':''}</div></div>
-      <div class="lead-actions"><button class="del" onclick="del('${id}','${sid}')">🗑️</button></div>
+
+  const surveyBadge = isSurveyNo
+    ? '<span class="badge name-phone-badge">📋 Anket Red</span>'
+    : isSurveyYes
+      ? '<span class="badge survey-accepted">✅ Anket Kabul</span>'
+      : '';
+
+  return `<div class="lead${isNew ? ' new' : ''}${isSurveyNo ? ' survey-no' : ''}">
+  <div class="lead-head">
+    <div>
+      <div class="lead-name">${nm}</div>
+      <div class="lead-time">${timeAgo(x.createdAt)}${isNew ? ' 🟢' : ''}</div>
     </div>
-    ${ph?`<div class="lead-phone">${esc(ph)}</div>`:'<div class="lead-phone" style="color:#7a90a8;">📱 No phone</div>'}
-    <div class="lead-badge">
-      <span class="badge topic-badge">${esc(x.topic||'Genel')}</span>
-      <span class="badge status-badge" id="sb_${sid}">${esc(x.status||'yeni')}</span>
-      ${surveyBadge}
+    <div class="lead-actions">
+      <button class="del" onclick="del('${id}','${sid}')">🗑️</button>
     </div>
-    ${!isSurveyNo?`${ctx?`<div class="lead-context" id="ctx_${sid}">${ctx}</div>`:''}`:``}
-    ${ana}
-    <div class="lead-footer">
-      <div style="display:flex;gap:6px;width:100%;">
-        ${ph?`<a href="tel:${encodeURIComponent(ph)}" class="act">📞 Ara</a><a href="https://wa.me/${ph.replace(/[^0-9]/g, '')}" target="_blank" class="act">💬 WA</a>`:''}
-        ${!isSurveyNo && ctx?`<button class="act ctx-btn" onclick="ctx('${sid}')">💬</button>`:''}
-      </div>
+  </div>
+  ${ph
+    ? `<div class="lead-phone">${esc(ph)}</div>`
+    : '<div class="lead-phone" style="color:#7a90a8;">📱 No phone</div>'}
+  <div class="lead-badge">
+    <span class="badge topic-badge">${esc(x.topic || 'Genel')}</span>
+    <span class="badge status-badge" id="sb_${sid}">${esc(x.status || 'yeni')}</span>
+    ${surveyBadge}
+  </div>
+  ${ctx ? `<div class="lead-context" id="ctx_${sid}">${ctx}</div>` : ''}
+  ${ana}
+  <div class="lead-footer">
+    <div style="display:flex;gap:6px;width:100%;">
+      ${ph ? `<a href="tel:${encodeURIComponent(ph)}" class="act">📞 Ara</a>
+              <a href="https://wa.me/${ph.replace(/\D/g,'')}" target="_blank" class="act">💬 WA</a>` : ''}
+      ${!isSurveyNo && ctx ? `<button class="act ctx-btn" onclick="toggleCtx('${sid}')">💬</button>` : ''}
     </div>
-    <div class="lead-footer">
-      <select class="status" onchange="stat('${id}',this.value,'${sid}')">
-        <option value="yeni" ${x.status==='yeni'?'selected':''}>Yeni</option>
-        <option value="aranacak" ${x.status==='aranacak'?'selected':''}>Aranacak</option>
-        <option value="takip" ${x.status==='takip'?'selected':''}>Takipte</option>
-        <option value="kapali" ${x.status==='kapali'?'selected':''}>Kapandı</option>
-      </select>
-      <select class="survey-select" onchange="setSurveyStatus('${id}',this.value,'${sid}')">
-        <option value="" ${!x.survey_status?'selected':''}>Anket Durumu</option>
-        <option value="yes" ${x.survey_status==='yes'?'selected':''}>✅ Kabul</option>
-        <option value="no" ${x.survey_status==='no'?'selected':''}>❌ Red</option>
-      </select>
-    </div>
-  </div>`;
+  </div>
+  <div class="lead-footer">
+    <select class="status" onchange="updateStatus('${id}',this.value,'${sid}')">
+      <option value="yeni"      ${x.status === 'yeni'      ? 'selected' : ''}>Yeni</option>
+      <option value="aranacak"  ${x.status === 'aranacak'  ? 'selected' : ''}>Aranacak</option>
+      <option value="takip"     ${x.status === 'takip'     ? 'selected' : ''}>Takipte</option>
+      <option value="kapali"    ${x.status === 'kapali'    ? 'selected' : ''}>Kapandı</option>
+    </select>
+    <select class="survey-select" onchange="updateSurvey('${id}',this.value,'${sid}')">
+      <option value=""    ${!x.survey_status              ? 'selected' : ''}>Anket Durumu</option>
+      <option value="yes" ${x.survey_status === 'yes'     ? 'selected' : ''}>✅ Kabul</option>
+      <option value="no"  ${x.survey_status === 'no'      ? 'selected' : ''}>❌ Red</option>
+    </select>
+  </div>
+</div>`;
 }
 
-function ctx(sid){
-  const el=document.getElementById('ctx_'+sid);
-  if(el) el.classList.toggle('open');
+// ─── ACTIONS ────────────────────────────────────────────────────────────────
+function toggleCtx(sid) {
+  const el = document.getElementById('ctx_' + sid);
+  if (el) el.classList.toggle('open');
 }
 
-function stat(id, s, sid){
-  const x=leads.find(l=>l.id===id);
-  if(x){
-    x.status=s;
-    stats();
-    draw();
-  }
+// Status değişikliğini hem memory'e hem localStorage'a kaydet
+function updateStatus(id, status, sid) {
+  const lead = leads.find(l => normalizeId(l.id) === id);
+  if (!lead) return;
+  lead.status = status;
+  saveOverride(id, { status });
+  // Badge metnini inline güncelle (draw() çağrısından kaçın – scroll korunur)
+  const badge = document.getElementById('sb_' + sid);
+  if (badge) badge.textContent = status;
+  stats();
 }
 
-// ✅ NEW: Survey status setter
-function setSurveyStatus(id, status, sid){
-  const x=leads.find(l=>l.id===id);
-  if(x){
-    x.survey_status=status;
-    toast(`Anket durumu: ${status==='yes'?'Kabul':'Red'}`);
-    stats();
-    draw();
-  }
+// Survey değişikliğini hem memory'e hem localStorage'a kaydet
+function updateSurvey(id, surveyStatus, sid) {
+  const lead = leads.find(l => normalizeId(l.id) === id);
+  if (!lead) return;
+  lead.survey_status = surveyStatus;
+  saveOverride(id, { survey_status: surveyStatus });
+  toast('Anket durumu: ' + (surveyStatus === 'yes' ? 'Kabul' : surveyStatus === 'no' ? 'Red' : 'Belirsiz'));
+  stats();
+  draw(); // survey_status kart görünümünü değiştirir, full redraw gerekli
 }
 
-function del(id, sid){
-  if(!confirm('Silmek istediğinizden emin misiniz?')) return;
-  
-  const deleted=getDeleted();
+// Silme: ID'yi kalıcı olarak localStorage'a yaz, memory'den çıkar
+function del(id, sid) {
+  if (!confirm('Bu lead\'i silmek istediğinizden emin misiniz?')) return;
+
+  const deleted = getDeleted();
   deleted.add(id);
   saveDeleted(deleted);
-  
-  leads=leads.filter(x=>x.id!==id);
-  
+
+  // Override'lardan da temizle (artık gerekli değil)
+  try {
+    const ov = getOverrides();
+    if (ov[id]) { delete ov[id]; localStorage.setItem(LS_OVERRIDES, JSON.stringify(ov)); }
+  } catch {}
+
+  leads = leads.filter(l => normalizeId(l.id) !== id);
   stats();
   draw();
-  toast('Lead silindi (kalıcı)');
+  toast('Lead silindi');
 }
 
-function time(iso){
-  if(!iso) return '';
-  const d=new Date(iso);
-  if(isNaN(d.getTime())) return '';
-  const m=Math.floor((Date.now()-d.getTime())/60000);
-  if(m<1) return 'Az önce';
-  if(m<60) return m+'dk';
-  const h=Math.floor(m/60);
-  if(h<24) return h+'h';
-  const g=Math.floor(h/24);
-  return g<7?g+'g':'';
+// ─── HELPERS ────────────────────────────────────────────────────────────────
+function timeAgo(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  if (isNaN(d)) return '';
+  const m = Math.floor((Date.now() - d.getTime()) / 60000);
+  if (m < 1)  return 'Az önce';
+  if (m < 60) return m + 'dk';
+  const h = Math.floor(m / 60);
+  if (h < 24) return h + 'sa';
+  const g = Math.floor(h / 24);
+  return g < 7 ? g + 'g' : d.toLocaleDateString('tr-TR', { day:'numeric', month:'short' });
 }
 
-function esc(s){
-  const m={'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'};
-  return String(s||'').replace(/[&<>"]/g, c=>m[c]);
+function esc(s) {
+  const map = { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' };
+  return String(s || '').replace(/[&<>"']/g, c => map[c]);
 }
 
-function toast(msg, type=''){
-  const t=document.getElementById('toast');
-  t.textContent=msg;
-  t.className='toast '+type+' show';
-  setTimeout(()=>t.classList.remove('show'), 2500);
+function toast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast ' + type + ' show';
+  setTimeout(() => t.classList.remove('show'), 2500);
 }
 
-document.getElementById('sec').addEventListener('keydown', e=>{
-  if(e.key==='Enter') login();
+// ─── KEYBOARD ───────────────────────────────────────────────────────────────
+document.getElementById('sec').addEventListener('keydown', e => {
+  if (e.key === 'Enter') login();
 });
 </script>
 </body>
