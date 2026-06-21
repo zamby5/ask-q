@@ -1,0 +1,18 @@
+{
+  "id": "/ask-q/lead-hunter/",
+  "name": "Lead Hunter Pro",
+  "short_name": "Lead Hunter",
+  "description": "Turyap Queen — Ask\u00b7Q Lead Y\u00f6netim Paneli",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait",
+  "background_color": "#eef2f7",
+  "theme_color": "#0d2247",
+  "icons": [
+    { "src": "./icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "./icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "./icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
