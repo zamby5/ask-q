@@ -1,9 +1,8 @@
 {
   "name": "Ask Q — Turyap Queen AI Danışmanı",
   "short_name": "Ask Q",
-  "description": "Turyap Queen'in AI Gayrimenkul Danışmanı. DISC psikolojik profili ile.",
-  "start_url": "/",
-  "scope": "/",
+  "start_url": "/ask-q/",
+  "scope": "/ask-q/",
   "display": "standalone",
   "orientation": "portrait-primary",
   "background_color": "#ffffff",
