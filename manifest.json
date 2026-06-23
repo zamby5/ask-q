@@ -1,3 +1,7 @@
+<head>
+  <meta charset="UTF-8">
+  <base href="/ask-q/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, interactive-widget=resizes-content">
 {
   "name": "Ask Q — Turyap Queen AI Danışmanı",
   "short_name": "Ask Q",
