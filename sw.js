@@ -1,5 +1,5 @@
-// Ask·Q Service Worker v4.2 — Fixed for subdirectory deployment
-const CACHE_ADI = 'askq-v4.2';
+// Ask·Q Service Worker v4.3 — Network-first (kod güncellemeleri anında yansır)
+const CACHE_ADI = 'askq-v4.3';
 const ONBELLEK_DOSYALARI = [
   './',
   './index.html',
@@ -10,12 +10,12 @@ const ONBELLEK_DOSYALARI = [
 
 // Kurulum
 self.addEventListener('install', (e) => {
-  console.log('[SW] Installing v4.2...');
+  console.log('[SW] Installing v4.3...');
   e.waitUntil(
     caches.open(CACHE_ADI).then((cache) => {
       console.log('[SW] Caching files...');
       return Promise.allSettled(
-        ONBELLEK_DOSYALARI.map(url => 
+        ONBELLEK_DOSYALARI.map(url =>
           cache.add(url).catch(err => {
             console.warn(`[SW] Could not cache: ${url}`, err);
           })
@@ -26,9 +26,9 @@ self.addEventListener('install', (e) => {
   self.skipWaiting();
 });
 
-// Etkinleştirme
+// Etkinleştirme — eski önbellekleri sil
 self.addEventListener('activate', (e) => {
-  console.log('[SW] Activating...');
+  console.log('[SW] Activating v4.3...');
   e.waitUntil(
     caches.keys().then((anahtarlar) => {
       return Promise.all(
@@ -49,7 +49,7 @@ self.addEventListener('fetch', (e) => {
   const url = new URL(e.request.url);
 
   // API çağrılarını ve POST'ları bypass et
-  const isAPI = 
+  const isAPI =
     e.request.method !== 'GET' ||
     url.hostname.includes('groq') ||
     url.hostname.includes('workers.dev') ||
@@ -61,13 +61,37 @@ self.addEventListener('fetch', (e) => {
     return;
   }
 
+  // HTML sayfaları ve navigasyon istekleri: NETWORK-FIRST
+  // Böylece kod güncellemeleri anında yansır, internet yoksa önbelleğe düşer.
+  const isHTML =
+    e.request.mode === 'navigate' ||
+    url.pathname.endsWith('/') ||
+    url.pathname.endsWith('index.html');
+
+  if (isHTML) {
+    e.respondWith(
+      fetch(e.request)
+        .then((response) => {
+          if (response && response.status === 200) {
+            const kopyala = response.clone();
+            caches.open(CACHE_ADI).then((cache) => cache.put(e.request, kopyala));
+          }
+          return response;
+        })
+        .catch(() => {
+          console.warn('[SW] Network failed, serving cached HTML:', url.pathname);
+          return caches.match(e.request).then((cached) => cached || caches.match('./index.html'));
+        })
+    );
+    return;
+  }
+
+  // Statik dosyalar (css/js/img/font): CACHE-FIRST (performans için)
   e.respondWith(
     caches.match(e.request).then((cached) => {
       if (cached) {
-        console.log('[SW] Cache hit:', url.pathname);
         return cached;
       }
-
       return fetch(e.request)
         .then((response) => {
           if (
@@ -78,27 +102,16 @@ self.addEventListener('fetch', (e) => {
             const kopyala = response.clone();
             caches.open(CACHE_ADI).then((cache) => {
               cache.put(e.request, kopyala);
-              console.log('[SW] Cached:', url.pathname);
             });
           }
           return response;
         })
         .catch((err) => {
-          console.warn('[SW] Fetch failed, serving offline fallback:', url.pathname);
-          if (e.request.mode === 'navigate') {
-            return caches.match('./index.html');
-          }
+          console.warn('[SW] Fetch failed:', url.pathname);
           throw err;
         });
     })
   );
 });
 
-// HTML HEAD'inde şu şekilde register et:
-// if ('serviceWorker' in navigator) {
-//   navigator.serviceWorker.register('./sw.js', { scope: './' })
-//     .then(r => console.log('[App] SW registered:', r))
-//     .catch(e => console.error('[App] SW error:', e));
-// }
-
-console.log('[SW] Service Worker loaded v4.2');
+console.log('[SW] Service Worker loaded v4.3 (network-first HTML)');
