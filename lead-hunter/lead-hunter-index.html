@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="tr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Lead Hunter Pro</title><link rel="manifest" href="./manifest.json"><meta name="theme-color" content="#0d2247"><link rel="icon" type="image/png" href="./favicon.png"><link rel="apple-touch-icon" href="./apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Lead Hunter"><link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:Nunito,sans-serif;background:#eef2f7;color:#0d2247}#login{position:fixed;inset:0;background:#0d2247;display:flex;align-items:center;justify-content:center;z-index:1000}.card{background:#fff;border-radius:12px;padding:30px;width:300px;text-align:center}.card h1{font-size:20px;margin-bottom:4px}.card p{font-size:11px;color:#7a90a8;margin-bottom:20px}input{width:100%;padding:10px;border:1px solid #dce4ef;border-radius:8px;font-size:13px;margin-bottom:10px;font-family:Nunito}input:focus{outline:none;border-color:#b8932a}button{width:100%;padding:10px;background:#b8932a;color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:Nunito}button:hover{background:#a0812a}#app{display:none;min-height:100vh;padding:20px}.header{background:#0d2247;color:#fff;padding:15px 20px;border-radius:8px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center}.header h1{font-size:18px}.header button{width:auto;padding:6px 12px;font-size:11px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}.stat{background:#fff;padding:15px;border-radius:8px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.1)}.stat-num{font-size:24px;font-weight:700;color:#0d2247}.stat-label{font-size:10px;color:#7a90a8;margin-top:5px;text-transform:uppercase}.filters{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}.filter{padding:8px 12px;border-radius:20px;border:1px solid #dce4ef;background:#fff;font-size:11px;cursor:pointer;font-weight:600}.filter.active{background:#0d2247;color:#fff;border-color:#0d2247}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}.lead{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.1)}.lead.new{border:2px solid #b8932a}.lead.survey-no{border:2px solid #dc2626}.lead-head{padding:12px;border-bottom:1px solid #eef2f7;display:flex;justify-content:space-between;align-items:start}.lead-name{font-weight:600;font-size:14px}.lead-time{font-size:10px;color:#7a90a8;margin-top:2px}.lead-actions{display:flex;gap:4px}.del{background:0;border:0;color:#dc2626;cursor:pointer;font-size:14px;padding:0;width:20px;height:20px}.lead-phone{padding:0 12px;font-size:12px;color:#1e4a8a;font-weight:600;margin-bottom:8px}.lead-badge{padding:0 12px;display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}.badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:6px}.topic-badge{background:#eff6ff;color:#2563eb}.status-badge{background:#dbeafe;color:#2563eb}.survey-accepted{background:#dcfce7;color:#16a34a}.lead-context{padding:0 12px;font-size:11px;color:#4a6080;margin-bottom:8px;max-height:0;overflow:hidden;transition:max-height 0.4s ease}.lead-context.open{max-height:600px;overflow-y:auto}.lead-context.expanded{max-height:none;overflow-y:auto}.hidden-msg{display:none}.expand-btn{display:block;width:100%;background:#f0f4ff;border:1px dashed #93c5fd;color:#2563eb;font-size:10px;font-weight:700;padding:4px 0;border-radius:6px;cursor:pointer;margin-top:4px;text-align:center}.expand-btn:hover{background:#dbeafe}.context-msg{margin-bottom:6px;line-height:1.4}.ctx-role{font-weight:700;min-width:35px;display:inline-block}.analysis-box{padding:10px 12px;background:#f0fdf4;border-left:3px solid #16a34a;margin:0 12px 8px;border-radius:4px}.analysis-title{font-size:10px;font-weight:700;color:#16a34a;margin-bottom:4px}.analysis-text{font-size:11px;color:#047857;line-height:1.4;word-wrap:break-word;white-space:pre-wrap}.lead-footer{padding:8px 12px;background:#eef2f7;display:flex;gap:6px;align-items:center;flex-wrap:wrap}.act{padding:5px 10px;border-radius:8px;font-size:11px;font-weight:600;background:#dcfce7;color:#16a34a;text-decoration:none;border:0;cursor:pointer}.act:hover{background:#16a34a;color:#fff}.ctx-btn{background:#fff;border:1px solid #dce4ef;color:#7a90a8;padding:5px 8px}.status{background:#fff;border:1px solid #dce4ef;border-radius:6px;padding:5px;font-size:11px;cursor:pointer;flex:1;min-width:100px}.survey-select{background:#fff;border:1px solid #dce4ef;border-radius:6px;padding:5px;font-size:11px;cursor:pointer;flex:1;min-width:100px}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);background:#16a34a;color:#fff;padding:10px 20px;border-radius:8px;font-size:12px;opacity:0;transition:all 0.3s;pointer-events:none;z-index:999}.toast.error{background:#dc2626}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}@media(max-width:640px){.stats{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}}</style></head><body><div id="login"><div class="card"><h1>Lead Hunter Pro</h1><p>Turyap Queen — Ask·Q</p><input id="sec" type="password" placeholder="Secret"><button onclick="login()">Giriş</button></div></div><div id="app"><div class="header"><h1>Lead Hunter Pro</h1><button onclick="refresh()">⟲ Yenile</button><button onclick="logout()">Çıkış</button></div><div class="stats"><div class="stat"><div class="stat-num" id="st">0</div><div class="stat-label">Toplam</div></div><div class="stat"><div class="stat-num" id="st0">0</div><div class="stat-label">Bugün</div></div><div class="stat"><div class="stat-num" id="st1">0</div><div class="stat-label">Yeni</div></div><div class="stat"><div class="stat-num" id="st2">0</div><div class="stat-label">Kapandı</div></div></div><div class="filters"><div class="filter active" onclick="filt('all',this)">Tümü</div><div class="filter" onclick="filt('yeni',this)">🔵 Yeni</div><div class="filter" onclick="filt('aranacak',this)">🟡 Aranacak</div><div class="filter" onclick="filt('takip',this)">🟢 Takipte</div><div class="filter" onclick="filt('kapali',this)">⚪ Kapandı</div><div class="filter" onclick="filt('survey-no',this)">📋 Anket Red</div></div><div class="grid" id="grid"></div></div><div class="toast" id="toast"></div><script>
+const API='https://groq-proxy.miyicioglu.workers.dev';
+const BL_KEY='__LHP_BL__';
+const OV_KEY='__LHP_OV__';
+let secret='',leads=[],filter='all',timer=null;
+let BLACKLIST={};
+let OVERRIDES={};
+
+// Lead'in id'si eksik/boş gelirse aynı anahtara (örn. "undefined") düşüp
+// birden fazla lead'i yanlışlıkla aynı kayıt sayıp gizlemesini önler.
+function leadKey(x){
+  if(x&&x.id!==undefined&&x.id!==null&&String(x.id).trim()!=='')return String(x.id).toLowerCase().trim();
+  return ['_nokey',(x&&x.phone)||'',(x&&x.name)||'',(x&&x.createdAt)||''].join('|').toLowerCase().trim();
+}
+
+function initBL(){
+  try{
+    const s=localStorage.getItem(BL_KEY);
+    BLACKLIST=s?JSON.parse(s):{};
+  }catch(e){
+    BLACKLIST={};
+  }
+  try{
+    const s=sessionStorage.getItem(BL_KEY);
+    if(s){
+      const tmp=JSON.parse(s);
+      BLACKLIST=Object.assign(BLACKLIST,tmp);
+    }
+  }catch(e){}
+}
+
+function initOV(){
+  try{
+    const s=localStorage.getItem(OV_KEY);
+    OVERRIDES=s?JSON.parse(s):{};
+  }catch(e){
+    OVERRIDES={};
+  }
+  try{
+    const s=sessionStorage.getItem(OV_KEY);
+    if(s){
+      const tmp=JSON.parse(s);
+      OVERRIDES=Object.assign(OVERRIDES,tmp);
+    }
+  }catch(e){}
+}
+
+function saveBL(){
+  let okL=false,okS=false;
+  try{
+    localStorage.setItem(BL_KEY,JSON.stringify(BLACKLIST));
+    okL=true;
+  }catch(e){
+    console.warn('Save BL error');
+  }
+  try{
+    sessionStorage.setItem(BL_KEY,JSON.stringify(BLACKLIST));
+    okS=true;
+  }catch(e){}
+  if(!okL&&!okS){
+    toast('⚠️ Silme kaydedilemedi (depolama kapalı)','error');
+  }
+}
+
+function saveOV(){
+  try{
+    localStorage.setItem(OV_KEY,JSON.stringify(OVERRIDES));
+  }catch(e){
+    console.warn('Save OV error');
+  }
+  try{
+    sessionStorage.setItem(OV_KEY,JSON.stringify(OVERRIDES));
+  }catch(e){}
+}
+
+function isBL(id){
+  const n=String(id).toLowerCase().trim();
+  return BLACKLIST.hasOwnProperty(n);
+}
+
+function addBL(id){
+  const n=String(id).toLowerCase().trim();
+  BLACKLIST[n]=1;
+  saveBL();
+}
+
+function login(){
+  secret=document.getElementById('sec').value.trim();
+  if(!secret)return;
+  try{sessionStorage.setItem('__lhp_s__',secret);}catch(e){}
+  initBL();
+  initOV();
+  document.getElementById('login').style.display='none';
+  document.getElementById('app').style.display='block';
+  load();
+  if(timer)clearInterval(timer);
+  timer=setInterval(load,20000);
+}
+
+function logout(){
+  if(timer)clearInterval(timer);
+  secret='';leads=[];filter='all';
+  try{sessionStorage.removeItem('__lhp_s__');}catch(e){}
+  document.getElementById('app').style.display='none';
+  document.getElementById('login').style.display='flex';
+  document.getElementById('sec').value='';
+  document.getElementById('grid').innerHTML='';
+}
+
+// Sayfa yenilendiğinde (F5 / pull-to-refresh) secret sessionStorage'dan
+// geri yüklenir — böylece giriş ekranına düşmeden load() devam eder.
+(function restoreSession(){
+  try{
+    const s=sessionStorage.getItem('__lhp_s__');
+    if(!s)return;
+    secret=s;
+    initBL();
+    initOV();
+    document.getElementById('login').style.display='none';
+    document.getElementById('app').style.display='block';
+    load();
+    if(timer)clearInterval(timer);
+    timer=setInterval(load,20000);
+  }catch(e){}
+})();
+
+async function load(){
+  try{
+    const r=await fetch(API+'/leads',{headers:{'x-leads-secret':secret}});
+    if(!r.ok)throw new Error(r.status);
+    let raw=await r.json();
+    if(!Array.isArray(raw))return true;
+
+    raw.forEach(item=>{
+      const n=leadKey(item);
+      if(isBL(n))syncDelete(n);
+    });
+
+    raw=raw.filter(item=>!isBL(leadKey(item)));
+
+    raw=raw.map(item=>{
+      const n=leadKey(item);
+      return OVERRIDES[n]?Object.assign({},item,OVERRIDES[n]):item;
+    });
+
+    leads=raw;
+    stats();
+    draw();
+    return true;
+  }catch(e){
+    toast('Yüklenemedi — bağlantıyı kontrol et','error');
+    return false;
+  }
+}
+
+async function refresh(){
+  const ok=await load();
+  if(ok!==false)toast('Yenilendi ✓');
+}
+
+function stats(){
+  const now=Date.now();
+  const td=leads.filter(x=>(now-new Date(x.createdAt).getTime())<86400000);
+  const nw=leads.filter(x=>x.status==='yeni');
+  const cl=leads.filter(x=>x.status==='kapali');
+  document.getElementById('st').textContent=leads.length;
+  document.getElementById('st0').textContent=td.length;
+  document.getElementById('st1').textContent=nw.length;
+  document.getElementById('st2').textContent=cl.length;
+}
+
+function filt(n,el){
+  filter=n;
+  document.querySelectorAll('.filter').forEach(f=>f.classList.remove('active'));
+  el.classList.add('active');
+  draw();
+}
+
+function draw(){
+  let f=leads;
+  if(filter==='survey-no'){
+    f=f.filter(x=>x.survey_status==='no');
+  }else if(filter!=='all'){
+    f=f.filter(x=>x.status===filter);
+  }
+  const g=document.getElementById('grid');
+  if(!f.length){
+    g.innerHTML='<div style="text-align:center;padding:40px;color:#7a90a8;">Lead bulunamadı</div>';
+    return;
+  }
+  g.innerHTML=f.map(card).join('');
+}
+
+function card(x){
+  const id=leadKey(x);
+  const sid=id.replace(/[^a-z0-9_]/gi,'_');
+  const nm=esc(x.name||'İsimsiz');
+  const ph=String(x.phone||'').trim();
+  const isNew=(Date.now()-new Date(x.createdAt).getTime())<300000;
+  const isNo=x.survey_status==='no';
+  const isYes=x.survey_status==='yes';
+  
+  let ctx='';
+  let ctxHasMore=false;
+  if(Array.isArray(x.context)&&x.context.length>0){
+    const PREVIEW=5;
+    const total=x.context.length;
+    ctxHasMore=total>PREVIEW;
+    // Önizleme: ilk 5 mesaj, 300 karakter
+    const previewMsgs=x.context.slice(0,PREVIEW).map(m=>{
+      const role=m.role==='user'?'👤':'🤖';
+      return '<div class="context-msg preview-msg"><span class="ctx-role">'+role+'</span><br>'+esc(String(m.text||'').slice(0,300))+'</div>';
+    }).join('');
+    // Geri kalan mesajlar (başlangıçta gizli)
+    let hiddenMsgs='';
+    if(ctxHasMore){
+      hiddenMsgs=x.context.slice(PREVIEW).map(m=>{
+        const role=m.role==='user'?'👤':'🤖';
+        return '<div class="context-msg hidden-msg"><span class="ctx-role">'+role+'</span><br>'+esc(String(m.text||''))+'</div>';
+      }).join('');
+    }
+    ctx=previewMsgs+hiddenMsgs;
+  }
+
+  let ana='';
+  if(!isNo&&x.analysis_result){
+    let txt=typeof x.analysis_result==='string'?x.analysis_result.trim():JSON.stringify(x.analysis_result);
+    if(txt&&txt!=='{}'&&txt!=='[]'){
+      ana='<div class="analysis-box"><div class="analysis-title">📊 Analiz</div><div class="analysis-text">'+esc(txt.slice(0,800))+'</div></div>';
+    }
+  }
+
+  const sb=isNo?'<span class="badge" style="background:#fecaca;color:#991b1b;font-weight:700;">📋 Red</span>':isYes?'<span class="badge survey-accepted">✅ Kabul</span>':'';
+
+  const expandBtn=ctxHasMore?'<button class="expand-btn" data-sid="'+esc(sid)+'">▼ Tümünü Göster</button>':'';
+  return '<div class="lead'+(isNew?' new':'')+(isNo?' survey-no':'')+'">'
+    +'<div class="lead-head"><div>'
+    +'<div class="lead-name">'+nm+'</div>'
+    +'<div class="lead-time">'+timeAgo(x.createdAt)+(isNew?' 🟢':'')+' </div>'
+    +'</div>'
+    +'<div class="lead-actions">'
+    +'<button class="del" data-id="'+esc(id)+'" data-sid="'+esc(sid)+'">🗑️</button>'
+    +'</div></div>'
+    +(ph?'<div class="lead-phone">'+esc(ph)+'</div>':'<div class="lead-phone" style="color:#7a90a8;">📱 No phone</div>')
+    +'<div class="lead-badge">'
+    +'<span class="badge topic-badge">'+esc(x.topic||'Genel')+'</span>'
+    +'<span class="badge status-badge" id="sb_'+sid+'">'+esc(x.status||'yeni')+'</span>'+sb
+    +'</div>'
+    +(ctx?'<div class="lead-context" id="ctx_'+sid+'">'+ctx+expandBtn+'</div>':'')
+    +(ana)
+    +' <div class="lead-footer"><div style="display:flex;gap:6px;width:100%;">'
+    +(ph?'<a href="tel:'+encodeURIComponent(ph)+'" class="act">📞 Ara</a><a href="https://wa.me/'+ph.replace(/\D/g,'')+'" target="_blank" class="act">💬 WA</a>':'')
+    +(ctx?'<button class="act ctx-btn" data-sid="'+esc(sid)+'">💬</button>':'')
+    +'</div></div>'
+    +'<div class="lead-footer">'
+    +'<select class="status" data-id="'+esc(id)+'" data-sid="'+esc(sid)+'">'
+    +'<option value="yeni" '+(x.status==='yeni'?'selected':'')+'>Yeni</option>'
+    +'<option value="aranacak" '+(x.status==='aranacak'?'selected':'')+'>Aranacak</option>'
+    +'<option value="takip" '+(x.status==='takip'?'selected':'')+'>Takipte</option>'
+    +'<option value="kapali" '+(x.status==='kapali'?'selected':'')+'>Kapandı</option>'
+    +'</select>'
+    +'<select class="survey-select" data-id="'+esc(id)+'" data-sid="'+esc(sid)+'">'
+    +'<option value="" '+(!x.survey_status?'selected':'')+'>Anket Durumu</option>'
+    +'<option value="yes" '+(x.survey_status==='yes'?'selected':'')+'>✅ Kabul</option>'
+    +'<option value="no" '+(x.survey_status==='no'?'selected':'')+'>❌ Red</option>'
+    +'</select>'
+    +'</div></div>';
+}
+
+function toggleCtx(sid){
+  const el=document.getElementById('ctx_'+sid);
+  if(el)el.classList.toggle('open');
+}
+
+function updateStatus(id,status,sid){
+  const n=String(id).toLowerCase().trim();
+  const lead=leads.find(l=>leadKey(l)===n);
+  if(!lead)return;
+  lead.status=status;
+  OVERRIDES[n]=Object.assign(OVERRIDES[n]||{},{status});
+  saveOV();
+  const badge=document.getElementById('sb_'+sid);
+  if(badge)badge.textContent=status;
+  stats();
+  syncStatus(n,status);
+}
+
+// Worker'da gerçekten var olan POST /lead-status route'una yazar (artık hem
+// status hem survey_status destekliyor); böylece "Aranacak/Takipte/Kapandı"
+// ve "Anket Kabul/Red" değişiklikleri farklı cihaz/tarayıcı arasında kalıcı
+// olur. OVERRIDES (yerel) anlık UI güncellemesi + bu istek başarısız olursa
+// yedek katman olarak kalmaya devam eder.
+async function syncLeadFields(n,fields){
+  try{
+    const r=await fetch(API+'/lead-status',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-leads-secret':secret},
+      body:JSON.stringify(Object.assign({id:n},fields))
+    });
+    if(!r.ok)console.warn('Sunucu güncellemesi onaylanmadı ('+r.status+'); yerel override devam ediyor.');
+  }catch(e){
+    console.warn('Sunucu güncelleme isteği başarısız; yerel override devam ediyor.');
+  }
+}
+
+function syncStatus(n,status){
+  syncLeadFields(n,{status});
+}
+
+function updateSurvey(id,surv,sid){
+  const n=String(id).toLowerCase().trim();
+  const lead=leads.find(l=>leadKey(l)===n);
+  if(!lead)return;
+  lead.survey_status=surv;
+  OVERRIDES[n]=Object.assign(OVERRIDES[n]||{},{survey_status:surv});
+  saveOV();
+  toast('Anket: '+(surv==='yes'?'Kabul':surv==='no'?'Red':'Beklemede'));
+  stats();
+  draw();
+  syncLeadFields(n,{survey_status:surv});
+}
+
+function del(id,sid){
+  if(!confirm('Silmek istediğinizden emin misiniz?'))return;
+  const n=String(id).toLowerCase().trim();
+  addBL(n);
+  delete OVERRIDES[n];
+  saveOV();
+  leads=leads.filter(l=>leadKey(l)!==n);
+  stats();
+  draw();
+  toast('Silindi ✓');
+  syncDelete(n);
+}
+
+// Yerel engelleme listesi (blacklist) anında ve her zaman kalıcıdır (localStorage),
+// AYRICA worker'daki gerçek silme route'una (POST /lead-delete, KV.delete) istek
+// atarak lead'i sunucudan KALICI olarak kaldırır. Bu sayede farklı cihaz/tarayıcı
+// veya localStorage temizliği sonrasında lead bir daha asla geri gelmez.
+async function syncDelete(n){
+  try{
+    const r=await fetch(API+'/lead-delete',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-leads-secret':secret},
+      body:JSON.stringify({id:n})
+    });
+    if(!r.ok)console.warn('Sunucu silme onaylanmadı ('+r.status+'); yerel engelleme listesi devam ediyor.');
+  }catch(e){
+    console.warn('Sunucu silme isteği başarısız; yerel engelleme listesi devam ediyor.');
+  }
+}
+
+function timeAgo(iso){
+  if(!iso)return'';
+  const d=new Date(iso);
+  if(isNaN(d))return'';
+  const m=Math.floor((Date.now()-d.getTime())/60000);
+  if(m<1)return'Az önce';
+  if(m<60)return m+'dk';
+  const h=Math.floor(m/60);
+  if(h<24)return h+'sa';
+  const g=Math.floor(h/24);
+  return g<7?g+'g':d.toLocaleDateString('tr-TR',{day:'numeric',month:'short'});
+}
+
+function esc(s){
+  const map={'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'};
+  return String(s||'').replace(/[&<>"']/g,c=>map[c]);
+}
+
+function toast(msg,type){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.className='toast '+(type||'')+' show';
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+// Kart içindeki düğme/seçimler artık inline onclick/onchange yerine
+// data-id/data-sid + event delegation ile çalışıyor (özel karakter içeren
+// id'lerde inline JS string'inin kırılma/işlev bozulma riski ortadan kalkar).
+document.getElementById('grid').addEventListener('click',function(e){
+  const delBtn=e.target.closest('.del');
+  if(delBtn){
+    del(delBtn.dataset.id,delBtn.dataset.sid);
+    return;
+  }
+  const ctxBtn=e.target.closest('.ctx-btn');
+  if(ctxBtn){
+    toggleCtx(ctxBtn.dataset.sid);
+    return;
+  }
+  const expBtn=e.target.closest('.expand-btn');
+  if(expBtn){
+    const sid=expBtn.dataset.sid;
+    const ctxEl=document.getElementById('ctx_'+sid);
+    if(!ctxEl)return;
+    // Gizli mesajları göster
+    ctxEl.querySelectorAll('.hidden-msg').forEach(m=>m.style.display='block');
+    // preview mesajlarının karakter sınırını kaldır — tam metni göster
+    ctxEl.querySelectorAll('.preview-msg').forEach(m=>{
+      const span=m.querySelector('.ctx-role');
+      // tam text leads array'inden al
+      const lead=leads.find(l=>{
+        const ls=leadKey(l).replace(/[^a-z0-9_]/gi,'_');
+        return ls===sid;
+      });
+      if(lead&&Array.isArray(lead.context)){
+        const idx=Array.from(ctxEl.querySelectorAll('.preview-msg')).indexOf(m);
+        if(lead.context[idx]){
+          const role=lead.context[idx].role==='user'?'👤':'🤖';
+          m.innerHTML='<span class="ctx-role">'+role+'</span><br>'+esc(String(lead.context[idx].text||''));
+        }
+      }
+    });
+    // max-height kısıtını kaldır
+    ctxEl.classList.add('expanded');
+    // Butonu "Daralt" moduna geçir
+    expBtn.textContent='▲ Daralt';
+    expBtn.onclick=function(){
+      ctxEl.querySelectorAll('.hidden-msg').forEach(m=>m.style.display='none');
+      ctxEl.classList.remove('expanded');
+      expBtn.textContent='▼ Tümünü Göster';
+      expBtn.onclick=null;
+    };
+  }
+});
+
+document.getElementById('grid').addEventListener('change',function(e){
+  if(e.target.classList.contains('status')){
+    updateStatus(e.target.dataset.id,e.target.value,e.target.dataset.sid);
+  }else if(e.target.classList.contains('survey-select')){
+    updateSurvey(e.target.dataset.id,e.target.value,e.target.dataset.sid);
+  }
+});
+
+document.getElementById('sec').addEventListener('keydown',e=>{if(e.key==='Enter')login();});
+
+// PWA kurulabilirlik için zorunlu: fetch-handler'lı bir Service Worker olmadan
+// Chrome/Android "Ana Ekrana Ekle"yi sadece bir sekme açan kısayol olarak
+// kurar. Bu kayıt sayesinde gerçek, simgeli, standalone bir uygulama olarak kurulur.
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('./sw.js').catch(()=>{});
+  });
+}
+
+</script></body></html>
