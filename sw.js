@@ -1,16 +1,22 @@
-// Ask·Q Service Worker v4.3 — Network-first (kod güncellemeleri anında yansır)
-const CACHE_ADI = 'askq-v4.3';
+// Ask·Q Service Worker v4.4 — Network-first (HTML, manifest ve ikonlar anında güncellenir)
+const CACHE_ADI = 'askq-v4.4';
 const ONBELLEK_DOSYALARI = [
   './',
   './index.html',
   './manifest.json',
+  './icon-192.png',
+  './icon-512.png',
+  './icon-maskable-512.png',
+  './apple-touch-icon.png',
+  './favicon-32.png',
+  './favicon.svg',
   'https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,400&family=Nunito:wght@300;400;500;600;700&display=swap',
   'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js'
 ];
 
 // Kurulum
 self.addEventListener('install', (e) => {
-  console.log('[SW] Installing v4.3...');
+  console.log('[SW] Installing v4.4...');
   e.waitUntil(
     caches.open(CACHE_ADI).then((cache) => {
       console.log('[SW] Caching files...');
@@ -28,7 +34,7 @@ self.addEventListener('install', (e) => {
 
 // Etkinleştirme — eski önbellekleri sil
 self.addEventListener('activate', (e) => {
-  console.log('[SW] Activating v4.3...');
+  console.log('[SW] Activating v4.4...');
   e.waitUntil(
     caches.keys().then((anahtarlar) => {
       return Promise.all(
@@ -66,7 +72,9 @@ self.addEventListener('fetch', (e) => {
   const isHTML =
     e.request.mode === 'navigate' ||
     url.pathname.endsWith('/') ||
-    url.pathname.endsWith('index.html');
+    url.pathname.endsWith('index.html') ||
+    url.pathname.endsWith('manifest.json') ||
+    /\/(icon-[\w-]+\.png|apple-touch-icon\.png|favicon[\w-]*\.(png|svg))$/.test(url.pathname);
 
   if (isHTML) {
     e.respondWith(
@@ -114,4 +122,4 @@ self.addEventListener('fetch', (e) => {
   );
 });
 
-console.log('[SW] Service Worker loaded v4.3 (network-first HTML)');
+console.log('[SW] Service Worker loaded v4.4 (network-first HTML + manifest + icons)');
