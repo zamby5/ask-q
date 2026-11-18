@@ -425,12 +425,9 @@ new QRCode(document.getElementById('qrCanvas'),{text:'https://turyap.com.tr/Dani
 const CROWN_SVG = `<img src="${document.querySelector('img.crown').src}" alt="Turyap Queen" style="width:32px;height:32px;object-fit:contain;display:block;">`;
 
 /* ============================================================
-   SİSTEM PROMPTLARI
-   ─ Groq llama-3.3-70b-versatile için özel olarak sertleştirildi
-   ─ Sorunlar: yabancı kelime sızması, Çince karakter, hatalı hitap, hatalı m² hesabı
-============================================================ */
-/* ============================================================
    SİSTEM PROMPTLARI — v3
+   ─ Model: Worker'daki MODEL_CHAIN (openai/gpt-oss-120b → gpt-oss-20b → qwen/qwen3.6-27b)
+   ─ Kontrol edilen sorunlar: yabancı kelime sızması, Çince karakter, hatalı hitap, hatalı m² hesabı
    ─ CORE_RULES: tüm dillerde geçerli, değiştirilemez katı kurallar
      (sıfır halüsinasyon + Tavily zorunluluğu + dil kuralı)
    ─ T[lang].system: dile özel persona / akış (kısa ve sade)
@@ -1158,7 +1155,7 @@ function speakText(text){if(!window.speechSynthesis)return;const clean=text.repl
 
 async function sendLeadToWorker(d){try{const res=await fetch(WORKER_URL+'/lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});if(!res.ok){const t=await res.text().catch(()=>'');console.warn('sendLeadToWorker worker hatası:',res.status,t);}}catch(e){console.warn('sendLeadToWorker ağ hatası:',e.message);}}
 
-/* showApiKeyModal / saveApiKey: Cloudflare Pages env var ile inject edildiğinden kullanılmıyor */
+/* showApiKeyModal / saveApiKey: anahtarlar yalnızca Worker'da tutulduğundan ön yüzde kullanılmıyor */
 
 function showLeadToast(){const t=document.createElement('div');t.className='lead-toast';t.textContent='✓ Bilgiler kaydedildi';document.body.appendChild(t);requestAnimationFrame(()=>t.classList.add('show'));setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),400);},3000);}
 
@@ -1297,7 +1294,7 @@ async function askQ(userMsg){
     });
     if(res.ok){data=await res.json();}
     else if(res.status===429){removeTyping();addMsg(RATE_MSG[lang]||RATE_MSG.tr,'bot');history.pop();return;}
-    else if(res.status===403||res.status===401){data=null;}
+    else if(res.status===403||res.status===401){console.warn('Worker erişimi reddedildi ('+res.status+'): bu sayfanın adresi Worker ALLOWED_ORIGINS listesinde olmayabilir.');data=null;}
     else{throw new Error('HTTP '+res.status);}
   }catch(workerErr){
     console.warn('Worker failed:',workerErr.message);
